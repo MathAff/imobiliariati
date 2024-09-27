@@ -1,0 +1,13 @@
+{
+    "name": "imobiliariati/model",
+    "description": "Real Estate Company for a IT project",
+    "autoload": {
+        "psr-4": {
+            "Imobiliariati\\src\\": "website/",
+            "Imobiliariati\\Model\\": "php/Model",
+            "Imobiliariati\\DAO\\": "php/DAO",
+            "Imobiliariati\\Controller\\": "php/Controller"
+        }
+    },
+    "require": {}
+}
