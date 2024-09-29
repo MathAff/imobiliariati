@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
-import utils.ConnectionDB;
+import dao.ImovelDAO;
 
 /**
  *
@@ -199,6 +199,10 @@ public class Imovel {
 
     public void setIptu(float iptu) {
         this.iptu = iptu;
+    }
+    
+    public void cadastrarImovel (Imovel imovel) {
+        new ImovelDAO().insertImovel(imovel);
     }
     
     
