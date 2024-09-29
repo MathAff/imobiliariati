@@ -14,7 +14,7 @@ import java.sql.DriverManager;
  */
 public class ConnectionDB {
     
-    public Connection conn = null;
+    private Connection conn = null;
     
     public Connection conectar (){
         String server = "db4free.net/";
