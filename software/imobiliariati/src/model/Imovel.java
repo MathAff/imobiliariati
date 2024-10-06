@@ -201,10 +201,13 @@ public class Imovel {
         this.iptu = iptu;
     }
     
-    public void cadastrarImovel (Imovel imovel) {
-        new ImovelDAO().insertImovel(imovel);
+    public Integer cadastrarImovel (Imovel imovel) {
+        return new ImovelDAO().insertImovel(imovel);
     }
     
+    public Integer mudarImovel (Imovel imovel) {
+        return new ImovelDAO().updateImovel(imovel);
+    }
     
     
 }
