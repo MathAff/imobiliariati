@@ -4,7 +4,12 @@
  */
 package controller;
 
+import java.sql.ResultSet;
+
 import model.Imobiliaria;
+import dao.ImobiliariaDAO;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -12,26 +17,52 @@ import model.Imobiliaria;
  */
 public class ImobiliariaController {
     
-    public boolean cadastrarImobiliariaController (Integer id, String nome, String telefone, String email, String cnpj) {
-        if (id.toString().isEmpty() || nome.isEmpty() || telefone.isEmpty() || email.isEmpty() || cnpj.isEmpty()) {
-            Imobiliaria imobiliaria = new Imobiliaria (id, nome, telefone, email, cnpj);
-            
-            imobiliaria.cadastrarImobiliaria(imobiliaria);
-            return true;
+    public boolean cadastrarImobiliariaController (String nome, String telefone, String email, String cnpj, String senha) {
+        if (nome.isEmpty() || telefone.isEmpty() || email.isEmpty() || cnpj.isEmpty() || cnpj.matches("\\d+")) {
+            JOptionPane.showMessageDialog(null, "Preencha os campos corretamente");
+            return false;
         } else {
-         return false;
+            Imobiliaria imobiliaria = new Imobiliaria (nome, telefone, email, cnpj, senha);
+            try {
+                ResultSet rs = new ImobiliariaDAO().selectImobiliariaByCnpj(imobiliaria);
+                if (rs.isBeforeFirst()){
+                    JOptionPane.showMessageDialog(null, "CNPJ já cadastrado, tente outra vez...");
+                    System.out.println("resultado encontrado");
+                    return false;
+                } else {
+                    System.out.println("Resultado não encontrado");
+                    imobiliaria.cadastrarImobiliaria(imobiliaria);
+                    return true;
+                }
+            } catch (SQLException e) {
+                return false;
+            }
         }
     }
     
-    public boolean mudarImobiliariaController (Integer id, String nome, String telefone, String email, String cnpj) {
-        if (id.toString().isEmpty() || nome.isEmpty() || telefone.isEmpty() || email.isEmpty() || cnpj.isEmpty()) {
-            Imobiliaria imobiliaria = new Imobiliaria (id, nome, telefone, email, cnpj);
+    public boolean mudarImobiliariaController (String nome, String telefone, String email, String cnpj, String senha) {
+        if (nome.isEmpty() || telefone.isEmpty() || email.isEmpty() || cnpj.isEmpty()) {
+            Imobiliaria imobiliaria = new Imobiliaria (nome, telefone, email, cnpj, senha);
             
             imobiliaria.mudarImobiliaria(imobiliaria);
             return true;
         } else {
             return false;
         }
-    } 
+    }
+    
+    public boolean consultarImobiliariaByEmailAndSenha (String email, String senha) {
+        Imobiliaria imobiliaria = new Imobiliaria ();
+        
+        imobiliaria.setEmail(email);
+        imobiliaria.setSenha(senha);
+        try {
+            ResultSet rs = imobiliaria.consultarImobiliariaByEmailAndSenha(imobiliaria);
+            return rs.isBeforeFirst();
+        } catch (SQLException e) {
+            System.out.println("Erro ao pegar ResultSet do selectImobiliariasByEmailAndSenha");
+            return false;
+        }
+    }
     
 }
