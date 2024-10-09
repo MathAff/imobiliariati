@@ -8,8 +8,10 @@
 
 :root {
     --golden: #ddc07e;
-    --gray: #1b1913;
-    --white: #000;
+    --dark-golden: #d9bf7d;
+    --gray: #453d2b;
+    --black: #1b1913;
+    --white: #f0e2c4;
     --red: #EF5350;
     --str-red: #440505;
 }
@@ -18,6 +20,7 @@
     font-family: "Poppins", sans-serif;
     margin: 0;
     padding: 0;
+    transition: 0.75s ;
 }
 
 body {
@@ -34,6 +37,10 @@ header {
     justify-content: center;
 }
 
+.header-logo {
+    width: 80px;
+}
+
 .logo {
     animation: transitionIn 0.75s;
     margin: 0, 50px;
@@ -45,6 +52,57 @@ header {
     align-items: center;
     justify-content: center;
     height: 60vh;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    color: var(--golden);
+    width: 350px;
+    background-color: transparent;
+    backdrop-filter: blur(2rem);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 5px 4px 4px rgba(27, 25, 19, 0.7);
+    margin: 20px;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+}
+
+.card-content {
+    padding: 16px;
+}
+
+.card-content h3 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.card-content p {
+    color: var(--dark-golden);
+    font-size: 1rem;
+    line-height: 1.3;
+}
+
+a.button {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    display: inline-block;
+    padding: 8px 16px;
+    color: var(--black);
+    background-color: var(--golden);
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 16px;
+
 }
 
 .div-search {
@@ -79,6 +137,21 @@ header {
     outline: 0;
     color: var(--golden);
     font-size: 1rem;
+}
+
+.search-bar {
+    display: flex;
+    width: 100%;
+    padding: 20px;
+    padding-right: 50px;
+    position: absolute;
+    justify-content: flex-end;
+}
+
+.search-bar .input-search {
+    width: 200px;
+    height: 1rem;
+    justify-self: flex-end;
 }
 
 ::placeholder {
