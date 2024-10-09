@@ -51,18 +51,12 @@ public class ImobiliariaController {
         }
     }
     
-    public boolean consultarImobiliariaByEmailAndSenha (String email, String senha) {
+    public ResultSet consultarImobiliariaByEmailAndSenha (String email, String senha) {
         Imobiliaria imobiliaria = new Imobiliaria ();
         
         imobiliaria.setEmail(email);
         imobiliaria.setSenha(senha);
-        try {
-            ResultSet rs = imobiliaria.consultarImobiliariaByEmailAndSenha(imobiliaria);
-            return rs.isBeforeFirst();
-        } catch (SQLException e) {
-            System.out.println("Erro ao pegar ResultSet do selectImobiliariasByEmailAndSenha");
-            return false;
-        }
+        return imobiliaria.consultarImobiliariaByEmailAndSenha(imobiliaria);
     }
     
 }

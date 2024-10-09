@@ -6,6 +6,8 @@ package view;
 
 import controller.ImobiliariaController;
 import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -21,7 +23,6 @@ public class Login extends javax.swing.JFrame {
         setResizable(false);
         setSize(700, 400);
         initComponents();
-        System.out.println("iniciou tudo os componente");
         tfEmail.requestFocus();
     }
 
@@ -204,15 +205,23 @@ public class Login extends javax.swing.JFrame {
         char [] senha = tfSenha.getPassword();
         String psw = new String(senha);
         
-        boolean login = new ImobiliariaController().consultarImobiliariaByEmailAndSenha(email, psw);
+        ResultSet rs = new ImobiliariaController().consultarImobiliariaByEmailAndSenha(email, psw);
         
-        if (login){
-            InserirImovel im = new InserirImovel();
-            im.setVisible(true);
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "Usuário não encontrado, tente novamente");
-            tfEmail.requestFocus();
+        try {
+            if (rs.isBeforeFirst()){
+                Integer idImobiliaria = null;
+                while (rs.next()) {
+                    idImobiliaria = rs.getInt(1);
+                }
+                InserirImovel im = new InserirImovel(idImobiliaria);
+                im.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Email ou senha incorretos, tente novamente");
+                tfEmail.requestFocus();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro, contate os desenvolvedores e passe o seguinte codigo: "+ex);
         }
     }//GEN-LAST:event_btLoginActionPerformed
 
