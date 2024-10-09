@@ -1,6 +1,10 @@
 const filter = document.getElementById('filter');
 const form = document.querySelector('form');
 
+window.onload = function() {
+    document.body.classList.add('*');
+}
+
 form.addEventListener('submit', (e) => {
     const existingError = document.querySelector('.msg-error');
     if (existingError) {
