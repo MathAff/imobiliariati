@@ -5,6 +5,7 @@
 package view;
 
 import controller.ImobiliariaController;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,6 +21,8 @@ public class Login extends javax.swing.JFrame {
         setResizable(false);
         setSize(700, 400);
         initComponents();
+        System.out.println("iniciou tudo os componente");
+        tfEmail.requestFocus();
     }
 
     /**
@@ -204,9 +207,12 @@ public class Login extends javax.swing.JFrame {
         boolean login = new ImobiliariaController().consultarImobiliariaByEmailAndSenha(email, psw);
         
         if (login){
-            System.out.println("Logado com Sucesso!!!");
+            InserirImovel im = new InserirImovel();
+            im.setVisible(true);
+            this.dispose();
         } else {
-            System.out.println("Usuário não encontrado");
+            JOptionPane.showMessageDialog(null, "Usuário não encontrado, tente novamente");
+            tfEmail.requestFocus();
         }
     }//GEN-LAST:event_btLoginActionPerformed
 
