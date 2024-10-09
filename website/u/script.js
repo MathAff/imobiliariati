@@ -18,7 +18,7 @@ form.addEventListener('submit', (e) => {
         e.preventDefault();
     }
 
-    if (filter.value.length > 10) {
+    if (filter.value.length > 30) {
         let errMsg = document.createElement('div');
         errMsg.className = 'msg-error';
         errMsg.textContent = 'Tente algo menor';

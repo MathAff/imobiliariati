@@ -66,7 +66,7 @@ header {
     background-color: transparent;
     backdrop-filter: blur(2rem);
     border-radius: 8px;
-    overflow: hidden;
+    /*overflow: hidden;*/
     box-shadow: 5px 4px 4px rgba(27, 25, 19, 0.7);
     margin: 20px;
 }
@@ -142,8 +142,7 @@ a.button {
 .search-bar {
     display: flex;
     width: 100%;
-    padding: 20px;
-    padding-right: 50px;
+    padding: 20px 0;
     position: absolute;
     justify-content: flex-end;
 }
@@ -169,6 +168,34 @@ a.button {
     border: 1.5px solid var(--str-red);
 }
 
+
+@media (max-width: 800px) {
+    header {
+        flex-wrap: wrap;
+    }
+
+    .header-div-logo {
+        width: inherit;
+    }
+
+    .search-bar {
+        width: auto;
+        margin: 0 100%;
+        position: inherit;
+    }
+
+    .card {
+        width: 200px;
+    }
+
+    .card h3 {
+        font-size: 1.5rem;
+    }
+
+    .card p {
+        font-size: 0.7rem;
+    }
+}
 
 @media (max-width: 600px) {
     .logo {
