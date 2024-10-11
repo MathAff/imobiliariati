@@ -35,7 +35,7 @@ public class SubtiposDAO {
     public ResultSet selectSubtipos() {
         Connection conn = new ConnectionDB().conectar();
         try {
-            String sql = "SELECT * FROM subtipos";
+            String sql = "SELECT * FROM subtipos WHERE id_imovel = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             
             return stmt.executeQuery();
