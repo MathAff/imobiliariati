@@ -21,28 +21,27 @@ public class ImovelDAO {
         Connection conn = new ConnectionDB().conectar();
         
         try {
-            String sql = "INSERT INTO imoveis (id_imobiliaria, id_proprietario, id_subtipo, tipo, tamanho, quartos, suites, vagas, banheiros, valor, taxa_condominio, iptu, tipo_negocio, bairro, cidade, endereco, cep, descricao, status_imovel)"
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO imoveis (id_imobiliaria, id_subtipo, tipo, tamanho, quartos, suites, vagas, banheiros, valor, taxa_condominio, iptu, tipo_negocio, bairro, cidade, endereco, cep, descricao, status_imovel)"
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, imovel.getIdImobiliaria().toString());
-            stmt.setString(2, imovel.getIdProprietario().toString());
-            stmt.setString(3, imovel.getIdSubtipo().toString());
-            stmt.setString(4, imovel.getTipo());
-            stmt.setString(5, String.valueOf(imovel.getTamanho()));
-            stmt.setString(6, imovel.getQuartos().toString());
-            stmt.setString(7, imovel.getSuites().toString());
-            stmt.setString(8, imovel.getVagas().toString());
-            stmt.setString(9, imovel.getBanheiros().toString());
-            stmt.setString(10, String.valueOf(imovel.getValor()));
-            stmt.setString(11, String.valueOf(imovel.getTaxaCondominio()));
-            stmt.setString(12, String.valueOf(imovel.getIptu()));
-            stmt.setString(13, imovel.getTipoNegocio());
-            stmt.setString(14, imovel.getBairro());
-            stmt.setString(15, imovel.getCidade());
-            stmt.setString(16, imovel.getEndereco());
-            stmt.setString(17, imovel.getCep());
-            stmt.setString(18, imovel.getDescricao());
-            stmt.setString(19, imovel.getStatusImovel());
+            stmt.setString(2, imovel.getIdSubtipo().toString());
+            stmt.setString(3, imovel.getTipo());
+            stmt.setString(4, String.valueOf(imovel.getTamanho()));
+            stmt.setString(5, imovel.getQuartos().toString());
+            stmt.setString(6, imovel.getSuites().toString());
+            stmt.setString(7, imovel.getVagas().toString());
+            stmt.setString(8, imovel.getBanheiros().toString());
+            stmt.setString(9, String.valueOf(imovel.getValor()));
+            stmt.setString(10, String.valueOf(imovel.getTaxaCondominio()));
+            stmt.setString(11, String.valueOf(imovel.getIptu()));
+            stmt.setString(12, imovel.getTipoNegocio());
+            stmt.setString(13, imovel.getBairro());
+            stmt.setString(14, imovel.getCidade());
+            stmt.setString(15, imovel.getEndereco());
+            stmt.setString(16, imovel.getCep());
+            stmt.setString(17, imovel.getDescricao());
+            stmt.setString(18, imovel.getStatusImovel());
             
             return stmt.executeUpdate();
         } catch (SQLException e) {
@@ -81,29 +80,27 @@ public class ImovelDAO {
     public Integer updateImovel (Imovel imovel) {
         Connection conn = new ConnectionDB().conectar();
         try {
-            String sql = "UPDATE imoveis SET id_imobiliaria = ?, id_proprietario = ?, id_subtipo = ?, tipo = ?, tamanho = ?, quartos = ?, suites = ?, vagas = ?, banheiros = ?, valor = ?, taxa_condominio = ?, iptu = ?, tipo_negocio = ?, bairro = ?, cidade = ?, endereco = ?, cep = ?, descricao = ?, status_imovel = ? WHERE id = ?";
+            String sql = "UPDATE imoveis SET id_imobiliaria = ?, id_subtipo = ?, tipo = ?, tamanho = ?, quartos = ?, suites = ?, vagas = ?, banheiros = ?, valor = ?, taxa_condominio = ?, iptu = ?, tipo_negocio = ?, bairro = ?, cidade = ?, endereco = ?, cep = ?, descricao = ?, status_imovel = ? WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             
             stmt.setString(1, imovel.getIdImobiliaria().toString());
-            stmt.setString(2, imovel.getIdProprietario().toString());
-            stmt.setString(3, imovel.getIdSubtipo().toString());
-            stmt.setString(4, imovel.getTipo());
-            stmt.setString(5, String.valueOf(imovel.getTamanho()));
-            stmt.setString(6, imovel.getQuartos().toString());
-            stmt.setString(7, imovel.getSuites().toString());
-            stmt.setString(8, imovel.getVagas().toString());
-            stmt.setString(9, imovel.getBanheiros().toString());
-            stmt.setString(10, String.valueOf(imovel.getValor()));
-            stmt.setString(11, String.valueOf(imovel.getTaxaCondominio()));
-            stmt.setString(12, String.valueOf(imovel.getIptu()));
-            stmt.setString(13, imovel.getTipoNegocio());
-            stmt.setString(14, imovel.getBairro());
-            stmt.setString(15, imovel.getCidade());
-            stmt.setString(16, imovel.getEndereco());
-            stmt.setString(17, imovel.getCep());
-            stmt.setString(18, imovel.getDescricao());
-            stmt.setString(19, imovel.getStatusImovel());
-            stmt.setString(20, imovel.getId().toString());
+            stmt.setString(2, imovel.getIdSubtipo().toString());
+            stmt.setString(3, imovel.getTipo());
+            stmt.setString(4, String.valueOf(imovel.getTamanho()));
+            stmt.setString(5, imovel.getQuartos().toString());
+            stmt.setString(6, imovel.getSuites().toString());
+            stmt.setString(7, imovel.getVagas().toString());
+            stmt.setString(8, imovel.getBanheiros().toString());
+            stmt.setString(9, String.valueOf(imovel.getValor()));
+            stmt.setString(10, String.valueOf(imovel.getTaxaCondominio()));
+            stmt.setString(11, String.valueOf(imovel.getIptu()));
+            stmt.setString(12, imovel.getTipoNegocio());
+            stmt.setString(13, imovel.getBairro());
+            stmt.setString(14, imovel.getCidade());
+            stmt.setString(15, imovel.getEndereco());
+            stmt.setString(16, imovel.getCep());
+            stmt.setString(17, imovel.getDescricao());
+            stmt.setString(18, imovel.getStatusImovel());
             
             return stmt.executeUpdate();
         } catch (SQLException e) {

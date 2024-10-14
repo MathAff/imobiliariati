@@ -10,7 +10,7 @@ import dao.ImovelDAO;
  * @author Matheus
  */
 public class Imovel {
-    Integer id, idImobiliaria, idProprietario, idSubtipo, quartos, suites, vagas, banheiros;
+    Integer id, idImobiliaria, idSubtipo, quartos, suites, vagas, banheiros;
     String tipo, tipoNegocio, bairro, cidade, endereco, cep, descricao, statusImovel;
     float tamanho, valor, taxaCondominio, iptu;
 
@@ -18,10 +18,8 @@ public class Imovel {
         
     }
 
-    public Imovel(Integer id, Integer idImobiliaria, Integer idProprietario, Integer idSubtipo, Integer quartos, Integer suites, Integer vagas, Integer banheiros, String statusImovel, String tipo, String tipoNegocio, String bairro, String cidade, String endereco, String cep, String descricao, float tamanho, float valor, float taxaCondominio, float iptu) {
-        this.id = id;
+    public Imovel(Integer idImobiliaria, Integer idSubtipo, Integer quartos, Integer suites, Integer vagas, Integer banheiros, String statusImovel, String tipo, String tipoNegocio, String bairro, String cidade, String endereco, String cep, String descricao, float tamanho, float valor, float taxaCondominio, float iptu) {
         this.idImobiliaria = idImobiliaria;
-        this.idProprietario = idProprietario;
         this.idSubtipo = idSubtipo;
         this.quartos = quartos;
         this.suites = suites;
@@ -55,14 +53,6 @@ public class Imovel {
 
     public void setIdImobiliaria(Integer idImobiliaria) {
         this.idImobiliaria = idImobiliaria;
-    }
-
-    public Integer getIdProprietario() {
-        return idProprietario;
-    }
-
-    public void setIdProprietario(Integer idProprietario) {
-        this.idProprietario = idProprietario;
     }
 
     public Integer getIdSubtipo() {

@@ -18,4 +18,10 @@ public class SubtiposController {
         return new Subtipos().consultarSubtipos();
     }
     
+    public ResultSet selecionarSubtiposByNomeController(String nome) {
+        Subtipos subtipo = new Subtipos();
+        subtipo.setNome(nome);
+        return new Subtipos().consultarSubtiposByNome(subtipo);
+    }
+    
 }

@@ -56,18 +56,20 @@ public class ImobiliariaDAO {
         }
     }
     
-    public ResultSet selectImobiliariaById (Imobiliaria imobiliaria) {
+    public ResultSet selectImobiliariaByEmailAndSenha (Imobiliaria imobiliaria) {
         Connection conn = new ConnectionDB().conectar();
         try {
             String sql = "SELECT * FROM imobiliarias WHERE email = ? AND senha = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            
             
             stmt.setString(1, imobiliaria.getEmail());
             stmt.setString(2, imobiliaria.getSenha());
             
-            return stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
+            return rs;
         } catch (SQLException e) {
-            System.out.println("Nao foi possivel consultar imobiliaria");
+            System.out.println("Nao foi possivel consultar imobiliaria: "+e);
             return null;
         }
     }

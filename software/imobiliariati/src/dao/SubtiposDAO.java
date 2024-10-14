@@ -35,8 +35,8 @@ public class SubtiposDAO {
     public ResultSet selectSubtipos() {
         Connection conn = new ConnectionDB().conectar();
         try {
-            String sql = "SELECT * FROM subtipos WHERE id_imovel = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            String sql = "SELECT * FROM subtipos";
+            PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             
             return stmt.executeQuery();
         } catch (SQLException e) {
@@ -45,4 +45,17 @@ public class SubtiposDAO {
         }
     }
     
+    public ResultSet selectSubtiposByNome (Subtipos subtipo) {
+        Connection conn = new ConnectionDB().conectar();
+        try {
+            String sql = "SELECT * FROM subtipos WHERE nome = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, subtipo.getNome());
+            
+            return stmt.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("Nao foi possivel encontrar subtipos: "+e.getMessage());
+            return null;
+        }
+    }
 }

@@ -206,13 +206,9 @@ public class Login extends javax.swing.JFrame {
         String psw = new String(senha);
         
         ResultSet rs = new ImobiliariaController().consultarImobiliariaByEmailAndSenha(email, psw);
-        
         try {
-            if (rs.isBeforeFirst()){
-                Integer idImobiliaria = null;
-                while (rs.next()) {
-                    idImobiliaria = rs.getInt(1);
-                }
+            if (rs != null && rs.next()){
+                Integer idImobiliaria = rs.getInt("id");
                 InserirImovel im = new InserirImovel(idImobiliaria);
                 im.setVisible(true);
                 this.dispose();

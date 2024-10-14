@@ -4,7 +4,9 @@
  */
 package view;
 
+import controller.ImovelController;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 import utils.Endereco;
 import utils.ViaCepService;
@@ -17,26 +19,68 @@ import java.sql.SQLException;
  */
 public class InserirImovel extends javax.swing.JFrame {
     
-    private Integer idImobiliaria;
+    private Integer idImobiliaria = null, idSubtipo = null;
+    private String subtipoImovel = null;
     
-    public InserirImovel(Integer idImobiliaria) throws SQLException {    
-        this.idImobiliaria = idImobiliaria;
+    public InserirImovel(Integer idImobiliaria) {
         setSize(800, 600);
         setResizable(false);
         setLocationRelativeTo(null);
         initComponents();
         ResultSet rs = new SubtiposController().selecionarSubtiposController();
-        String item = rs.getString(1);
-        while (rs.next()) {
-            CbBSubTipoImovel.addItem(rs.getString("nome"));
-            System.out.println(rs.getString("nome"));
+        try {
+            if (rs.next()) {
+                CbBSubTipoImovel.addItem(rs.getString("nome"));
+                while (rs.next()) {
+                    CbBSubTipoImovel.addItem(rs.getString("nome"));
+                }
+            } else {
+                System.out.println("Nenhum resultado encontrado");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao encontrar os subtipos: "+e);
         }
-        System.out.println(item);
     
     }
     public InserirImovel() {
-//        CbBsubtipo.addItem("");
+        setSize(800, 600);
+        setResizable(false);
+        setLocationRelativeTo(null);
         initComponents();
+        ResultSet rs = new SubtiposController().selecionarSubtiposController();
+        try {
+            if (rs.next()) {
+                CbBSubTipoImovel.addItem(rs.getString("nome"));
+                while (rs.next()) {
+                    CbBSubTipoImovel.addItem(rs.getString("nome"));
+                }
+            } else {
+                System.out.println("Nenhum resultado encontrado");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro! Contate os desenvolvedores e mande o código: "+e);
+        }
+    }
+    
+    private void limpaCampos () {
+        tfCep.setText("");
+        tfBairro.setText("");
+        tfCidade.setText("");
+        tfRua.setText("");
+        tfNumero.setText("");
+        spTamImovel.setValue(0);
+        CbBTipoImovel.setSelectedIndex(0);
+        spNumeroQuartos.setValue(0);
+        spNumeroSuites.setValue(0);
+        spNumeroBanheiros.setValue(0);
+        spNumeroVagas.setValue(0);
+        tfValorImovel.setText("00000000000");
+        tfTxCondominio.setText("00000000000");
+        tfIptu.setText("00000000000");
+        cbBTipoNegocio.setSelectedIndex(0);
+        cbBStatusImovel.setSelectedIndex(0);
+        taDescricao.setText("");
+        tfCep.requestFocus();
     }
 
     /**
@@ -57,7 +101,7 @@ public class InserirImovel extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         tfCep = new javax.swing.JFormattedTextField();
         jLabel2 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        tfNumero = new javax.swing.JFormattedTextField();
         jLabel6 = new javax.swing.JLabel();
         tfRua = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -79,18 +123,38 @@ public class InserirImovel extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
-        jFormattedTextField3 = new javax.swing.JFormattedTextField();
-        jFormattedTextField4 = new javax.swing.JFormattedTextField();
+        try {
+            tfValorImovel =(javax.swing.JFormattedTextField)java.beans.Beans.instantiate(getClass().getClassLoader(), "view.InserirImovel_tfValorImovel");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbBTipoNegocio = new javax.swing.JComboBox<>();
         jLabel18 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cbBStatusImovel = new javax.swing.JComboBox<>();
+        try {
+            tfTxCondominio =(javax.swing.JFormattedTextField)java.beans.Beans.instantiate(getClass().getClassLoader(), "view.InserirImovel_tfValorImovel");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            tfIptu =(javax.swing.JFormattedTextField)java.beans.Beans.instantiate(getClass().getClassLoader(), "view.InserirImovel_tfValorImovel");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
         jPanel6 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         taDescricao = new javax.swing.JTextArea();
+        jPanel7 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,7 +185,7 @@ public class InserirImovel extends javax.swing.JFrame {
         jLabel2.setText("CEP:");
 
         try {
-            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#########")));
+            tfNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#########")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -149,12 +213,12 @@ public class InserirImovel extends javax.swing.JFrame {
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfRua, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -181,7 +245,7 @@ public class InserirImovel extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -205,6 +269,11 @@ public class InserirImovel extends javax.swing.JFrame {
         jLabel8.setText("SubTipo");
 
         CbBSubTipoImovel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o Subtipo" }));
+        CbBSubTipoImovel.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                CbBSubTipoImovelFocusLost(evt);
+            }
+        });
         CbBSubTipoImovel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CbBSubTipoImovelActionPerformed(evt);
@@ -217,7 +286,7 @@ public class InserirImovel extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -230,7 +299,7 @@ public class InserirImovel extends javax.swing.JFrame {
                         .addGap(62, 62, 62)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CbBSubTipoImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(CbBSubTipoImovel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(60, 60, 60))
         );
         jPanel3Layout.setVerticalGroup(
@@ -316,21 +385,57 @@ public class InserirImovel extends javax.swing.JFrame {
 
         jLabel14.setText("Taxa de Condomínio");
 
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
-
-        jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
-
-        jFormattedTextField4.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        tfValorImovel.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfValorImovelFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfValorImovelFocusLost(evt);
+            }
+        });
+        tfValorImovel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfValorImovelActionPerformed(evt);
+            }
+        });
 
         jLabel16.setText("IPTU");
 
         jLabel17.setText("Tipo de Negócio");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alugel", "Venda", "Locação", "Permuta" }));
+        cbBTipoNegocio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Alugel", "Venda", "Locação", "Permuta" }));
 
         jLabel18.setText("Status do Imóvel:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o Status", "Disponível", "Indisponível", "Vendido", "Alugado" }));
+        cbBStatusImovel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o Status", "Disponível", "Indisponível", "Vendido", "Alugado" }));
+
+        tfTxCondominio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfTxCondominioFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfTxCondominioFocusLost(evt);
+            }
+        });
+        tfTxCondominio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfTxCondominioActionPerformed(evt);
+            }
+        });
+
+        tfIptu.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfIptuFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfIptuFocusLost(evt);
+            }
+        });
+        tfIptu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfIptuActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -339,27 +444,30 @@ public class InserirImovel extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tfValorImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                                .addGap(86, 86, 86)
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfIptu, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfTxCondominio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(169, 169, 169)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cbBStatusImovel, 0, 145, Short.MAX_VALUE)
+                    .addComponent(cbBTipoNegocio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(136, 136, 136))
         );
         jPanel5Layout.setVerticalGroup(
@@ -368,19 +476,19 @@ public class InserirImovel extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbBTipoNegocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfValorImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(tfTxCondominio, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbBStatusImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfIptu, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(116, 116, 116))
         );
 
@@ -409,8 +517,33 @@ public class InserirImovel extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 17, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jButton1.setText("Continuar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(23, 23, 23))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -425,7 +558,8 @@ public class InserirImovel extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -437,10 +571,12 @@ public class InserirImovel extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -463,17 +599,16 @@ public class InserirImovel extends javax.swing.JFrame {
 
     private void tfCepFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfCepFocusLost
         String cep = tfCep.getText();
-        
-        if (!cep.isEmpty()) {
-        Endereco end = new ViaCepService().getEndereco(cep);
-        
-        String cidade = end.getLocalidade();
-        String bairro = end.getBairro();
-        String endereco;
-        
-        tfRua.setText(end.getLogradouro());
-        tfBairro.setText(bairro);
-        tfCidade.setText(cidade);
+        String replace = cep.replace("-", "").replace(" ","");
+        if (!replace.isEmpty()) {
+            Endereco end = new ViaCepService().getEndereco(cep);
+
+            String cidade = end.getLocalidade();
+            String bairro = end.getBairro();
+
+            tfRua.setText(end.getLogradouro());
+            tfBairro.setText(bairro);
+            tfCidade.setText(cidade);
             
         }
         
@@ -486,6 +621,76 @@ public class InserirImovel extends javax.swing.JFrame {
     private void CbBSubTipoImovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CbBSubTipoImovelActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CbBSubTipoImovelActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        subtipoImovel = (String) CbBSubTipoImovel.getSelectedItem();
+        String tipoImovel = (String) CbBTipoImovel.getSelectedItem();
+        String cep = tfCep.getText(), bairro = tfBairro.getText(), rua = tfRua.getText(), cidade = tfCidade.getText(), numero = tfNumero.getText();
+        Integer tamImovel = (Integer) spTamImovel.getValue();
+        Integer nQuartos = (Integer) spNumeroQuartos.getValue();
+        Integer nSuites = (Integer) spNumeroSuites.getValue();
+        Integer nBanheiros = (Integer) spNumeroBanheiros.getValue();
+        Integer nVagas = (Integer) spNumeroVagas.getValue();
+        String valorImovel = tfValorImovel.getText();
+        String txCondominio = tfTxCondominio.getText();
+        String valorIptu = tfIptu.getText();
+        String tipoNegocio = (String) cbBTipoNegocio.getSelectedItem();
+        String statusImovel = (String) cbBStatusImovel.getSelectedItem();
+        String descricao = taDescricao.getText();
+        String endereco = cidade + "-" + bairro + "-" + numero;
+        
+        Float valor = Float.valueOf(valorImovel.replace("R$", "").replace(".", "").replace(",", ""));
+        Float condominio = Float.valueOf(txCondominio.replace("R$", "").replace(".", "").replace(",", ""));
+        Float iptu = Float.valueOf(valorIptu.replace("R$", "").replace(".", "").replace(",", ""));
+        
+        
+        boolean cadImovel = new ImovelController().cadastrarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
+        
+        if (cadImovel) {
+            limpaCampos();
+        } else {
+            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, confira as informações novamente.");
+        }
+        
+//        ResultSet rs = new ImovelController().cadastrarImovel(idImobiliaria);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void CbBSubTipoImovelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_CbBSubTipoImovelFocusLost
+        try {
+            ResultSet rs = new SubtiposController().selecionarSubtiposByNomeController(subtipoImovel);
+            if (rs != null && rs.next()) {
+                idSubtipo = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERRO! Contate os desenvolvedores e passe o erro: "+e);
+        }
+    }//GEN-LAST:event_CbBSubTipoImovelFocusLost
+
+    private void tfValorImovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfValorImovelActionPerformed
+    }//GEN-LAST:event_tfValorImovelActionPerformed
+
+    private void tfTxCondominioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTxCondominioActionPerformed
+    }//GEN-LAST:event_tfTxCondominioActionPerformed
+
+    private void tfIptuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfIptuActionPerformed
+    }//GEN-LAST:event_tfIptuActionPerformed
+
+    private void tfValorImovelFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfValorImovelFocusGained
+    }//GEN-LAST:event_tfValorImovelFocusGained
+
+    private void tfTxCondominioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfTxCondominioFocusGained
+    }//GEN-LAST:event_tfTxCondominioFocusGained
+
+    private void tfIptuFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfIptuFocusGained
+    }//GEN-LAST:event_tfIptuFocusGained
+    private void tfValorImovelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfValorImovelFocusLost
+     
+    }//GEN-LAST:event_tfValorImovelFocusLost
+    private void tfTxCondominioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfTxCondominioFocusLost
+ 
+    }//GEN-LAST:event_tfTxCondominioFocusLost
+    private void tfIptuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfIptuFocusLost
+    }//GEN-LAST:event_tfIptuFocusLost
 
     /**
      * @param args the command line arguments
@@ -525,12 +730,9 @@ public class InserirImovel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CbBSubTipoImovel;
     private javax.swing.JComboBox<String> CbBTipoImovel;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JFormattedTextField jFormattedTextField3;
-    private javax.swing.JFormattedTextField jFormattedTextField4;
+    private javax.swing.JComboBox<String> cbBStatusImovel;
+    private javax.swing.JComboBox<String> cbBTipoNegocio;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -555,6 +757,7 @@ public class InserirImovel extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner spNumeroBanheiros;
     private javax.swing.JSpinner spNumeroQuartos;
@@ -565,6 +768,10 @@ public class InserirImovel extends javax.swing.JFrame {
     private javax.swing.JTextField tfBairro;
     private javax.swing.JFormattedTextField tfCep;
     private javax.swing.JTextField tfCidade;
+    private javax.swing.JFormattedTextField tfIptu;
+    private javax.swing.JFormattedTextField tfNumero;
     private javax.swing.JTextField tfRua;
+    private javax.swing.JFormattedTextField tfTxCondominio;
+    private javax.swing.JFormattedTextField tfValorImovel;
     // End of variables declaration//GEN-END:variables
 }
