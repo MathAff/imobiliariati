@@ -8,6 +8,7 @@ import controller.ImobiliariaController;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -23,6 +24,9 @@ public class Login extends javax.swing.JFrame {
         setResizable(false);
         setSize(700, 400);
         initComponents();
+        ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
+        setIconImage(ic.getImage());
+        setTitle("Login");
         tfEmail.requestFocus();
     }
 

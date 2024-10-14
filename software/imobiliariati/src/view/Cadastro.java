@@ -5,8 +5,8 @@
 package view;
 
 import controller.ImobiliariaController;
-import view.Login;
 import java.awt.HeadlessException;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,6 +23,9 @@ public class Cadastro extends javax.swing.JFrame {
         setResizable(false);
         setSize(700, 500);
         initComponents();
+        ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
+        setIconImage(ic.getImage());
+        setTitle("Cadastre Imobiliária");
         tfCnpj.requestFocus();
     }
     

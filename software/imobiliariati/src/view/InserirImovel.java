@@ -12,6 +12,7 @@ import utils.Endereco;
 import utils.ViaCepService;
 import controller.SubtiposController;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -27,6 +28,9 @@ public class InserirImovel extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         initComponents();
+        ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
+        setIconImage(ic.getImage());
+        setTitle("Cadastrar Imóvel");
         ResultSet rs = new SubtiposController().selecionarSubtiposController();
         try {
             if (rs.next()) {
@@ -40,7 +44,8 @@ public class InserirImovel extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.out.println("Erro ao encontrar os subtipos: "+e);
         }
-    
+        
+        this.idImobiliaria = idImobiliaria;
     }
     public InserirImovel() {
         setSize(800, 600);
@@ -184,11 +189,7 @@ public class InserirImovel extends javax.swing.JFrame {
 
         jLabel2.setText("CEP:");
 
-        try {
-            tfNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#########")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        tfNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
         jLabel6.setText("Rua:");
 
@@ -411,29 +412,29 @@ public class InserirImovel extends javax.swing.JFrame {
 
         tfTxCondominio.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                tfTxCondominioFocusGained(evt);
+                tfTxCondominioFocusGained1(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                tfTxCondominioFocusLost(evt);
+                tfTxCondominioFocusLost1(evt);
             }
         });
         tfTxCondominio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfTxCondominioActionPerformed(evt);
+                tfTxCondominioActionPerformed1(evt);
             }
         });
 
         tfIptu.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                tfIptuFocusGained(evt);
+                tfIptuFocusGained1(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                tfIptuFocusLost(evt);
+                tfIptuFocusLost1(evt);
             }
         });
         tfIptu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfIptuActionPerformed(evt);
+                tfIptuActionPerformed1(evt);
             }
         });
 
@@ -474,11 +475,12 @@ public class InserirImovel extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel17)
-                    .addComponent(cbBTipoNegocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfValorImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tfValorImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel13)
+                        .addComponent(jLabel17)
+                        .addComponent(cbBTipoNegocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
@@ -623,7 +625,6 @@ public class InserirImovel extends javax.swing.JFrame {
     }//GEN-LAST:event_CbBSubTipoImovelActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        subtipoImovel = (String) CbBSubTipoImovel.getSelectedItem();
         String tipoImovel = (String) CbBTipoImovel.getSelectedItem();
         String cep = tfCep.getText(), bairro = tfBairro.getText(), rua = tfRua.getText(), cidade = tfCidade.getText(), numero = tfNumero.getText();
         Integer tamImovel = (Integer) spTamImovel.getValue();
@@ -637,25 +638,26 @@ public class InserirImovel extends javax.swing.JFrame {
         String tipoNegocio = (String) cbBTipoNegocio.getSelectedItem();
         String statusImovel = (String) cbBStatusImovel.getSelectedItem();
         String descricao = taDescricao.getText();
-        String endereco = cidade + "-" + bairro + "-" + numero;
+        String endereco = cidade + "-" + bairro + "-" + rua + "-" + numero;
         
-        Float valor = Float.valueOf(valorImovel.replace("R$", "").replace(".", "").replace(",", ""));
-        Float condominio = Float.valueOf(txCondominio.replace("R$", "").replace(".", "").replace(",", ""));
-        Float iptu = Float.valueOf(valorIptu.replace("R$", "").replace(".", "").replace(",", ""));
+        Float valor = Float.valueOf(valorImovel.replace("R$", "").replace(".", "").replace(",", "."));
+        Float condominio = Float.valueOf(txCondominio.replace("R$", "").replace(".", "").replace(",", "."));
+        Float iptu = Float.valueOf(valorIptu.replace("R$", "").replace(".", "").replace(",", "."));
         
+        System.out.println(idImobiliaria + idSubtipo+nQuartos+ nSuites+nVagas+nBanheiros+ statusImovel+tipoImovel+tipoNegocio+bairro+ cidade+ endereco+ cep+ descricao+tamImovel+ valor+ condominio+ iptu);
         
         boolean cadImovel = new ImovelController().cadastrarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
         
         if (cadImovel) {
             limpaCampos();
+            
         } else {
             JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, confira as informações novamente.");
         }
-        
-//        ResultSet rs = new ImovelController().cadastrarImovel(idImobiliaria);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void CbBSubTipoImovelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_CbBSubTipoImovelFocusLost
+        subtipoImovel = (String) CbBSubTipoImovel.getSelectedItem();
         try {
             ResultSet rs = new SubtiposController().selecionarSubtiposByNomeController(subtipoImovel);
             if (rs != null && rs.next()) {
@@ -691,6 +693,30 @@ public class InserirImovel extends javax.swing.JFrame {
     }//GEN-LAST:event_tfTxCondominioFocusLost
     private void tfIptuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfIptuFocusLost
     }//GEN-LAST:event_tfIptuFocusLost
+
+    private void tfTxCondominioFocusGained1(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfTxCondominioFocusGained1
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfTxCondominioFocusGained1
+
+    private void tfTxCondominioFocusLost1(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfTxCondominioFocusLost1
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfTxCondominioFocusLost1
+
+    private void tfTxCondominioActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTxCondominioActionPerformed1
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfTxCondominioActionPerformed1
+
+    private void tfIptuFocusGained1(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfIptuFocusGained1
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfIptuFocusGained1
+
+    private void tfIptuFocusLost1(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfIptuFocusLost1
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfIptuFocusLost1
+
+    private void tfIptuActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfIptuActionPerformed1
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfIptuActionPerformed1
 
     /**
      * @param args the command line arguments
