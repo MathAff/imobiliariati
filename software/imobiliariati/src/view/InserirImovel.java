@@ -21,7 +21,6 @@ import javax.swing.ImageIcon;
 public class InserirImovel extends javax.swing.JFrame {
     
     private Integer idImobiliaria = null, idSubtipo = null;
-    private String subtipoImovel = null;
     
     public InserirImovel(Integer idImobiliaria) {
         setSize(800, 600);
@@ -278,11 +277,11 @@ public class InserirImovel extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CbBTipoImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(CbBTipoImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spTamImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(spTamImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addGap(62, 62, 62)
                         .addComponent(jLabel8)
@@ -585,10 +584,21 @@ public class InserirImovel extends javax.swing.JFrame {
         String descricao = taDescricao.getText();
         String endereco = cidade + "-" + bairro + "-" + rua + "-" + numero;
         
+        String subtipoImovel = (String) CbBSubTipoImovel.getSelectedItem();
+        try {
+            ResultSet rs = new SubtiposController().selecionarSubtiposByNomeController(subtipoImovel);
+            if (rs != null && rs.next()) {
+                idSubtipo = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERRO! Contate os desenvolvedores e passe o erro: "+e);
+        }
+        
         if (valorImovel.matches("\\d*") && txCondominio.matches("\\d*") && valorIptu.matches("\\d*")) {
             Float valor = Float.valueOf(valorImovel.replace("R$", "").replace(".", "").replace(",", "."));
             Float condominio = Float.valueOf(txCondominio.replace("R$", "").replace(".", "").replace(",", "."));
             Float iptu = Float.valueOf(valorIptu.replace("R$", "").replace(".", "").replace(",", "."));
+            System.out.println(valor+condominio+iptu);
 
 
             System.out.println(idImobiliaria + idSubtipo+nQuartos+ nSuites+nVagas+nBanheiros+ statusImovel+tipoImovel+tipoNegocio+bairro+ cidade+ endereco+ cep+ descricao+tamImovel+ valor+ condominio+ iptu);
@@ -609,15 +619,6 @@ public class InserirImovel extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void CbBSubTipoImovelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_CbBSubTipoImovelFocusLost
-        subtipoImovel = (String) CbBSubTipoImovel.getSelectedItem();
-        try {
-            ResultSet rs = new SubtiposController().selecionarSubtiposByNomeController(subtipoImovel);
-            if (rs != null && rs.next()) {
-                idSubtipo = rs.getInt("id");
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "ERRO! Contate os desenvolvedores e passe o erro: "+e);
-        }
     }//GEN-LAST:event_CbBSubTipoImovelFocusLost
 
     private void tfValorImovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfValorImovelActionPerformed
@@ -652,7 +653,7 @@ public class InserirImovel extends javax.swing.JFrame {
         CbBSubTipoImovel.removeAllItems();
         CbBSubTipoImovel.addItem("Selecione o SubTipo");
         
-        if (!tipo.equals("Selecione o Tipo do Imóvel")){
+        if (!tipo.equals("Selecione o Tipo do Imóvel") || !tipo.startsWith(CbBSubTipoImovel.getItemAt(1))){
             ResultSet rs = new SubtiposController().selecionarSubtiposByTipoController(tipo);
             try {
                 if (rs.next()) {
