@@ -58,4 +58,19 @@ public class SubtiposDAO {
             return null;
         }
     }
+
+    public ResultSet selectSubtiposByTipo(String tipo) {
+        Connection conn = new ConnectionDB().conectar();
+        try {
+            String sql = "SELECT * FROM subtipos WHERE nome LIKE ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            
+            stmt.setString(1, tipo + "%");
+            
+            return stmt.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("Nao foi possivel encontrar subtipos: "+e.getMessage());
+            return null;
+        }
+    }
 }

@@ -55,5 +55,9 @@ public class Subtipos {
     public ResultSet consultarSubtiposByNome (Subtipos subtipo) {
         return new SubtiposDAO().selectSubtiposByNome(subtipo);
     }
+
+    public ResultSet consultarSubtiposByTipo(String tipo) {
+        return new SubtiposDAO().selectSubtiposByTipo(tipo);
+    }
     
 }

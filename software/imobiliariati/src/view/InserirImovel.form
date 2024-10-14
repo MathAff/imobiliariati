@@ -290,16 +290,16 @@
             <Component class="javax.swing.JComboBox" name="CbBTipoImovel">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="5">
+                  <StringArray count="4">
                     <StringItem index="0" value="Selecione o Tipo do Im&#xf3;vel"/>
                     <StringItem index="1" value="Casa"/>
                     <StringItem index="2" value="Apartamento"/>
                     <StringItem index="3" value="Terreno"/>
-                    <StringItem index="4" value="Comercial"/>
                   </StringArray>
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="CbBTipoImovelFocusLost"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CbBTipoImovelActionPerformed"/>
               </Events>
               <AuxValues>
@@ -448,29 +448,27 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="51" max="32767" attributes="0"/>
                               <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="tfValorImovel" min="-2" pref="127" max="-2" attributes="0"/>
+                              <Component id="tfValorImovel" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="189" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
-                                      <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="tfIptu" min="-2" pref="127" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="tfTxCondominio" min="-2" pref="127" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
+                              <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="tfIptu" min="-2" pref="100" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="tfTxCondominio" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="169" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
@@ -488,25 +486,25 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="tfValorImovel" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cbBTipoNegocio" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbBTipoNegocio" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tfValorImovel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tfTxCondominio" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                          <Component id="tfTxCondominio" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                              <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbBStatusImovel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbBStatusImovel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tfIptu" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                          <Component id="tfIptu" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
                   </Group>
@@ -523,17 +521,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Taxa de Condom&#xed;nio"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JFormattedTextField" name="tfValorImovel">
-              <Events>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tfValorImovelFocusGained"/>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tfValorImovelFocusLost"/>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfValorImovelActionPerformed"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CodeGeneration" type="java.lang.Integer" value="1"/>
-                <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="InserirImovel_tfValorImovel"/>
-              </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel16">
               <Properties>
@@ -582,27 +569,11 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JFormattedTextField" name="tfTxCondominio">
-              <Events>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tfTxCondominioFocusGained1"/>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tfTxCondominioFocusLost1"/>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfTxCondominioActionPerformed1"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CodeGeneration" type="java.lang.Integer" value="1"/>
-                <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="InserirImovel_tfValorImovel"/>
-              </AuxValues>
+            <Component class="javax.swing.JTextField" name="tfValorImovel">
             </Component>
-            <Component class="javax.swing.JFormattedTextField" name="tfIptu">
-              <Events>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tfIptuFocusGained1"/>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tfIptuFocusLost1"/>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfIptuActionPerformed1"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CodeGeneration" type="java.lang.Integer" value="1"/>
-                <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="InserirImovel_tfValorImovel"/>
-              </AuxValues>
+            <Component class="javax.swing.JTextField" name="tfTxCondominio">
+            </Component>
+            <Component class="javax.swing.JTextField" name="tfIptu">
             </Component>
           </SubComponents>
         </Container>

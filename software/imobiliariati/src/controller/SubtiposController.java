@@ -24,4 +24,7 @@ public class SubtiposController {
         return new Subtipos().consultarSubtiposByNome(subtipo);
     }
     
+    public ResultSet selecionarSubtiposByTipoController (String tipo) {
+        return new Subtipos().consultarSubtiposByTipo(tipo);
+    }
 }

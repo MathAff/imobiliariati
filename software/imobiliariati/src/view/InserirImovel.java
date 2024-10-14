@@ -79,9 +79,9 @@ public class InserirImovel extends javax.swing.JFrame {
         spNumeroSuites.setValue(0);
         spNumeroBanheiros.setValue(0);
         spNumeroVagas.setValue(0);
-        tfValorImovel.setText("00000000000");
-        tfTxCondominio.setText("00000000000");
-        tfIptu.setText("00000000000");
+        tfValorImovel.setText("");
+        tfTxCondominio.setText("");
+        tfIptu.setText("");
         cbBTipoNegocio.setSelectedIndex(0);
         cbBStatusImovel.setSelectedIndex(0);
         taDescricao.setText("");
@@ -128,32 +128,14 @@ public class InserirImovel extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        try {
-            tfValorImovel =(javax.swing.JFormattedTextField)java.beans.Beans.instantiate(getClass().getClassLoader(), "view.InserirImovel_tfValorImovel");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
-        }
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         cbBTipoNegocio = new javax.swing.JComboBox<>();
         jLabel18 = new javax.swing.JLabel();
         cbBStatusImovel = new javax.swing.JComboBox<>();
-        try {
-            tfTxCondominio =(javax.swing.JFormattedTextField)java.beans.Beans.instantiate(getClass().getClassLoader(), "view.InserirImovel_tfValorImovel");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            tfIptu =(javax.swing.JFormattedTextField)java.beans.Beans.instantiate(getClass().getClassLoader(), "view.InserirImovel_tfValorImovel");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
-        }
+        tfValorImovel = new javax.swing.JTextField();
+        tfTxCondominio = new javax.swing.JTextField();
+        tfIptu = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -260,7 +242,12 @@ public class InserirImovel extends javax.swing.JFrame {
 
         jLabel7.setText("Tipo do imóvel");
 
-        CbBTipoImovel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o Tipo do Imóvel", "Casa", "Apartamento", "Terreno", "Comercial" }));
+        CbBTipoImovel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o Tipo do Imóvel", "Casa", "Apartamento", "Terreno" }));
+        CbBTipoImovel.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                CbBTipoImovelFocusLost(evt);
+            }
+        });
         CbBTipoImovel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CbBTipoImovelActionPerformed(evt);
@@ -386,20 +373,6 @@ public class InserirImovel extends javax.swing.JFrame {
 
         jLabel14.setText("Taxa de Condomínio");
 
-        tfValorImovel.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tfValorImovelFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tfValorImovelFocusLost(evt);
-            }
-        });
-        tfValorImovel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfValorImovelActionPerformed(evt);
-            }
-        });
-
         jLabel16.setText("IPTU");
 
         jLabel17.setText("Tipo de Negócio");
@@ -410,34 +383,6 @@ public class InserirImovel extends javax.swing.JFrame {
 
         cbBStatusImovel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o Status", "Disponível", "Indisponível", "Vendido", "Alugado" }));
 
-        tfTxCondominio.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tfTxCondominioFocusGained1(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tfTxCondominioFocusLost1(evt);
-            }
-        });
-        tfTxCondominio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfTxCondominioActionPerformed1(evt);
-            }
-        });
-
-        tfIptu.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tfIptuFocusGained1(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tfIptuFocusLost1(evt);
-            }
-        });
-        tfIptu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfIptuActionPerformed1(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -445,23 +390,23 @@ public class InserirImovel extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 51, Short.MAX_VALUE)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfValorImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tfValorImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(189, 189, 189))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                                .addGap(86, 86, 86)
-                                .addComponent(jLabel16)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfIptu, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfTxCondominio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(169, 169, 169)
+                        .addGap(92, 92, 92)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfIptu, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfTxCondominio, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel18)
                     .addComponent(jLabel17))
@@ -475,22 +420,22 @@ public class InserirImovel extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfValorImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel13)
-                        .addComponent(jLabel17)
-                        .addComponent(cbBTipoNegocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel17)
+                    .addComponent(cbBTipoNegocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfValorImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(tfTxCondominio, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfTxCondominio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel18)
+                        .addComponent(cbBStatusImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(jLabel18)
-                    .addComponent(cbBStatusImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfIptu, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfIptu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(116, 116, 116))
         );
 
@@ -640,20 +585,27 @@ public class InserirImovel extends javax.swing.JFrame {
         String descricao = taDescricao.getText();
         String endereco = cidade + "-" + bairro + "-" + rua + "-" + numero;
         
-        Float valor = Float.valueOf(valorImovel.replace("R$", "").replace(".", "").replace(",", "."));
-        Float condominio = Float.valueOf(txCondominio.replace("R$", "").replace(".", "").replace(",", "."));
-        Float iptu = Float.valueOf(valorIptu.replace("R$", "").replace(".", "").replace(",", "."));
-        
-        System.out.println(idImobiliaria + idSubtipo+nQuartos+ nSuites+nVagas+nBanheiros+ statusImovel+tipoImovel+tipoNegocio+bairro+ cidade+ endereco+ cep+ descricao+tamImovel+ valor+ condominio+ iptu);
-        
-        boolean cadImovel = new ImovelController().cadastrarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
-        
-        if (cadImovel) {
-            limpaCampos();
-            
+        if (valorImovel.matches("\\d*") && txCondominio.matches("\\d*") && valorIptu.matches("\\d*")) {
+            Float valor = Float.valueOf(valorImovel.replace("R$", "").replace(".", "").replace(",", "."));
+            Float condominio = Float.valueOf(txCondominio.replace("R$", "").replace(".", "").replace(",", "."));
+            Float iptu = Float.valueOf(valorIptu.replace("R$", "").replace(".", "").replace(",", "."));
+
+
+            System.out.println(idImobiliaria + idSubtipo+nQuartos+ nSuites+nVagas+nBanheiros+ statusImovel+tipoImovel+tipoNegocio+bairro+ cidade+ endereco+ cep+ descricao+tamImovel+ valor+ condominio+ iptu);
+
+            boolean cadImovel = new ImovelController().cadastrarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
+
+            if (cadImovel) {
+                limpaCampos();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, confira as informações novamente.");
+            }
         } else {
+            tfValorImovel.requestFocus();
             JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, confira as informações novamente.");
         }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void CbBSubTipoImovelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_CbBSubTipoImovelFocusLost
@@ -694,29 +646,28 @@ public class InserirImovel extends javax.swing.JFrame {
     private void tfIptuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfIptuFocusLost
     }//GEN-LAST:event_tfIptuFocusLost
 
-    private void tfTxCondominioFocusGained1(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfTxCondominioFocusGained1
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfTxCondominioFocusGained1
-
-    private void tfTxCondominioFocusLost1(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfTxCondominioFocusLost1
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfTxCondominioFocusLost1
-
-    private void tfTxCondominioActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTxCondominioActionPerformed1
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfTxCondominioActionPerformed1
-
-    private void tfIptuFocusGained1(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfIptuFocusGained1
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfIptuFocusGained1
-
-    private void tfIptuFocusLost1(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfIptuFocusLost1
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfIptuFocusLost1
-
-    private void tfIptuActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfIptuActionPerformed1
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfIptuActionPerformed1
+    private void CbBTipoImovelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_CbBTipoImovelFocusLost
+        String tipo = (String) CbBTipoImovel.getSelectedItem();
+        
+        CbBSubTipoImovel.removeAllItems();
+        CbBSubTipoImovel.addItem("Selecione o SubTipo");
+        
+        if (!tipo.equals("Selecione o Tipo do Imóvel")){
+            ResultSet rs = new SubtiposController().selecionarSubtiposByTipoController(tipo);
+            try {
+                if (rs.next()) {
+                    CbBSubTipoImovel.addItem(rs.getString("nome"));
+                    while (rs.next()) {
+                        CbBSubTipoImovel.addItem(rs.getString("nome"));
+                    }
+                } else {
+                    System.out.println("Nenhum resultado encontrado");
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Erro! Contate os desenvolvedores e mande o código: "+e);
+            }
+        }
+    }//GEN-LAST:event_CbBTipoImovelFocusLost
 
     /**
      * @param args the command line arguments
@@ -794,10 +745,10 @@ public class InserirImovel extends javax.swing.JFrame {
     private javax.swing.JTextField tfBairro;
     private javax.swing.JFormattedTextField tfCep;
     private javax.swing.JTextField tfCidade;
-    private javax.swing.JFormattedTextField tfIptu;
+    private javax.swing.JTextField tfIptu;
     private javax.swing.JFormattedTextField tfNumero;
     private javax.swing.JTextField tfRua;
-    private javax.swing.JFormattedTextField tfTxCondominio;
-    private javax.swing.JFormattedTextField tfValorImovel;
+    private javax.swing.JTextField tfTxCondominio;
+    private javax.swing.JTextField tfValorImovel;
     // End of variables declaration//GEN-END:variables
 }
