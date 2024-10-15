@@ -29,7 +29,6 @@ public class ConnectionDB {
         }
         try {
             conn = DriverManager.getConnection("jdbc:mysql://" + server + dbName, dbUser, dbPsw);
-            System.out.println("Conectado!!!");
         } catch (SQLException e) {
             System.out.println("Nao foi possivel conectar ao banco: "+e);
         }

@@ -137,7 +137,7 @@ public class InserirImovel extends javax.swing.JFrame {
         tfIptu = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
         taDescricao = new javax.swing.JTextArea();
         jPanel7 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -442,9 +442,13 @@ public class InserirImovel extends javax.swing.JFrame {
 
         jLabel15.setText("Faça uma breve descrição do seu imóvel:");
 
+        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
         taDescricao.setColumns(20);
+        taDescricao.setLineWrap(true);
         taDescricao.setRows(5);
-        jScrollPane1.setViewportView(taDescricao);
+        taDescricao.setWrapStyleWord(true);
+        jScrollPane3.setViewportView(taDescricao);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -455,15 +459,15 @@ public class InserirImovel extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane3)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -594,22 +598,22 @@ public class InserirImovel extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "ERRO! Contate os desenvolvedores e passe o erro: "+e);
         }
         
-        if (valorImovel.matches("\\d*") && txCondominio.matches("\\d*") && valorIptu.matches("\\d*")) {
-            Float valor = Float.valueOf(valorImovel.replace("R$", "").replace(".", "").replace(",", "."));
-            Float condominio = Float.valueOf(txCondominio.replace("R$", "").replace(".", "").replace(",", "."));
-            Float iptu = Float.valueOf(valorIptu.replace("R$", "").replace(".", "").replace(",", "."));
+        if (valorImovel.matches("\\d+[.,]?\\d*") && txCondominio.matches("\\d+[.,]?\\d*") && valorIptu.matches("\\d+[.,]?\\d*")) {
+            Float valor = Float.valueOf(valorImovel.replace(".", "").replace(",", "."));
+            Float condominio = Float.valueOf(txCondominio.replace(".", "").replace(",", "."));
+            Float iptu = Float.valueOf(valorIptu.replace(".", "").replace(",", "."));
             System.out.println(valor+condominio+iptu);
 
 
-            System.out.println(idImobiliaria + idSubtipo+nQuartos+ nSuites+nVagas+nBanheiros+ statusImovel+tipoImovel+tipoNegocio+bairro+ cidade+ endereco+ cep+ descricao+tamImovel+ valor+ condominio+ iptu);
+            JOptionPane.showMessageDialog(null, idImobiliaria + idSubtipo+nQuartos+ nSuites+nVagas+nBanheiros+ statusImovel+tipoImovel+tipoNegocio+bairro+ cidade+ endereco+ cep+ descricao+tamImovel+ valor+ condominio+ iptu);
 
             boolean cadImovel = new ImovelController().cadastrarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
 
             if (cadImovel) {
-                limpaCampos();
-
+//                limpaCampos();
+                JOptionPane.showMessageDialog(null, "Imóvel cadastrado com sucesso!!!");
             } else {
-                JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, confira as informações novamente.");
+                JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, preencha todos os campos!!!.");
             }
         } else {
             tfValorImovel.requestFocus();
@@ -737,6 +741,7 @@ public class InserirImovel extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSpinner spNumeroBanheiros;
     private javax.swing.JSpinner spNumeroQuartos;
     private javax.swing.JSpinner spNumeroSuites;
