@@ -4,6 +4,8 @@
  */
 package controller;
 
+import java.sql.ResultSet;
+
 import model.Imovel;
 
 /**
@@ -41,5 +43,19 @@ public class ImovelController {
         } else {
             return false;
         }
+    }
+    
+    public ResultSet consultarImovel (Integer idImobiliaria, Integer idSubtipo, Integer quartos, Integer suites, Integer vagas, Integer banheiros, String statusImovel, String tipo, String tipoNegocio, String bairro, String cidade, String endereco, String cep, String descricao, float tamanho, float valor, float taxaCondominio, float iptu) {
+        statusImovel = switch (statusImovel) {
+            case "Disponível" -> "Available";
+            case "Indisponível" -> "Unavailable";
+            case "Vendido" -> "Sold";
+            case "Alugado" -> "Rented";
+            default -> "Avaiable";
+        };
+        
+        Imovel imovel = new Imovel(idImobiliaria, idSubtipo, quartos, suites, vagas, banheiros, statusImovel, tipo, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamanho, valor, taxaCondominio, iptu);
+        imovel.consultarImovel(imovel);
+        return null;
     }
 }

@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
+
+import java.sql.ResultSet;
+
 import dao.ImovelDAO;
 
 /**
@@ -198,6 +201,9 @@ public class Imovel {
     public Integer mudarImovel (Imovel imovel) {
         return new ImovelDAO().updateImovel(imovel);
     }
-    
-    
+
+    public ResultSet consultarImovel(Imovel imovel) {
+        new ImovelDAO().selectImovel(imovel);
+        return null;
+    }    
 }
