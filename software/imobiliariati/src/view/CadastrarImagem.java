@@ -4,21 +4,50 @@
  */
 package view;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.apache.commons.net.ftp.FTPClient;
+
+import utils.FTPConnector;
 
 /**
  *
  * @author Matheus
  */
 public class CadastrarImagem extends javax.swing.JFrame {
+    
+    DefaultListModel <String> model = new DefaultListModel();
+    File image = null;
+    Integer idImovel;
+    ArrayList<String> fileList = new ArrayList<>();
+    ArrayList<String> tempFileList = new ArrayList<>();
 
     /**
      * Creates new form CadastrarImagem
      */
     public CadastrarImagem() {
+        initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
+        setSize(850, 650);
+        ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
+        setIconImage(ic.getImage());
+        setTitle("Selecionar uma Imagem");
+    }
+
+    CadastrarImagem(Integer idImovel) {
+        this.idImovel = idImovel;
         initComponents();
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setSize(850, 650);
         ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
         setIconImage(ic.getImage());
         setTitle("Selecionar uma Imagem");
@@ -33,21 +62,300 @@ public class CadastrarImagem extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        fileChooser = new javax.swing.JFileChooser();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        btSearchFile = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        tfFilePath = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        btFinish = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lsFilePath = new javax.swing.JList<>();
+        jPanel3 = new javax.swing.JPanel();
+        lbFileName = new javax.swing.JLabel();
+        labelImage = new javax.swing.JLabel();
+        btAddImage = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        btSearchFile.setText("Procurar");
+        btSearchFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSearchFileActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Nirmala UI", 0, 18)); // NOI18N
+        jLabel1.setText("Selecione arquivos de imagem para cadastrar com seu imóvel");
+
+        tfFilePath.setEditable(false);
+        tfFilePath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfFilePathActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        jLabel2.setText("Selecione apenas arquivos *.jpg ou *.png");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2)))
+                .addContainerGap(321, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tfFilePath)
+                .addGap(18, 18, 18)
+                .addComponent(btSearchFile)
+                .addGap(25, 25, 25))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btSearchFile, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        btFinish.setText("Concluir");
+        btFinish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btFinishActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("<html>Clique em Concluir para <br>enviar as imagens ao lado</html>");
+
+        jScrollPane1.setViewportView(lsFilePath);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addComponent(btFinish))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(216, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btFinish)))
+                .addContainerGap(47, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lbFileName.setFont(new java.awt.Font("Nirmala UI", 0, 14)); // NOI18N
+        lbFileName.setText("[...]");
+
+        labelImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/UI/select-image.jpg"))); // NOI18N
+        labelImage.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        btAddImage.setText("Adicionar Imagem");
+        btAddImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAddImageActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("<html>Adicione uma imagem à lista.<br>Para mandar todas as imagens<br>desejadas, clique em Concluir</html>");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbFileName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btAddImage))
+                    .addComponent(labelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbFileName)
+                    .addComponent(labelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(btAddImage)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 40, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 139, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btSearchFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSearchFileActionPerformed
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Arquivos de imagem",  "png", "jpg")); 
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.showOpenDialog(null);
+        
+        image = fileChooser.getSelectedFile();
+        String fileName = fileChooser.getName(image);
+        
+        lbFileName.setText(fileName);
+        
+        if (image.exists() && image.isFile()) {
+            try {
+                BufferedImage bfImage = ImageIO.read(image);
+                ImageIcon icon = new ImageIcon(bfImage.getScaledInstance(300, 200, java.awt.Image.SCALE_DEFAULT));
+                
+                labelImage.setIcon(icon);
+            } catch (IOException e) {
+                System.out.println("Erro ao setar imagem: "+e.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Imagem não encontrada, por favor selecione novamente.");
+            tfFilePath.setText("");
+            btSearchFile.requestFocus();
+        }
+    }//GEN-LAST:event_btSearchFileActionPerformed
+
+    private void tfFilePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfFilePathActionPerformed
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Arquivos de imagem",  "png", "jpg")); 
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.showOpenDialog(null);
+        
+        image = fileChooser.getSelectedFile();
+        System.out.println(image.toString());
+        String fileName = fileChooser.getName(image);
+        
+        lbFileName.setText(fileName);
+        
+        if (image.exists() && image.isFile()) {
+            try {
+                BufferedImage bfImage = ImageIO.read(image);
+                ImageIcon icon = new ImageIcon(bfImage.getScaledInstance(300, 200, java.awt.Image.SCALE_DEFAULT));
+                
+                labelImage.setIcon(icon);
+                
+                tfFilePath.setText(image.toString());
+            } catch (IOException e) {
+                System.out.println("Erro ao setar imagem: "+e.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Imagem não encontrada, por favor selecione novamente.");
+        }
+    }//GEN-LAST:event_tfFilePathActionPerformed
+
+    private void btAddImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddImageActionPerformed
+        String filePath = tfFilePath.getText();
+        
+        if (image != null && image.exists() && image.isFile()) { //if image exists and is actually a file
+            
+            if (!fileList.contains(filePath)) { // if the image is already stored
+                model.addElement(filePath);
+                lsFilePath.setModel(model);
+                
+                fileList.add(image.toString());
+                
+            } else {
+                
+                if (fileList.isEmpty()) { // if the image is not stored
+                    model.addElement(filePath);
+                    lsFilePath.setModel(model);
+                
+                    fileList.add(image.toString());
+                } else {
+                    
+                    JOptionPane.showMessageDialog(null, "As imagens não devem ser repetidas!!!");  
+                
+                }
+            }
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Confira a imagem, ela devem ser um arquivo válido");
+            
+        }
+    }//GEN-LAST:event_btAddImageActionPerformed
+
+    private void btFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinishActionPerformed
+        FTPClient ftpConn = new FTPConnector().conectar();
+    }//GEN-LAST:event_btFinishActionPerformed
 
     /**
      * @param args the command line arguments
@@ -85,5 +393,22 @@ public class CadastrarImagem extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAddImage;
+    private javax.swing.JButton btFinish;
+    private javax.swing.JButton btSearchFile;
+    private javax.swing.JFileChooser fileChooser;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelImage;
+    private javax.swing.JLabel lbFileName;
+    private javax.swing.JList<String> lsFilePath;
+    private javax.swing.JTextField tfFilePath;
     // End of variables declaration//GEN-END:variables
 }

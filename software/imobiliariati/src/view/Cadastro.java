@@ -19,10 +19,10 @@ public class Cadastro extends javax.swing.JFrame {
      * Creates new form Welcome
      */
     public Cadastro() {
+        initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         setSize(700, 500);
-        initComponents();
         ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
         setIconImage(ic.getImage());
         setTitle("Cadastre Imobiliária");

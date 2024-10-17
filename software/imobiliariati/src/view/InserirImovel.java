@@ -23,10 +23,10 @@ public class InserirImovel extends javax.swing.JFrame {
     private Integer idImobiliaria = null, idSubtipo = null;
     
     public InserirImovel(Integer idImobiliaria) {
+        initComponents();
         setSize(800, 600);
         setResizable(false);
         setLocationRelativeTo(null);
-        initComponents();
         ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
         setIconImage(ic.getImage());
         setTitle("Cadastrar Imóvel");
@@ -637,23 +637,28 @@ public class InserirImovel extends javax.swing.JFrame {
             Float condominio = Float.valueOf(txCondominio.replace(".", "").replace(",", "."));
             Float iptu = Float.valueOf(valorIptu.replace(".", "").replace(",", "."));
 
-            boolean cadImovel = new ImovelController().cadastrarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
+//            boolean cadImovel = new ImovelController().cadastrarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
 
-            if (cadImovel) {
-                JOptionPane.showMessageDialog(null, "Imóvel cadastrado com sucesso!!!");
-                ResultSet rs = new ImovelController().consultarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
-                try {
-                    System.out.println(rs.getString("id"));
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
-                CadastrarImagem ci = new CadastrarImagem();
-            } else {
-                JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, preencha todos os campos!!!.");
-            }
+//            if (cadImovel) {
+//                JOptionPane.showMessageDialog(null, "Imóvel cadastrado com sucesso!!!");
+//                ResultSet rs = new ImovelController().consultarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
+//                
+//                Integer idImovel = null;
+//                try {
+//                    rs.next();
+//                    idImovel = rs.getInt("id");
+//                } catch (SQLException ex) {
+//                    JOptionPane.showMessageDialog(null, "Erro! Contate os desenvolvedores e mande o código: "+ex);
+//                }
+//                CadastrarImagem ci = new CadastrarImagem(idImovel);
+//                ci.setVisible(true);
+//                this.dispose();
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, preencha todos os campos!!!.");
+//            }
         } else {
             tfValorImovel.requestFocus();
-            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, confira as informações novamente.");
+            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, digite uma quantia válida.");
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed

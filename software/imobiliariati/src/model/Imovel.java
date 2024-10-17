@@ -203,7 +203,6 @@ public class Imovel {
     }
 
     public ResultSet consultarImovel(Imovel imovel) {
-        new ImovelDAO().selectImovel(imovel);
-        return null;
+        return new ImovelDAO().selectImovel(imovel);
     }    
 }

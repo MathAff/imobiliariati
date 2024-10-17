@@ -55,7 +55,6 @@ public class ImovelController {
         };
         
         Imovel imovel = new Imovel(idImobiliaria, idSubtipo, quartos, suites, vagas, banheiros, statusImovel, tipo, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamanho, valor, taxaCondominio, iptu);
-        imovel.consultarImovel(imovel);
-        return null;
+        return imovel.consultarImovel(imovel);
     }
 }
