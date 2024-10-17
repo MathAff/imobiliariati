@@ -16,8 +16,9 @@ public class FTPConnector {
     public FTPClient conectar () {
         try {
             FTPClient ftp = new FTPClient();
-            ftp.connect("ftpupload.net");
-            ftp.login("if0_37394250", "OHCZFZ4DkB");
+            ftp.connect("127.0.0.1");
+            ftp.login("usuario", "123");
+            System.out.println("Conectado ao FTP");
             return ftp;
         } catch (IOException e) {
             System.out.println("Nao foi possivel conectar ao ftp: "+e);
