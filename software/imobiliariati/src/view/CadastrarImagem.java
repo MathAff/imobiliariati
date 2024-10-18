@@ -398,8 +398,13 @@ public class CadastrarImagem extends javax.swing.JFrame {
                     new ImagemController().inserirImagem(idImovel, fileName);
                 }
                 
-                JOptionPane.showMessageDialog(null, "Imagen(s) enviadas com sucesso!!!");
+                JOptionPane.showMessageDialog(null, "Imagen(s) enviada(s) com sucesso!!!");
                 
+                model.clear();
+                lsFilePath.setModel(model);
+                
+                filePathList.clear();
+                fileList.clear();
             } else {
                 JOptionPane.showMessageDialog(null, "Não foi possível enviar as imagens.");
             }

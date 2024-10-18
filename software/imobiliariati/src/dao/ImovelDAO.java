@@ -16,9 +16,15 @@ import java.sql.ResultSet;
  * @author Matheus
  */
 public class ImovelDAO {
+    
+    private ConnectionDB connDB = null;
+    
+    public ImovelDAO () {
+        connDB = new ConnectionDB();
+    }
 
     public ResultSet selectImovel(Imovel imovel) {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         
         try {
             String sql = "SELECT * FROM imoveis WHERE id_imobiliaria = ? AND id_subtipo = ? AND tipo = ? AND tamanho = ? AND quartos = ? AND suites = ? AND vagas = ? AND banheiros = ? AND valor = ? AND taxa_condominio = ? AND iptu = ? AND tipo_negocio = ? AND bairro = ? AND cidade = ? AND endereco = ? AND cep = ? AND descricao = ? AND status_imovel = ?";
@@ -47,11 +53,13 @@ public class ImovelDAO {
         } catch (SQLException e) {
             System.out.println("nao foi possivel encontrar imovel: "+e.getMessage());
             return null;
+        } finally {
+            connDB.desconectar();
         }
     }
     
     public int insertImovel (Imovel imovel) {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         
         try {
             String sql = "INSERT INTO imoveis (id_imobiliaria, id_subtipo, tipo, tamanho, quartos, suites, vagas, banheiros, valor, taxa_condominio, iptu, tipo_negocio, bairro, cidade, endereco, cep, descricao, status_imovel)"
@@ -80,11 +88,13 @@ public class ImovelDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao inserir imovel: "+e);
             return 0;
+        } finally {
+            connDB.desconectar();
         }
     }
     
     public ResultSet selectAll () {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         try {
             String sql = "SELECT * FROM imoveis";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -96,7 +106,7 @@ public class ImovelDAO {
     }
     
     public ResultSet selectById (Imovel imovel) {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
             try {
                 String sql = "SELEC * FROM imoveis WHERE id = ?";
                 PreparedStatement stmt = conn.prepareStatement(sql);
@@ -107,11 +117,13 @@ public class ImovelDAO {
             } catch (SQLException e) {
                 System.out.println("Erro ao procurar imovel: "+e);
                 return null;
-            }
+            } finally {
+            connDB.desconectar();
+        }
     }
     
     public Integer updateImovel (Imovel imovel) {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         try {
             String sql = "UPDATE imoveis SET id_imobiliaria = ?, id_subtipo = ?, tipo = ?, tamanho = ?, quartos = ?, suites = ?, vagas = ?, banheiros = ?, valor = ?, taxa_condominio = ?, iptu = ?, tipo_negocio = ?, bairro = ?, cidade = ?, endereco = ?, cep = ?, descricao = ?, status_imovel = ? WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -139,11 +151,13 @@ public class ImovelDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao inserir imovel: " + e);
             return 0;
+        } finally {
+            connDB.desconectar();
         }
     }
     
     public Integer deleteImovel (Imovel imovel) {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         try {
             String sql = "DELETE FROM imoveis WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -154,6 +168,8 @@ public class ImovelDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao deletar imovel: "+e);
             return 0;
+        } finally {
+            connDB.desconectar();
         }
     }
 }

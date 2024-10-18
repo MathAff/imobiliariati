@@ -35,4 +35,16 @@ public class ConnectionDB {
         return conn;
     }
     
+    public Connection desconectar() {
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Erro ao fechar conexao: "+e.getMessage());
+        }
+        return conn;
+    }
+    
 }

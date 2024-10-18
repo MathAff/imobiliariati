@@ -18,8 +18,14 @@ import utils.ConnectionDB;
  */
 public class ImobiliariaDAO {
     
+    private ConnectionDB connDB = null;
+    
+    public ImobiliariaDAO () {
+        this.connDB = new ConnectionDB();
+    }
+    
     public Integer insertImobiliaria (Imobiliaria imobiliaria) {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         try {
             String sql = "INSERT INTO imobiliarias (nome, email, telefone, cnpj, senha) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -34,11 +40,13 @@ public class ImobiliariaDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao cadastrar imobiliaria: "+e);
             return 0;
+        } finally {
+            connDB.desconectar();
         }
     }
     
     public Integer updateImobiliaria (Imobiliaria imobiliaria) {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         try {
             String sql = "UPDATE imobiliarias SET nome = ?, email = ?, telefone = ?, cnpj = ? WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -53,11 +61,13 @@ public class ImobiliariaDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao mudar imobiliaria: "+e);
             return 0;
+        } finally {
+            connDB.desconectar();
         }
     }
     
     public ResultSet selectImobiliariaByEmailAndSenha (Imobiliaria imobiliaria) {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         try {
             String sql = "SELECT * FROM imobiliarias WHERE email = ? AND senha = ?";
             PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -71,11 +81,13 @@ public class ImobiliariaDAO {
         } catch (SQLException e) {
             System.out.println("Nao foi possivel consultar imobiliaria: "+e);
             return null;
+        } finally {
+            connDB.desconectar();
         }
     }
     
     public ResultSet selectImobiliariaByCnpj (Imobiliaria imobiliaria) {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         try {
             String sql = "SELECT * FROM imobiliarias WHERE cnpj = ? ";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -86,6 +98,8 @@ public class ImobiliariaDAO {
         } catch (SQLException e) {
             System.out.println("Nao foi possivel consultar imobiliaria");
             return null;
+        } finally {
+            connDB.desconectar();
         }
     }
 }

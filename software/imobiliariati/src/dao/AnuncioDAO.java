@@ -17,8 +17,14 @@ import model.Anuncio;
  */
 public class AnuncioDAO {
     
+    private ConnectionDB connDB = null;
+    
+    public AnuncioDAO () {
+        this.connDB = new ConnectionDB();
+    }
+    
     public Integer inserirAnuncio (Anuncio anuncio) {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         try {
             String sql = "INSERT INTO anuncios (id_imvel, id_imobiliaria, data_anuncio) VALUES (?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -31,6 +37,8 @@ public class AnuncioDAO {
         } catch (SQLException e) {
             System.out.println("Nao foi possivel inserir anuncio: "+e);
             return 0;
+        } finally {
+            connDB.desconectar();
         }
     }
     
@@ -49,6 +57,8 @@ public class AnuncioDAO {
         } catch (SQLException e) {
             System.out.println("Nao foi possivel mudar o anuncio: "+e);
             return 0;
+        } finally {
+            connDB.desconectar();
         }
     }
 }

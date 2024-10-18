@@ -55,7 +55,7 @@ public class FTPFileSender {
                 } catch (IOException ex) {
                     System.out.println("Erro ao no InputStream: "+ex.getMessage());
                     return false;
-                }                
+                }
             }
             
             return true;

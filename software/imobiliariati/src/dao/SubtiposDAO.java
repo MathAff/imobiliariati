@@ -18,8 +18,14 @@ import utils.ConnectionDB;
  */
 public class SubtiposDAO {
     
+    private ConnectionDB connDB = null;
+    
+    public SubtiposDAO () {
+        this.connDB = new ConnectionDB();
+    }
+    
     public Integer insertSubtipos(Subtipos subtipo) {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         try {
             String sql = "INSERT INTO subtipos (nome) VALUES (?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -29,11 +35,13 @@ public class SubtiposDAO {
         } catch (SQLException e) {
             System.out.println("Não foi possível inserir subtipo: "+e);
             return 0;
+        } finally {
+            connDB.desconectar();
         }
     }
     
     public ResultSet selectSubtipos() {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         try {
             String sql = "SELECT * FROM subtipos";
             PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -42,11 +50,13 @@ public class SubtiposDAO {
         } catch (SQLException e) {
             System.out.println("Nao foi possivel selecionar subtipos: "+e);
             return null;
+        } finally {
+            connDB.desconectar();
         }
     }
     
     public ResultSet selectSubtiposByNome (Subtipos subtipo) {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         try {
             String sql = "SELECT * FROM subtipos WHERE nome = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -56,11 +66,13 @@ public class SubtiposDAO {
         } catch (SQLException e) {
             System.out.println("Nao foi possivel encontrar subtipos: "+e.getMessage());
             return null;
+        } finally {
+            connDB.desconectar();
         }
     }
 
     public ResultSet selectSubtiposByTipo(String tipo) {
-        Connection conn = new ConnectionDB().conectar();
+        Connection conn = connDB.conectar();
         try {
             String sql = "SELECT * FROM subtipos WHERE nome LIKE ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -71,6 +83,8 @@ public class SubtiposDAO {
         } catch (SQLException e) {
             System.out.println("Nao foi possivel encontrar subtipos: "+e.getMessage());
             return null;
+        } finally {
+            connDB.desconectar();
         }
     }
 }

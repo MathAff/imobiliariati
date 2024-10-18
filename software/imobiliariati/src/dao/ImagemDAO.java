@@ -16,6 +16,12 @@ import utils.ConnectionDB;
  */
 public class ImagemDAO {
     
+    private ConnectionDB connDB = null;
+    
+    public ImagemDAO() {
+        this.connDB = new ConnectionDB();
+    }
+    
     public Integer insertImagem(Imagem image) {
         Connection conn = new ConnectionDB().conectar();
         try {
@@ -28,6 +34,8 @@ public class ImagemDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao inserir imagem: "+e.getMessage());
             return null;
+        } finally {
+            connDB.desconectar();
         }
     }
     
