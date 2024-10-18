@@ -46,13 +46,12 @@ public class ForgotPsw extends javax.swing.JFrame {
         tfEmail = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         tfSenha = new javax.swing.JPasswordField();
-        btLogin = new javax.swing.JButton();
+        btMudarSenha = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         tfRepeteSenha = new javax.swing.JPasswordField();
         panelGradient1 = new view.UI.PanelGradient();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         btGoToCadastro = new javax.swing.JButton();
 
         javax.swing.GroupLayout panelGradient2Layout = new javax.swing.GroupLayout(panelGradient2);
@@ -72,7 +71,7 @@ public class ForgotPsw extends javax.swing.JFrame {
         panelLogin1.setPreferredSize(new java.awt.Dimension(350, 400));
 
         jLabel3.setFont(new java.awt.Font("Nirmala UI", 0, 36)); // NOI18N
-        jLabel3.setText("Login");
+        jLabel3.setText("Mude sua senha");
 
         jLabel4.setText("Email:");
 
@@ -84,14 +83,14 @@ public class ForgotPsw extends javax.swing.JFrame {
             }
         });
 
-        btLogin.setBackground(new java.awt.Color(0, 0, 0));
-        btLogin.setForeground(new java.awt.Color(255, 255, 255));
-        btLogin.setText("Mudar");
-        btLogin.setBorder(null);
-        btLogin.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btLogin.addActionListener(new java.awt.event.ActionListener() {
+        btMudarSenha.setBackground(new java.awt.Color(0, 0, 0));
+        btMudarSenha.setForeground(new java.awt.Color(255, 255, 255));
+        btMudarSenha.setText("Mudar");
+        btMudarSenha.setBorder(null);
+        btMudarSenha.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btMudarSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btLoginActionPerformed(evt);
+                btMudarSenhaActionPerformed(evt);
             }
         });
 
@@ -108,35 +107,30 @@ public class ForgotPsw extends javax.swing.JFrame {
         panelLogin1Layout.setHorizontalGroup(
             panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLogin1Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
                 .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel5)
+                        .addComponent(tfSenha)
+                        .addComponent(jLabel8)
+                        .addComponent(tfRepeteSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelLogin1Layout.createSequentialGroup()
-                        .addGap(126, 126, 126)
-                        .addComponent(jLabel3))
-                    .addGroup(panelLogin1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel5)
-                                .addComponent(tfSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
-                                .addComponent(jLabel8)
-                                .addComponent(tfRepeteSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
-                            .addComponent(jLabel4)
-                            .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelLogin1Layout.createSequentialGroup()
-                        .addGap(133, 133, 133)
-                        .addComponent(btLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(96, 96, 96)
+                        .addComponent(btMudarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
         panelLogin1Layout.setVerticalGroup(
             panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLogin1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -145,8 +139,8 @@ public class ForgotPsw extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfRepeteSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addComponent(btMudarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(105, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelLogin1);
@@ -161,10 +155,7 @@ public class ForgotPsw extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Copyright ©- Todos os Direitos Reservados imobiliariaTI - 2024");
 
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Não tem uma conta?");
-
-        btGoToCadastro.setText("Cadastrar");
+        btGoToCadastro.setText("Voltar");
         btGoToCadastro.setBorder(null);
         btGoToCadastro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btGoToCadastro.addActionListener(new java.awt.event.ActionListener() {
@@ -181,15 +172,13 @@ public class ForgotPsw extends javax.swing.JFrame {
                 .addGroup(panelGradient1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelGradient1Layout.createSequentialGroup()
                         .addGap(74, 74, 74)
-                        .addGroup(panelGradient1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelGradient1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(btGoToCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelGradient1Layout.createSequentialGroup()
                         .addGap(63, 63, 63)
-                        .addComponent(jLabel2)))
+                        .addComponent(jLabel2))
+                    .addGroup(panelGradient1Layout.createSequentialGroup()
+                        .addGap(138, 138, 138)
+                        .addComponent(btGoToCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
         panelGradient1Layout.setVerticalGroup(
@@ -197,11 +186,9 @@ public class ForgotPsw extends javax.swing.JFrame {
             .addGroup(panelGradient1Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addGroup(panelGradient1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(btGoToCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(68, 68, 68)
+                .addGap(42, 42, 42)
+                .addComponent(btGoToCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69)
                 .addComponent(jLabel2)
                 .addContainerGap(56, Short.MAX_VALUE))
         );
@@ -211,8 +198,7 @@ public class ForgotPsw extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btGoToCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoToCadastroActionPerformed
-        Cadastro cad = new Cadastro();
-        cad.setVisible(true);
+        new Login().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btGoToCadastroActionPerformed
 
@@ -220,26 +206,23 @@ public class ForgotPsw extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfSenhaActionPerformed
 
-    private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
+    private void btMudarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMudarSenhaActionPerformed
         String email = tfEmail.getText();
         char [] senha = tfSenha.getPassword();
-        String psw = new String(senha);
+        char [] repeteSenha = tfRepeteSenha.getPassword();
+        String psw = String.valueOf(senha);
+        String repeatPsw = String.valueOf(repeteSenha);
         
-        ResultSet rs = new ImobiliariaController().consultarImobiliariaByEmailAndSenha(email, psw);
-        try {
-            if (rs != null && rs.next()){
-                Integer idImobiliaria = rs.getInt("id");
-                InserirImovel im = new InserirImovel(idImobiliaria);
-                im.setVisible(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Email ou senha incorretos, tente novamente");
-                tfEmail.requestFocus();
+        if (psw.equals(repeatPsw)) {
+            Integer mudou = new ImobiliariaController().mudarSenhaImobiliaria(email, psw);
+            if (mudou != null) {
+                JOptionPane.showMessageDialog(null, "Senha alterada!!!");
+                new Login().setVisible(true);
+                dispose();
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro, contate os desenvolvedores e passe o seguinte codigo: "+ex);
         }
-    }//GEN-LAST:event_btLoginActionPerformed
+        
+    }//GEN-LAST:event_btMudarSenhaActionPerformed
 
     private void tfRepeteSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfRepeteSenhaActionPerformed
         // TODO add your handling code here:
@@ -285,13 +268,12 @@ public class ForgotPsw extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btGoToCadastro;
-    private javax.swing.JButton btLogin;
+    private javax.swing.JButton btMudarSenha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private view.UI.PanelGradient panelGradient1;
     private view.UI.PanelGradient panelGradient2;

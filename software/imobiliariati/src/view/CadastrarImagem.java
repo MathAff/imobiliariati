@@ -400,6 +400,8 @@ public class CadastrarImagem extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Arquivo já cadastrado");
                     } else {
                         JOptionPane.showMessageDialog(null, "Imagen(s) enviada(s) com sucesso!!!");
+                        new Welcome().setVisible(true);
+                        dispose();
                     }
                 }
                 

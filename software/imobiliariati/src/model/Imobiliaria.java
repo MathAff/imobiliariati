@@ -90,4 +90,8 @@ public class Imobiliaria {
     public ResultSet consultarImobiliariaById (Imobiliaria imobiliaria) {
         return new ImobiliariaDAO().selectImobiliariaById(imobiliaria);
     }
+    
+    public Integer mudarSenhaImobiliaria(Imobiliaria im) {
+        return new ImobiliariaDAO().updateImobiliariaSenha(im);
+    }
 }

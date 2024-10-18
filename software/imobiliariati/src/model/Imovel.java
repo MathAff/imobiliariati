@@ -205,4 +205,8 @@ public class Imovel {
     public ResultSet consultarImovel(Imovel imovel) {
         return new ImovelDAO().selectImovel(imovel);
     }    
+
+    public ResultSet consultarImovelByImobiliaria(Imovel imovel) {
+        return new ImovelDAO().selectImovelByIdImobiliaria(imovel);
+    }
 }

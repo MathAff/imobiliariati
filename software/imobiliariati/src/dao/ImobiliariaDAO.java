@@ -24,6 +24,23 @@ public class ImobiliariaDAO {
         this.connDB = new ConnectionDB();
     }
     
+    public Integer updateImobiliariaSenha (Imobiliaria im) {
+        Connection conn = connDB.conectar();
+        try {
+            String sql = "UPDATE imobiliarias SET email = ?, senha = ? WHERE email = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            
+            stmt.setString(1, im.getEmail());
+            stmt.setString(2, im.getSenha());
+            stmt.setString(3, im.getEmail());
+            
+            return stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Nao foi possivel mudar a senha: "+e);
+            return null;
+        }
+    }
+    
     public ResultSet selectImobiliariaById(Imobiliaria imobiliaria) {
         Connection conn = connDB.conectar();
         try {
@@ -63,13 +80,12 @@ public class ImobiliariaDAO {
     public Integer updateImobiliaria (Imobiliaria imobiliaria) {
         Connection conn = connDB.conectar();
         try {
-            String sql = "UPDATE imobiliarias SET nome = ?, email = ?, telefone = ?, cnpj = ? WHERE id = ?";
+            String sql = "UPDATE imobiliarias SET nome = ?, email = ?, telefone = ? WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             
             stmt.setString(1, imobiliaria.getNome());
             stmt.setString(2, imobiliaria.getEmail());
             stmt.setString(3, imobiliaria.getTelefone());
-            stmt.setString(4, imobiliaria.getCnpj());
             stmt.setString(4, imobiliaria.getId().toString());
             
             return stmt.executeUpdate();

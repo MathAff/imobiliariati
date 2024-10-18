@@ -4,6 +4,9 @@
  */
 package view;
 
+import java.sql.ResultSet;
+import controller.ImobiliariaController;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 
 /**
@@ -12,7 +15,7 @@ import javax.swing.ImageIcon;
  */
 public class Welcome extends javax.swing.JFrame {
 
-    private Integer idImobiliaria;
+    private final Integer idImobiliaria;
     private String email;
 
     /**
@@ -20,24 +23,47 @@ public class Welcome extends javax.swing.JFrame {
      */
     public Welcome() {
         initComponents();
+        
         setLocationRelativeTo(null);
         setResizable(false);
         setSize(700, 400);
+        
         ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
         setIconImage(ic.getImage());
+        
         setTitle("Bem-Vindo");
+        
+        idImobiliaria = 3;
+        
+        try {
+            ResultSet rs = new ImobiliariaController().consultarImobiliariaById(idImobiliaria);
+            rs.next();
+        } catch (SQLException ex) {
+            System.out.println("Não foi possível encontrar imobiliaria: "+ex);
+        }
     }
     
     public Welcome (Integer idImobiliaria, String email) {
         initComponents();
+        
         setLocationRelativeTo(null);
         setResizable(false);
         setSize(700, 400);
+        
         ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
         setIconImage(ic.getImage());
         setTitle("Bem-Vindo");
+        
         this.idImobiliaria = idImobiliaria;
         this.email = email;
+        
+        try {
+            ResultSet rs = new ImobiliariaController().consultarImobiliariaById(idImobiliaria);
+            rs.next();
+            lbImobiliaria.setText(rs.getString("nome"));
+        } catch (SQLException ex) {
+            System.out.println("Não foi possível encontrar imobiliaria: "+ex);
+        }
     }
 
     /**
@@ -54,6 +80,7 @@ public class Welcome extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         btCadImovel = new javax.swing.JButton();
         btSearchImoveis = new javax.swing.JButton();
+        lbImobiliaria = new javax.swing.JLabel();
         panelGradient1 = new view.UI.PanelGradient();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -101,6 +128,9 @@ public class Welcome extends javax.swing.JFrame {
             }
         });
 
+        lbImobiliaria.setFont(new java.awt.Font("Nirmala UI", 0, 18)); // NOI18N
+        lbImobiliaria.setText("Bem Vindo");
+
         javax.swing.GroupLayout panelLogin1Layout = new javax.swing.GroupLayout(panelLogin1);
         panelLogin1.setLayout(panelLogin1Layout);
         panelLogin1Layout.setHorizontalGroup(
@@ -108,13 +138,15 @@ public class Welcome extends javax.swing.JFrame {
             .addGroup(panelLogin1Layout.createSequentialGroup()
                 .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLogin1Layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(jLabel3))
-                    .addGroup(panelLogin1Layout.createSequentialGroup()
                         .addGap(60, 60, 60)
                         .addComponent(btCadImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btSearchImoveis, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btSearchImoveis, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelLogin1Layout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbImobiliaria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(72, Short.MAX_VALUE))
         );
         panelLogin1Layout.setVerticalGroup(
@@ -122,11 +154,13 @@ public class Welcome extends javax.swing.JFrame {
             .addGroup(panelLogin1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbImobiliaria)
                 .addGap(135, 135, 135)
                 .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCadImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btSearchImoveis, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addContainerGap(143, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelLogin1);
@@ -197,17 +231,18 @@ public class Welcome extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBackActionPerformed
-        Cadastro cad = new Cadastro();
-        cad.setVisible(true);
+        new Login().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btBackActionPerformed
 
     private void btCadImovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadImovelActionPerformed
-        InserirImovel insertImovel = new InserirImovel();
+        new InserirImovel(idImobiliaria, email).setVisible(true);
+        dispose();
     }//GEN-LAST:event_btCadImovelActionPerformed
 
     private void btSearchImoveisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSearchImoveisActionPerformed
-        
+        new ListaImoveis(idImobiliaria).setVisible(true);
+        dispose();
     }//GEN-LAST:event_btSearchImoveisActionPerformed
 
     private void btConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConfigActionPerformed
@@ -262,6 +297,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lbImobiliaria;
     private view.UI.PanelGradient panelGradient1;
     private view.UI.PanelGradient panelGradient2;
     private view.UI.PanelLogin panelLogin1;

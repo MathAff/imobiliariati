@@ -229,8 +229,7 @@ public class Login extends javax.swing.JFrame {
         try {
             if (rs != null && rs.next()){
                 Integer idImobiliaria = rs.getInt("id");
-                InserirImovel im = new InserirImovel(idImobiliaria, email);
-                im.setVisible(true);
+                new Welcome(idImobiliaria, email).setVisible(true);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Email ou senha incorretos, tente novamente");

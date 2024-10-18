@@ -26,6 +26,7 @@ public class Configuracoes extends javax.swing.JFrame {
      */
     public Configuracoes() {
         this.idImobiliaria = 3;
+        this.email = "mala@mail.com";
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
@@ -53,7 +54,6 @@ public class Configuracoes extends javax.swing.JFrame {
         ResultSet rs = new ImobiliariaController().consultarImobiliariaById(this.idImobiliaria);
         try {
             rs.next();
-            tfCnpj.setText(rs.getString("cnpj"));
             tfEmail.setText(rs.getString("email"));
             tfNome.setText(rs.getString("nome"));
             tfTelefone.setText(rs.getString("telefone"));
@@ -78,11 +78,9 @@ public class Configuracoes extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         tfNome = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        tfCnpj = new javax.swing.JFormattedTextField();
         tfEmail = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         tfSenha = new javax.swing.JPasswordField();
-        jLabel4 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         tfTelefone = new javax.swing.JFormattedTextField();
@@ -120,14 +118,6 @@ public class Configuracoes extends javax.swing.JFrame {
 
         jLabel8.setText("Mudar Nome:");
 
-        try {
-            tfCnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###/####-##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        tfCnpj.setToolTipText("");
-        tfCnpj.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-
         tfEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfEmailActionPerformed(evt);
@@ -141,8 +131,6 @@ public class Configuracoes extends javax.swing.JFrame {
                 tfSenhaActionPerformed(evt);
             }
         });
-
-        jLabel4.setText("Mudar CNPJ:");
 
         jLabel10.setText("Digite sua senha:");
 
@@ -187,12 +175,11 @@ public class Configuracoes extends javax.swing.JFrame {
         panelLogin1.setLayout(panelLogin1Layout);
         panelLogin1Layout.setHorizontalGroup(
             panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLogin1Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLogin1Layout.createSequentialGroup()
+                .addContainerGap(42, Short.MAX_VALUE)
                 .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
@@ -200,23 +187,18 @@ public class Configuracoes extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jLabel8)
                     .addComponent(jLabel9)
-                    .addComponent(jLabel4)
                     .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(panelLogin1Layout.createSequentialGroup()
                             .addComponent(jLabel11)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btMudar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(tfRepeteSenha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addGap(40, 40, 40))
         );
         panelLogin1Layout.setVerticalGroup(
             panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLogin1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,7 +224,7 @@ public class Configuracoes extends javax.swing.JFrame {
                     .addGroup(panelLogin1Layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(btMudar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelLogin1);
@@ -338,7 +320,7 @@ public class Configuracoes extends javax.swing.JFrame {
     }//GEN-LAST:event_tfTelefoneActionPerformed
 
     private void btMudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMudarActionPerformed
-        String nome = tfNome.getText(), cnpj = tfCnpj.getText(), newEmail = tfEmail.getText(), telefone = tfTelefone.getText();
+        String nome = tfNome.getText(), newEmail = tfEmail.getText(), telefone = tfTelefone.getText();
         char[] senha = tfSenha.getPassword(), repeteSenha = tfRepeteSenha.getPassword();
         
         ImobiliariaController ic = new ImobiliariaController();
@@ -350,12 +332,14 @@ public class Configuracoes extends javax.swing.JFrame {
             
             try {
                 if (rs.next()) {
-                    boolean cadastro = ic.cadastrarImobiliariaController(nome, telefone, newEmail, cnpj, psw);
-                    if (cadastro) {
-                        JOptionPane.showMessageDialog(null, "Imobiliaria cadastrada com sucesso!!!");
+                    Integer mudou = ic.mudarImobiliariaController(idImobiliaria, nome, telefone, newEmail, psw);
+                    if (mudou != null) {
+                        JOptionPane.showMessageDialog(null, "Imobiliaria mudada com sucesso!!!");
+                        new Login().setVisible(true);
+                        dispose();
                     } else {
-                        JOptionPane.showMessageDialog(null, "Tente novamente");
-                        tfCnpj.requestFocus();
+                        JOptionPane.showMessageDialog(null, "Não foi possível mudar as credenciais!");
+                        tfNome.requestFocus();
                     }
 
                 }
@@ -432,7 +416,6 @@ public class Configuracoes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -440,7 +423,6 @@ public class Configuracoes extends javax.swing.JFrame {
     private view.UI.PanelGradient panelGradient1;
     private view.UI.PanelGradient panelGradient2;
     private view.UI.PanelLogin panelLogin1;
-    private javax.swing.JFormattedTextField tfCnpj;
     private javax.swing.JTextField tfEmail;
     private javax.swing.JTextField tfNome;
     private javax.swing.JPasswordField tfRepeteSenha;

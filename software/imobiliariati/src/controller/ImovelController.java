@@ -60,4 +60,10 @@ public class ImovelController {
         Imovel imovel = new Imovel(idImobiliaria, idSubtipo, quartos, suites, vagas, banheiros, statusImovel, tipo, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamanho, valor, taxaCondominio, iptu);
         return imovel.consultarImovel(imovel);
     }
+    
+    public ResultSet consultarImovelByImobiliaria (Integer idImobiliaria) {
+        Imovel imovel = new Imovel();
+        imovel.setIdImobiliaria(idImobiliaria);
+        return imovel.consultarImovelByImobiliaria (imovel);
+    }
 }

@@ -47,28 +47,28 @@ public class ImobiliariaController {
         }
     }
     
-    public boolean mudarImobiliariaController (String nome, String telefone, String email, String cnpj, String senha) {
-        if (nome.isEmpty() || telefone.isEmpty() || email.isEmpty() || cnpj.isEmpty() || cnpj.matches("\\d+")) {
-            return false;
+    public Integer mudarImobiliariaController (Integer id, String nome, String telefone, String email, String senha) {
+        if (nome.isEmpty() || telefone.isEmpty() || email.isEmpty()) {
+            return null;
         } else {
-            Imobiliaria imobiliaria = new Imobiliaria (nome, telefone, email, cnpj, senha);
-            try {
-                ResultSet rs = new ImobiliariaDAO().selectImobiliariaByCnpj(imobiliaria);
-                if (rs.next()){
-                    rs.previous();
-                    JOptionPane.showMessageDialog(null, "CNPJ já cadastrado, tente outra vez...");
-                    System.out.println("resultado encontrado");
-                    return false;
-                } else {
-                    System.out.println("Resultado não encontrado");
-                    imobiliaria.cadastrarImobiliaria(imobiliaria);
-                    return true;
-                }
-            } catch (SQLException e) {
-                System.out.println("erro ao procurar/cadastrar imobiliaria: "+e);
-                return false;
-            }
+            Imobiliaria imobiliaria = new Imobiliaria ();
+            
+            imobiliaria.setId(id);
+            imobiliaria.setEmail(email);
+            imobiliaria.setNome(nome);
+            imobiliaria.setSenha(senha);
+            imobiliaria.setTelefone(telefone);
+            
+            return imobiliaria.mudarImobiliaria(imobiliaria);
         }
+    }
+    
+    public Integer mudarSenhaImobiliaria (String email, String psw) {
+        Imobiliaria im = new Imobiliaria();
+        im.setEmail(email);
+        im.setSenha(psw);
+        
+        return im.mudarSenhaImobiliaria(im);
     }
     
     public ResultSet consultarImobiliariaByEmailAndSenha (String email, String senha) {

@@ -170,4 +170,19 @@ public class ImovelDAO {
             connDB.desconectar();
         }
     }
+    
+    public ResultSet selectImovelByIdImobiliaria(Imovel im) {
+        Connection conn = connDB.conectar();
+        try {
+            String sql = "SELECT * FROM imoveis WHERE id_imobiliaria = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_SCROLL_SENSITIVE);
+            
+            stmt.setString(1, im.getIdImobiliaria().toString());
+            
+            return stmt.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("Nao foi possivel selecionar imoveis: "+e);
+            return null;
+        }
+    }
 }
