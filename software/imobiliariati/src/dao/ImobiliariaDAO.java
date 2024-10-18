@@ -24,6 +24,21 @@ public class ImobiliariaDAO {
         this.connDB = new ConnectionDB();
     }
     
+    public ResultSet selectImobiliariaById(Imobiliaria imobiliaria) {
+        Connection conn = connDB.conectar();
+        try {
+            String sql = "SELECT * FROM imobiliarias WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_SCROLL_SENSITIVE);
+            
+            stmt.setString(1, imobiliaria.getId().toString());
+            
+            return stmt.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("Nao foi possivel selecionar imobiliarias: "+e);
+            return null;
+        }
+    }
+    
     public Integer insertImobiliaria (Imobiliaria imobiliaria) {
         Connection conn = connDB.conectar();
         try {
@@ -61,8 +76,6 @@ public class ImobiliariaDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao mudar imobiliaria: "+e);
             return 0;
-        } finally {
-            connDB.desconectar();
         }
     }
     
@@ -81,8 +94,6 @@ public class ImobiliariaDAO {
         } catch (SQLException e) {
             System.out.println("Nao foi possivel consultar imobiliaria: "+e);
             return null;
-        } finally {
-            connDB.desconectar();
         }
     }
     
@@ -90,7 +101,7 @@ public class ImobiliariaDAO {
         Connection conn = connDB.conectar();
         try {
             String sql = "SELECT * FROM imobiliarias WHERE cnpj = ? ";
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             
             stmt.setString(1, imobiliaria.getCnpj());
             
@@ -98,8 +109,6 @@ public class ImobiliariaDAO {
         } catch (SQLException e) {
             System.out.println("Nao foi possivel consultar imobiliaria");
             return null;
-        } finally {
-            connDB.desconectar();
         }
     }
 }

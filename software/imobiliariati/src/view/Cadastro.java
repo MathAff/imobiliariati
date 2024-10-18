@@ -276,6 +276,7 @@ public class Cadastro extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Imobiliaria cadastrada com sucesso!!!");
                     limpaCampos();
                 } else {
+                    JOptionPane.showMessageDialog(null, "Tente novamente");
                     tfCnpj.requestFocus();
                 }
             } catch (HeadlessException e) {

@@ -15,13 +15,12 @@ import org.apache.commons.net.ftp.FTPClient;
  */
 public class FTPFileSender {
     
+    FTPConnector ftp = null;
     FTPClient ftpConn = null;
-
-    public FTPFileSender() {
-        this.ftpConn = new FTPConnector().conectar();
-    }
     
-    public boolean sendFile (Integer id, ArrayList<String> fileList, ArrayList<String> filePathList) {        
+    public boolean sendFile (Integer id, ArrayList<String> fileList, ArrayList<String> filePathList) {
+        ftp = new FTPConnector();
+        ftpConn = ftp.conectar();
         String idImovel = id.toString();
         
         try {
@@ -42,7 +41,7 @@ public class FTPFileSender {
 
             ftpConn.setFileType(FTPClient.BINARY_FILE_TYPE);
             
-            for (int i = 0; i < filePathList.size() - 1; i++) {
+            for (int i = 0; i < filePathList.size(); i++) {
                 try (FileInputStream sendFile = new FileInputStream(filePathList.get(i))) {
 
                     if (ftpConn.storeFile(id+"_"+fileList.get(i), sendFile)) {
@@ -55,6 +54,8 @@ public class FTPFileSender {
                 } catch (IOException ex) {
                     System.out.println("Erro ao no InputStream: "+ex.getMessage());
                     return false;
+                } finally {
+                    ftp.desconectar();
                 }
             }
             

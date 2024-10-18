@@ -29,22 +29,30 @@ public class ConnectionDB {
         }
         try {
             conn = DriverManager.getConnection("jdbc:mysql://" + server + dbName, dbUser, dbPsw);
+            System.out.println("Conectado");
         } catch (SQLException e) {
             System.out.println("Nao foi possivel conectar ao banco: "+e);
         }
         return conn;
     }
     
-    public Connection desconectar() {
-        try {
-            if (conn != null) {
-                conn.close();
+    public boolean desconectar() {
+        if (conn!=null) {
+            try {
+                if(!conn.isClosed()) {
+                    conn.close();
+                    System.out.println("Fechou a conexao");
+                }
+                
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar conexao: "+e.getMessage());
+            } finally {
+                conn = null;
             }
-            
-        } catch (SQLException e) {
-            System.out.println("Erro ao fechar conexao: "+e.getMessage());
+            return true;
+        } else {
+            return false;
         }
-        return conn;
     }
     
 }

@@ -50,8 +50,6 @@ public class SubtiposDAO {
         } catch (SQLException e) {
             System.out.println("Nao foi possivel selecionar subtipos: "+e);
             return null;
-        } finally {
-            connDB.desconectar();
         }
     }
     
@@ -66,8 +64,6 @@ public class SubtiposDAO {
         } catch (SQLException e) {
             System.out.println("Nao foi possivel encontrar subtipos: "+e.getMessage());
             return null;
-        } finally {
-            connDB.desconectar();
         }
     }
 
@@ -83,8 +79,6 @@ public class SubtiposDAO {
         } catch (SQLException e) {
             System.out.println("Nao foi possivel encontrar subtipos: "+e.getMessage());
             return null;
-        } finally {
-            connDB.desconectar();
         }
     }
 }

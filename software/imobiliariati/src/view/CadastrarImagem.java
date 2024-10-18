@@ -28,12 +28,23 @@ public class CadastrarImagem extends javax.swing.JFrame {
     DefaultListModel <String> model = new DefaultListModel();
     ArrayList<String> fileList = new ArrayList<>();
     ArrayList<String> filePathList = new ArrayList<>();
-
+    
+    public CadastrarImagem () {
+        initComponents();
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setSize(850, 650);
+        ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
+        setIconImage(ic.getImage());
+        setTitle("Selecionar uma Imagem");
+        btSearchFile.requestFocus();        
+    }
+    
     /**
      * Creates new form CadastrarImagem
+     * @param idImovel
      */
-    public CadastrarImagem() {
-        this.idImovel = 3;
+    public CadastrarImagem(Integer idImovel) {
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
@@ -42,18 +53,7 @@ public class CadastrarImagem extends javax.swing.JFrame {
         setIconImage(ic.getImage());
         setTitle("Selecionar uma Imagem");
         btSearchFile.requestFocus();
-    }
-
-    public CadastrarImagem(Integer idImovel) {
         this.idImovel = idImovel;
-        initComponents();
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setSize(860, 650);
-        ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
-        setIconImage(ic.getImage());
-        setTitle("Selecionar uma Imagem");
-        btSearchFile.requestFocus();
     }
     
     public void enableFields(boolean enable) {
@@ -395,10 +395,13 @@ public class CadastrarImagem extends javax.swing.JFrame {
             if (new FTPFileSender().sendFile(idImovel, fileList, filePathList)) {
                 
                 for (String fileName : fileList) {
-                    new ImagemController().inserirImagem(idImovel, fileName);
+                    Integer insert = new ImagemController().inserirImagem(idImovel, fileName);
+                    if (insert == null) {
+                        JOptionPane.showMessageDialog(null, "Arquivo já cadastrado");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Imagen(s) enviada(s) com sucesso!!!");
+                    }
                 }
-                
-                JOptionPane.showMessageDialog(null, "Imagen(s) enviada(s) com sucesso!!!");
                 
                 model.clear();
                 lsFilePath.setModel(model);

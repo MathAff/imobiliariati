@@ -5,7 +5,6 @@
 package view;
 
 import controller.ImobiliariaController;
-import java.awt.Cursor;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,19 +14,19 @@ import javax.swing.ImageIcon;
  *
  * @author sab40
  */
-public class Login extends javax.swing.JFrame {
+public class ForgotPsw extends javax.swing.JFrame {
 
     /**
      * Creates new form Welcome
      */
-    public Login() {
+    public ForgotPsw() {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         setSize(700, 400);
         ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
         setIconImage(ic.getImage());
-        setTitle("Login");
+        setTitle("Esqueci minha senha");
         tfEmail.requestFocus();
     }
 
@@ -48,7 +47,8 @@ public class Login extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         tfSenha = new javax.swing.JPasswordField();
         btLogin = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        tfRepeteSenha = new javax.swing.JPasswordField();
         panelGradient1 = new view.UI.PanelGradient();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -76,7 +76,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel4.setText("Email:");
 
-        jLabel5.setText("Senha:");
+        jLabel5.setText("Nova senha:");
 
         tfSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,7 +86,7 @@ public class Login extends javax.swing.JFrame {
 
         btLogin.setBackground(new java.awt.Color(0, 0, 0));
         btLogin.setForeground(new java.awt.Color(255, 255, 255));
-        btLogin.setText("Login");
+        btLogin.setText("Mudar");
         btLogin.setBorder(null);
         btLogin.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -95,14 +95,11 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel7.setText("Esqueci minha senha");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel7MouseEntered(evt);
+        jLabel8.setText("Repita a senha:");
+
+        tfRepeteSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfRepeteSenhaActionPerformed(evt);
             }
         });
 
@@ -120,12 +117,13 @@ public class Login extends javax.swing.JFrame {
                         .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel5)
-                                .addComponent(tfSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
+                                .addComponent(tfSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                                .addComponent(jLabel8)
+                                .addComponent(tfRepeteSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
                             .addComponent(jLabel4)
-                            .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)))
+                            .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelLogin1Layout.createSequentialGroup()
-                        .addGap(139, 139, 139)
+                        .addGap(133, 133, 133)
                         .addComponent(btLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
@@ -134,19 +132,21 @@ public class Login extends javax.swing.JFrame {
             .addGroup(panelLogin1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addGap(53, 53, 53)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel7)
-                .addGap(27, 27, 27)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfRepeteSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelLogin1);
@@ -229,7 +229,7 @@ public class Login extends javax.swing.JFrame {
         try {
             if (rs != null && rs.next()){
                 Integer idImobiliaria = rs.getInt("id");
-                InserirImovel im = new InserirImovel(idImobiliaria, email);
+                InserirImovel im = new InserirImovel(idImobiliaria);
                 im.setVisible(true);
                 this.dispose();
             } else {
@@ -241,15 +241,9 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btLoginActionPerformed
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        ForgotPsw fp = new ForgotPsw();
-        fp.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jLabel7MouseClicked
-
-    private void jLabel7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseEntered
-        jLabel7.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    }//GEN-LAST:event_jLabel7MouseEntered
+    private void tfRepeteSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfRepeteSenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfRepeteSenhaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -268,21 +262,23 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ForgotPsw.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ForgotPsw.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ForgotPsw.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ForgotPsw.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new ForgotPsw().setVisible(true);
             }
         });
     }
@@ -296,11 +292,12 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private view.UI.PanelGradient panelGradient1;
     private view.UI.PanelGradient panelGradient2;
     private view.UI.PanelLogin panelLogin1;
     private javax.swing.JTextField tfEmail;
+    private javax.swing.JPasswordField tfRepeteSenha;
     private javax.swing.JPasswordField tfSenha;
     // End of variables declaration//GEN-END:variables
 }

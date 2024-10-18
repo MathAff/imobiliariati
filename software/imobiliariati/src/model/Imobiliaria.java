@@ -86,4 +86,8 @@ public class Imobiliaria {
     public ResultSet consultarImobiliariaByEmailAndSenha(Imobiliaria imobiliaria) {
         return new ImobiliariaDAO().selectImobiliariaByEmailAndSenha(imobiliaria);
     }
+    
+    public ResultSet consultarImobiliariaById (Imobiliaria imobiliaria) {
+        return new ImobiliariaDAO().selectImobiliariaById(imobiliaria);
+    }
 }

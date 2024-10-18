@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.sql.ResultSet;
+
 import dao.ImagemDAO;
 
 /**
@@ -18,6 +20,9 @@ public class Imagem {
     public Imagem(Integer idImovel, String nomeArquivo) {
         this.idImovel = idImovel;
         this.nomeArquivo = nomeArquivo;
+    }
+
+    public Imagem() {
     }
 
     public Integer getId() {
@@ -46,6 +51,10 @@ public class Imagem {
     
     public Integer inserirImagem (Imagem image) {
         return new ImagemDAO().insertImagem(image);
+    }
+    
+    public ResultSet consultarImagemByName (Imagem image) {
+        return new ImagemDAO().selectImagemByName(image);
     }
     
 }

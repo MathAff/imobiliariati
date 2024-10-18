@@ -17,15 +17,21 @@ import javax.swing.JOptionPane;
  */
 public class ImobiliariaController {
     
+    public ResultSet consultarImobiliariaById(Integer idImobiliaria) {
+        Imobiliaria imobiliaria = new Imobiliaria();
+        imobiliaria.setId(idImobiliaria);
+        return imobiliaria.consultarImobiliariaById(imobiliaria);
+    }
+    
     public boolean cadastrarImobiliariaController (String nome, String telefone, String email, String cnpj, String senha) {
         if (nome.isEmpty() || telefone.isEmpty() || email.isEmpty() || cnpj.isEmpty() || cnpj.matches("\\d+")) {
-            JOptionPane.showMessageDialog(null, "Preencha os campos corretamente");
             return false;
         } else {
             Imobiliaria imobiliaria = new Imobiliaria (nome, telefone, email, cnpj, senha);
             try {
                 ResultSet rs = new ImobiliariaDAO().selectImobiliariaByCnpj(imobiliaria);
-                if (rs.isBeforeFirst()){
+                if (rs.next()){
+                    rs.previous();
                     JOptionPane.showMessageDialog(null, "CNPJ já cadastrado, tente outra vez...");
                     System.out.println("resultado encontrado");
                     return false;
@@ -35,19 +41,33 @@ public class ImobiliariaController {
                     return true;
                 }
             } catch (SQLException e) {
+                System.out.println("erro ao procurar/cadastrar imobiliaria: "+e);
                 return false;
             }
         }
     }
     
     public boolean mudarImobiliariaController (String nome, String telefone, String email, String cnpj, String senha) {
-        if (nome.isEmpty() || telefone.isEmpty() || email.isEmpty() || cnpj.isEmpty()) {
-            Imobiliaria imobiliaria = new Imobiliaria (nome, telefone, email, cnpj, senha);
-            
-            imobiliaria.mudarImobiliaria(imobiliaria);
-            return true;
-        } else {
+        if (nome.isEmpty() || telefone.isEmpty() || email.isEmpty() || cnpj.isEmpty() || cnpj.matches("\\d+")) {
             return false;
+        } else {
+            Imobiliaria imobiliaria = new Imobiliaria (nome, telefone, email, cnpj, senha);
+            try {
+                ResultSet rs = new ImobiliariaDAO().selectImobiliariaByCnpj(imobiliaria);
+                if (rs.next()){
+                    rs.previous();
+                    JOptionPane.showMessageDialog(null, "CNPJ já cadastrado, tente outra vez...");
+                    System.out.println("resultado encontrado");
+                    return false;
+                } else {
+                    System.out.println("Resultado não encontrado");
+                    imobiliaria.cadastrarImobiliaria(imobiliaria);
+                    return true;
+                }
+            } catch (SQLException e) {
+                System.out.println("erro ao procurar/cadastrar imobiliaria: "+e);
+                return false;
+            }
         }
     }
     

@@ -53,8 +53,6 @@ public class ImovelDAO {
         } catch (SQLException e) {
             System.out.println("nao foi possivel encontrar imovel: "+e.getMessage());
             return null;
-        } finally {
-            connDB.desconectar();
         }
     }
     

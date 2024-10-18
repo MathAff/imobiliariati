@@ -13,6 +13,7 @@ import utils.ViaCepService;
 import controller.SubtiposController;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 
 /**
  *
@@ -21,8 +22,9 @@ import javax.swing.ImageIcon;
 public class InserirImovel extends javax.swing.JFrame {
     
     private Integer idImobiliaria = null, idSubtipo = null;
+    private String email;
     
-    public InserirImovel(Integer idImobiliaria) {
+    public InserirImovel(Integer idImobiliaria, String email) {
         initComponents();
         setSize(800, 600);
         setResizable(false);
@@ -45,6 +47,7 @@ public class InserirImovel extends javax.swing.JFrame {
         }
         
         this.idImobiliaria = idImobiliaria;
+        this.email = email;
     }
     public InserirImovel() {
         setSize(800, 600);
@@ -64,6 +67,8 @@ public class InserirImovel extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro! Contate os desenvolvedores e mande o código: "+e);
         }
+        
+        this.idImobiliaria = 1;
     }
     
     private void limpaCampos () {
@@ -643,16 +648,15 @@ public class InserirImovel extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Imóvel cadastrado com sucesso!!!");
                 ResultSet rs = new ImovelController().consultarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
                 
-                Integer idImovel = null;
+                Integer idImovel;
                 try {
                     rs.next();
                     idImovel = rs.getInt("id");
+                    CadastrarImagem ci = new CadastrarImagem(idImovel);
+                    ci.setVisible(true);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Erro! Contate os desenvolvedores e mande o código: "+ex);
                 }
-                CadastrarImagem ci = new CadastrarImagem(idImovel);
-                ci.setVisible(true);
-                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, preencha todos os campos!!!.");
             }
@@ -716,8 +720,8 @@ public class InserirImovel extends javax.swing.JFrame {
     }//GEN-LAST:event_CbBTipoImovelFocusLost
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Login login = new Login();
-        login.setVisible(true);
+        Welcome wlcm = new Welcome(idImobiliaria, email);
+        wlcm.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 

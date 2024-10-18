@@ -29,11 +29,18 @@ public class FTPConnector {
     }
     
     public void desconectar () {
-        try {
-            ftp.logout();
-            ftp.disconnect();
-        } catch (IOException e) {
-            System.out.println("Erro ao desconectar: "+e.getMessage());
+        if (ftp!=null) {
+            try {
+                if (ftp.isConnected()) {
+                    ftp.logout();
+                }
+                ftp.disconnect();
+            } catch (IOException e) {
+                System.out.println("Erro ao desconectar: "+e.getMessage());
+            } finally {
+                System.out.println("Fechou a conexao");
+                ftp = null;
+            }  
         }
     }
     
