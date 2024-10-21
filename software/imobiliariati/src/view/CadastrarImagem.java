@@ -34,7 +34,7 @@ public class CadastrarImagem extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setSize(850, 650);
-        ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
+        ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/favicon.png"));
         setIconImage(ic.getImage());
         setTitle("Selecionar uma Imagem");
         btSearchFile.requestFocus();        

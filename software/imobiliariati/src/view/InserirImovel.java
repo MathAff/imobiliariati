@@ -29,7 +29,7 @@ public class InserirImovel extends javax.swing.JFrame {
         setSize(800, 600);
         setResizable(false);
         setLocationRelativeTo(null);
-        ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
+        ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/favicon.png"));
         setIconImage(ic.getImage());
         setTitle("Cadastrar Imóvel");
         ResultSet rs = new SubtiposController().selecionarSubtiposController();

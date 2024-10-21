@@ -28,7 +28,7 @@ public class Welcome extends javax.swing.JFrame {
         setResizable(false);
         setSize(700, 400);
         
-        ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
+        ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/favicon.png"));
         setIconImage(ic.getImage());
         
         setTitle("Bem-Vindo");

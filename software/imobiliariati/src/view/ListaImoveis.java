@@ -20,7 +20,7 @@ public class ListaImoveis extends javax.swing.JFrame {
 
     public ListaImoveis(Integer idImobiliaria, Welcome wlcm, String email) {
         initComponents();
-        ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
+        ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/favicon.png"));
         setIconImage(ic.getImage());
         
         setTitle("Lista de Imóveis");
@@ -42,7 +42,7 @@ public class ListaImoveis extends javax.swing.JFrame {
     }
     
     public ListaImoveis () {
-        initComponents();ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
+        ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/favicon.png"));
         setIconImage(ic.getImage());
         
         setTitle("Lista de Imóveis");
