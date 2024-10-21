@@ -24,6 +24,20 @@ public class SubtiposDAO {
         this.connDB = new ConnectionDB();
     }
     
+    public ResultSet selectSubtipoById(Subtipos sub) {
+        Connection conn = connDB.conectar();
+        try {
+            String sql = "SELECT * FROM subtipos WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_SCROLL_SENSITIVE);
+            
+            stmt.setString(1, sub.getId().toString());
+            
+            return stmt.executeQuery();
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+    
     public Integer insertSubtipos(Subtipos subtipo) {
         Connection conn = connDB.conectar();
         try {

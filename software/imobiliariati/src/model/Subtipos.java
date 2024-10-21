@@ -60,4 +60,8 @@ public class Subtipos {
         return new SubtiposDAO().selectSubtiposByTipo(tipo);
     }
     
+    public ResultSet consultarSubtipoById(Subtipos sub) {
+        return new SubtiposDAO().selectSubtipoById(sub);
+    }
+    
 }

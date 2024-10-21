@@ -106,8 +106,8 @@ public class ImovelDAO {
     public ResultSet selectById (Imovel imovel) {
         Connection conn = connDB.conectar();
             try {
-                String sql = "SELEC * FROM imoveis WHERE id = ?";
-                PreparedStatement stmt = conn.prepareStatement(sql);
+                String sql = "SELECT * FROM imoveis WHERE id = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_SCROLL_SENSITIVE);
                 
                 stmt.setString(1, imovel.getId().toString());
                 
@@ -115,35 +115,32 @@ public class ImovelDAO {
             } catch (SQLException e) {
                 System.out.println("Erro ao procurar imovel: "+e);
                 return null;
-            } finally {
-            connDB.desconectar();
-        }
+            }
     }
     
     public Integer updateImovel (Imovel imovel) {
         Connection conn = connDB.conectar();
         try {
-            String sql = "UPDATE imoveis SET id_imobiliaria = ?, id_subtipo = ?, tipo = ?, tamanho = ?, quartos = ?, suites = ?, vagas = ?, banheiros = ?, valor = ?, taxa_condominio = ?, iptu = ?, tipo_negocio = ?, bairro = ?, cidade = ?, endereco = ?, cep = ?, descricao = ?, status_imovel = ? WHERE id = ?";
+            String sql = "UPDATE imoveis SET id_subtipo = ?, tipo = ?, tamanho = ?, quartos = ?, suites = ?, vagas = ?, banheiros = ?, valor = ?, taxa_condominio = ?, iptu = ?, tipo_negocio = ?, bairro = ?, cidade = ?, endereco = ?, cep = ?, descricao = ?, status_imovel = ? WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             
-            stmt.setString(1, imovel.getIdImobiliaria().toString());
-            stmt.setString(2, imovel.getIdSubtipo().toString());
-            stmt.setString(3, imovel.getTipo());
-            stmt.setString(4, String.valueOf(imovel.getTamanho()));
-            stmt.setString(5, imovel.getQuartos().toString());
-            stmt.setString(6, imovel.getSuites().toString());
-            stmt.setString(7, imovel.getVagas().toString());
-            stmt.setString(8, imovel.getBanheiros().toString());
-            stmt.setString(9, String.valueOf(imovel.getValor()));
-            stmt.setString(10, String.valueOf(imovel.getTaxaCondominio()));
-            stmt.setString(11, String.valueOf(imovel.getIptu()));
-            stmt.setString(12, imovel.getTipoNegocio());
-            stmt.setString(13, imovel.getBairro());
-            stmt.setString(14, imovel.getCidade());
-            stmt.setString(15, imovel.getEndereco());
-            stmt.setString(16, imovel.getCep());
-            stmt.setString(17, imovel.getDescricao());
-            stmt.setString(18, imovel.getStatusImovel());
+            stmt.setString(1, imovel.getIdSubtipo().toString());
+            stmt.setString(2, imovel.getTipo());
+            stmt.setString(3, String.valueOf(imovel.getTamanho()));
+            stmt.setString(4, imovel.getQuartos().toString());
+            stmt.setString(5, imovel.getSuites().toString());
+            stmt.setString(6, imovel.getVagas().toString());
+            stmt.setString(7, imovel.getBanheiros().toString());
+            stmt.setString(8, String.valueOf(imovel.getValor()));
+            stmt.setString(9, String.valueOf(imovel.getTaxaCondominio()));
+            stmt.setString(10, String.valueOf(imovel.getIptu()));
+            stmt.setString(11, imovel.getTipoNegocio());
+            stmt.setString(12, imovel.getBairro());
+            stmt.setString(13, imovel.getCidade());
+            stmt.setString(14, imovel.getEndereco());
+            stmt.setString(15, imovel.getCep());
+            stmt.setString(16, imovel.getDescricao());
+            stmt.setString(17, imovel.getStatusImovel());
             
             return stmt.executeUpdate();
         } catch (SQLException e) {

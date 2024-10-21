@@ -209,4 +209,12 @@ public class Imovel {
     public ResultSet consultarImovelByImobiliaria(Imovel imovel) {
         return new ImovelDAO().selectImovelByIdImobiliaria(imovel);
     }
+
+    public Integer deletarImovel(Imovel imovel) {
+        return new ImovelDAO().deleteImovel(imovel);
+    }
+    
+    public ResultSet consultarImovelById(Imovel im) {
+        return new ImovelDAO().selectById(im);
+    }
 }

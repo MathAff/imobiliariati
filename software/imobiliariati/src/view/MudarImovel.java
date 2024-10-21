@@ -18,44 +18,46 @@ import javax.swing.ImageIcon;
  *
  * @author Matheus
  */
-public class InserirImovel extends javax.swing.JFrame {
+public class MudarImovel extends javax.swing.JFrame {
     
-    private Integer idImobiliaria = null, idSubtipo = null;
-    private String email;
-    private Welcome wlcm;
+    private ListaImoveis lstIm = null;
+    private final Integer idImovel;
     
-    public InserirImovel(Integer idImobiliaria, String email, Welcome wlcm) {
-        initComponents();
-        setSize(800, 600);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
-        setIconImage(ic.getImage());
-        setTitle("Cadastrar Imóvel");
-        ResultSet rs = new SubtiposController().selecionarSubtiposController();
-        try {
-            if (rs.next()) {
-                CbBSubTipoImovel.addItem(rs.getString("nome"));
-                while (rs.next()) {
-                    CbBSubTipoImovel.addItem(rs.getString("nome"));
-                }
-            } else {
-                System.out.println("Nenhum resultado encontrado");
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro ao encontrar os subtipos: "+e);
-        }
+    public MudarImovel(Integer idImovel, ListaImoveis lstIm) {
+        this.idImovel = idImovel;
+        this.lstIm = lstIm;
         
-        this.idImobiliaria = idImobiliaria;
-        this.email = email;
-        this.wlcm = wlcm;
-    }
-    public InserirImovel() {
+        initComponents();
         setSize(800, 600);
         setResizable(false);
         setLocationRelativeTo(null);
+        ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/favicon.png"));
+        setIconImage(ic.getImage());
+        setTitle("Mudar imóvel");
+        
+        initCbBSubtipos();
+        
+        initFields();
+    }
+    public MudarImovel() {
+        this.idImovel = 1;
+        
+        setSize(800, 600);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/favicon.png"));
+        setIconImage(ic.getImage());
+        setTitle("Mudar imóvel");
         initComponents();
+        
+        initCbBSubtipos();
+        
+        initFields();
+    }
+    
+    private void initCbBSubtipos() {
         ResultSet rs = new SubtiposController().selecionarSubtiposController();
+        
         try {
             if (rs.next()) {
                 CbBSubTipoImovel.addItem(rs.getString("nome"));
@@ -68,29 +70,70 @@ public class InserirImovel extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro! Contate os desenvolvedores e mande o código: "+e);
         }
-        
-        this.idImobiliaria = 1;
     }
     
-    private void limpaCampos () {
-        tfCep.setText("");
-        tfBairro.setText("");
-        tfCidade.setText("");
-        tfRua.setText("");
-        tfNumero.setText("");
-        spTamImovel.setValue(0);
-        CbBTipoImovel.setSelectedIndex(0);
-        spNumeroQuartos.setValue(0);
-        spNumeroSuites.setValue(0);
-        spNumeroBanheiros.setValue(0);
-        spNumeroVagas.setValue(0);
-        tfValorImovel.setText("");
-        tfTxCondominio.setText("");
-        tfIptu.setText("");
-        cbBTipoNegocio.setSelectedIndex(0);
-        cbBStatusImovel.setSelectedIndex(0);
-        taDescricao.setText("");
-        tfCep.requestFocus();
+    private void initFields() {
+        try {
+            ResultSet rsImovel = new ImovelController().consultarImovelById(idImovel), rsSubtipo = null;
+            
+            if (rsImovel.next()) {
+                rsSubtipo = new SubtiposController().selecionarSubtipoById(rsImovel.getInt("id_subtipo"));
+            } else {
+                JOptionPane.showMessageDialog(null, "Não foi possível acessar os dados, tente mais tarde...");
+                lstIm.setVisible(true);
+                this.dispose();
+            }
+            
+            
+            if (rsSubtipo.next()) {            
+                tfCep.setText(rsImovel.getString("cep"));
+                tfBairro.setText(rsImovel.getString("bairro"));
+                tfCidade.setText(rsImovel.getString("cidade"));
+                tfRua.setText(rsImovel.getString("endereco").split("-")[2]);
+                tfNumero.setText(rsImovel.getString("endereco").split("-")[3]);
+                spTamImovel.setValue(rsImovel.getInt("tamanho"));
+                CbBTipoImovel.setSelectedItem(rsImovel.getString("tipo"));
+                CbBSubTipoImovel.setSelectedItem(rsSubtipo.getObject("nome"));
+                System.out.println(rsSubtipo.getString("nome"));
+                spNumeroQuartos.setValue(rsImovel.getInt("quartos"));
+                spNumeroSuites.setValue(rsImovel.getInt("suites"));
+                spNumeroBanheiros.setValue(rsImovel.getInt("banheiros"));
+                spNumeroVagas.setValue(rsImovel.getInt("vagas"));
+                tfValorImovel.setText(rsImovel.getString("valor"));
+                tfTxCondominio.setText(rsImovel.getString("taxa_condominio"));
+                tfIptu.setText(rsImovel.getString("iptu"));
+                cbBTipoNegocio.setSelectedItem(rsImovel.getString("tipo_negocio"));
+                cbBStatusImovel.setSelectedItem(getStatusImovel(rsImovel.getString("status_imovel")));
+                taDescricao.setText(rsImovel.getString("descricao"));            
+            } else {
+                JOptionPane.showMessageDialog(null, "Não foi possível acessar os dados, tente mais tarde...");
+                lstIm.setVisible(true);
+                dispose();
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro, contacte os desenvolvedores e passe o erro: "+ex);
+            lstIm.setVisible(true);
+            dispose();
+        }
+    }
+    
+    private String getStatusImovel(String status) {
+        switch (status) {
+            case "Available" -> {
+                return "Disponível";
+            }
+            case "Unavailable" -> {
+                return "Indisponível";
+            }
+            case "Sold" -> {
+                return "Vendido";
+            }
+            case "Rented" -> {
+                return "Alugado";
+            }
+        }
+        return null;
     }
 
     /**
@@ -144,7 +187,6 @@ public class InserirImovel extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel19 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         cbBTipoNegocio = new javax.swing.JComboBox<>();
@@ -424,7 +466,7 @@ public class InserirImovel extends javax.swing.JFrame {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel15.setText("Faça uma breve descrição do seu imóvel:");
+        jLabel15.setText("Mudar a descricao:");
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -456,7 +498,7 @@ public class InserirImovel extends javax.swing.JFrame {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jButton1.setText("Continuar");
+        jButton1.setText("Concluir");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -470,8 +512,6 @@ public class InserirImovel extends javax.swing.JFrame {
             }
         });
 
-        jLabel19.setText("Clique em Continuar para adicionar imagens ao imovel");
-
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -480,8 +520,6 @@ public class InserirImovel extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel19)
-                .addGap(27, 27, 27)
                 .addComponent(jButton1)
                 .addGap(23, 23, 23))
         );
@@ -491,8 +529,7 @@ public class InserirImovel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jLabel19))
+                    .addComponent(jButton2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -617,6 +654,8 @@ public class InserirImovel extends javax.swing.JFrame {
     }//GEN-LAST:event_CbBSubTipoImovelActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Integer idSubtipo = null;
+        
         String tipoImovel = (String) CbBTipoImovel.getSelectedItem();
         String cep = tfCep.getText(), bairro = tfBairro.getText(), rua = tfRua.getText(), cidade = tfCidade.getText(), numero = tfNumero.getText();
         Integer tamImovel = (Integer) spTamImovel.getValue();
@@ -633,10 +672,14 @@ public class InserirImovel extends javax.swing.JFrame {
         String endereco = cidade + "-" + bairro + "-" + rua + "-" + numero;
         
         String subtipoImovel = (String) CbBSubTipoImovel.getSelectedItem();
+        System.out.println(subtipoImovel);
+        
         try {
             ResultSet rs = new SubtiposController().selecionarSubtiposByNomeController(subtipoImovel);
-            if (rs != null && rs.next()) {
+            if (rs.next()) {
                 idSubtipo = rs.getInt("id");
+                System.out.println(rs.getString("id"));
+                System.out.println(rs.getString("nome"));
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERRO! Contate os desenvolvedores e passe o erro: "+e);
@@ -647,27 +690,19 @@ public class InserirImovel extends javax.swing.JFrame {
             Float condominio = Float.valueOf(txCondominio.replace(".", "").replace(",", "."));
             Float iptu = Float.valueOf(valorIptu.replace(".", "").replace(",", "."));
 
-            boolean cadImovel = new ImovelController().cadastrarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
+            System.out.println(idSubtipo);
+            boolean mudImovel = new ImovelController().mudarImovel(idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
 
-            if (cadImovel) {
-                JOptionPane.showMessageDialog(null, "Imóvel cadastrado com sucesso!!!");
-                ResultSet rs = new ImovelController().consultarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
-                
-                Integer idImovel;
-                try {
-                    rs.next();
-                    idImovel = rs.getInt("id");
-                    CadastrarImagem ci = new CadastrarImagem(idImovel);
-                    ci.setVisible(true);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Erro! Contate os desenvolvedores e mande o código: "+ex);
-                }
+            if (mudImovel) {
+                JOptionPane.showMessageDialog(null, "Imóvel mudado com sucesso!!!");
+                lstIm.setVisible(true);
+                this.dispose();
             } else {
-                JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, preencha todos os campos!!!.");
+                JOptionPane.showMessageDialog(null, "Não foi possível mudar Imóvel, preencha todos os campos!!!.");
             }
         } else {
             tfValorImovel.requestFocus();
-            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, digite uma quantia válida.");
+            JOptionPane.showMessageDialog(null, "Não foi possível mudar Imóvel, digite uma quantia válida.");
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -725,7 +760,7 @@ public class InserirImovel extends javax.swing.JFrame {
     }//GEN-LAST:event_CbBTipoImovelFocusLost
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        wlcm.setVisible(true);
+        lstIm.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -745,22 +780,18 @@ public class InserirImovel extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InserirImovel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InserirImovel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InserirImovel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InserirImovel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MudarImovel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new InserirImovel().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MudarImovel().setVisible(true);
         });
     }
 
@@ -781,7 +812,6 @@ public class InserirImovel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

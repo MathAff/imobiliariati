@@ -36,9 +36,27 @@ public class ImovelController {
         }
     }
     
-    public boolean mudarImovel (Integer idImobiliaria, Integer idSubtipo, Integer quartos, Integer suites, Integer vagas, Integer banheiros, String statusImovel, String tipo, String tipoNegocio, String bairro, String cidade, String endereco, String cep, String descricao, float tamanho, float valor, float taxaCondominio, float iptu) {
-        if (idImobiliaria.toString().isEmpty() || idSubtipo.toString().isEmpty() || tipo.isEmpty() || String.valueOf(tamanho).isEmpty() || quartos.toString().isEmpty() || suites.toString().isEmpty() || vagas.toString().isEmpty() || banheiros.toString().isEmpty() || String.valueOf(valor).isEmpty() || String.valueOf(taxaCondominio).isEmpty() || String.valueOf(iptu).isEmpty() || tipoNegocio.isEmpty() || bairro.isEmpty() || cidade.isEmpty() || endereco.isEmpty() || cep.isEmpty() || descricao.isEmpty() || statusImovel.isEmpty()) {
-            Imovel imovel = new Imovel(idImobiliaria, idSubtipo, quartos, suites, vagas, banheiros, statusImovel, tipo, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamanho, valor, taxaCondominio, iptu);
+    public boolean mudarImovel (Integer idSubtipo, Integer quartos, Integer suites, Integer vagas, Integer banheiros, String statusImovel, String tipo, String tipoNegocio, String bairro, String cidade, String endereco, String cep, String descricao, float tamanho, float valor, float taxaCondominio, float iptu) {
+        if (idSubtipo.toString().isEmpty() || tipo.isEmpty() || String.valueOf(tamanho).isEmpty() || quartos.toString().isEmpty() || suites.toString().isEmpty() || vagas.toString().isEmpty() || banheiros.toString().isEmpty() || String.valueOf(valor).isEmpty() || String.valueOf(taxaCondominio).isEmpty() || String.valueOf(iptu).isEmpty() || tipoNegocio.isEmpty() || bairro.isEmpty() || cidade.isEmpty() || endereco.isEmpty() || cep.isEmpty() || descricao.isEmpty() || statusImovel.isEmpty()) {
+            Imovel imovel = new Imovel();
+            
+            imovel.setIdSubtipo(idSubtipo);
+            imovel.setQuartos(quartos);
+            imovel.setSuites(suites);
+            imovel.setVagas(vagas);
+            imovel.setBanheiros(banheiros);
+            imovel.setStatusImovel(statusImovel);
+            imovel.setTipo(tipo);
+            imovel.setTipoNegocio(tipoNegocio);
+            imovel.setBairro(bairro);
+            imovel.setCidade(cidade);
+            imovel.setCep(cep);
+            imovel.setEndereco(endereco);
+            imovel.setDescricao(descricao);
+            imovel.setTamanho(tamanho);
+            imovel.setValor(valor);
+            imovel.setTaxaCondominio(taxaCondominio);
+            imovel.setIptu(iptu);
             
             imovel.mudarImovel(imovel);
             
@@ -65,5 +83,17 @@ public class ImovelController {
         Imovel imovel = new Imovel();
         imovel.setIdImobiliaria(idImobiliaria);
         return imovel.consultarImovelByImobiliaria (imovel);
+    }
+
+    public Integer deletarImovel(Integer idImovel) {
+        Imovel imovel = new Imovel();
+        imovel.setId(idImovel);
+        return imovel.deletarImovel(imovel);
+    }
+    
+    public ResultSet consultarImovelById(Integer id) {
+        Imovel im = new Imovel();
+        im.setId(id);
+        return im.consultarImovelById(im);
     }
 }

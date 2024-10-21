@@ -7,7 +7,6 @@ package view;
 import controller.ImobiliariaController;
 import java.awt.Cursor;
 import java.sql.ResultSet;
-import java.awt.HeadlessException;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -18,8 +17,9 @@ import javax.swing.JOptionPane;
  */
 public class Configuracoes extends javax.swing.JFrame {
     
-    Integer idImobiliaria;
-    private String email;
+    private final Integer idImobiliaria;
+    private final String email;
+    private Welcome wlcm;
 
     /**
      * Creates new form Welcome
@@ -37,7 +37,7 @@ public class Configuracoes extends javax.swing.JFrame {
         initFields();
     }
     
-    public Configuracoes (Integer idImobiliaria, String email) {
+    public Configuracoes (Integer idImobiliaria, String email, Welcome wlcm) {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
@@ -45,9 +45,11 @@ public class Configuracoes extends javax.swing.JFrame {
         ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
         setIconImage(ic.getImage());
         setTitle("Configurações");
+        initFields();
+        
         this.idImobiliaria = idImobiliaria;
         this.email = email;
-        initFields();
+        this.wlcm = wlcm;
     }
     
     public final void initFields() {
@@ -302,7 +304,6 @@ public class Configuracoes extends javax.swing.JFrame {
     }//GEN-LAST:event_btExitActionPerformed
 
     private void btBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBackActionPerformed
-        Welcome wlcm = new Welcome(idImobiliaria, email);
         wlcm.setVisible(true);
         dispose();
     }//GEN-LAST:event_btBackActionPerformed

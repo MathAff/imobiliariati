@@ -46,6 +46,8 @@ public class Welcome extends javax.swing.JFrame {
     public Welcome (Integer idImobiliaria, String email) {
         initComponents();
         
+        btCadImovel.requestFocus();
+        
         setLocationRelativeTo(null);
         setResizable(false);
         setSize(700, 400);
@@ -236,19 +238,18 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_btBackActionPerformed
 
     private void btCadImovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadImovelActionPerformed
-        new InserirImovel(idImobiliaria, email).setVisible(true);
-        dispose();
+        new InserirImovel(idImobiliaria, email, this).setVisible(true);
+        setVisible(false);
     }//GEN-LAST:event_btCadImovelActionPerformed
 
     private void btSearchImoveisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSearchImoveisActionPerformed
-        new ListaImoveis(idImobiliaria).setVisible(true);
-        dispose();
+        new ListaImoveis(idImobiliaria, this, email).setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btSearchImoveisActionPerformed
 
     private void btConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConfigActionPerformed
-        Configuracoes config = new Configuracoes(idImobiliaria, email);
-        config.setVisible(true);
-        dispose();
+        new Configuracoes(idImobiliaria, email, this).setVisible(true);
+        setVisible(false);
     }//GEN-LAST:event_btConfigActionPerformed
 
     /**
