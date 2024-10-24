@@ -12,3 +12,14 @@ This project uses:
 - CSS
 - Javascript
 - PHP
+
+# Java Application
+Here are some screenshots of the app:
+## Overview:
+![image](https://github.com/user-attachments/assets/3953bfd2-bf43-46a0-854e-73d3dd59b153)
+Login screen
+
+
+
+## Change Password screen:
+![image](https://github.com/user-attachments/assets/5c991744-41dc-4e30-9c5e-3e70fd4ffa29)
