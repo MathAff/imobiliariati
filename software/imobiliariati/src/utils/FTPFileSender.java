@@ -25,9 +25,10 @@ public class FTPFileSender {
         
         try {
             
+            ftpConn.changeWorkingDirectory("imoveis-images");
+            
             if (!directoryExists(idImovel)){
                 ftpConn.makeDirectory(idImovel);
-
                 ftpConn.changeWorkingDirectory(idImovel);
             } else {
                 ftpConn.changeWorkingDirectory(idImovel);
@@ -43,7 +44,9 @@ public class FTPFileSender {
             
             for (int i = 0; i < filePathList.size(); i++) {
                 try (FileInputStream sendFile = new FileInputStream(filePathList.get(i))) {
-
+                    
+                    System.out.println(id+"_"+fileList.get(i));
+                    System.out.println(sendFile.toString());
                     if (ftpConn.storeFile(id+"_"+fileList.get(i), sendFile)) {
                         System.out.println("Arquivo enviado com sucesso!!!");
                     } else {
@@ -52,10 +55,8 @@ public class FTPFileSender {
                     }
 
                 } catch (IOException ex) {
-                    System.out.println("Erro ao no InputStream: "+ex.getMessage());
+                    System.out.println("Erro no InputStream: "+ex.getMessage());
                     return false;
-                } finally {
-                    ftp.desconectar();
                 }
             }
             
@@ -65,6 +66,8 @@ public class FTPFileSender {
             
             System.out.println("Erro ao executar o upload do arquivo!!! "+e.getMessage());
             return false;
+        } finally {
+            ftp.desconectar();
         }
     }
     

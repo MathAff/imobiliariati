@@ -12,6 +12,7 @@ import utils.Endereco;
 import utils.ViaCepService;
 import controller.SubtiposController;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 
 /**
@@ -26,18 +27,15 @@ public class MudarImovel extends javax.swing.JFrame {
     public MudarImovel(Integer idImovel, ListaImoveis lstIm) {
         this.idImovel = idImovel;
         this.lstIm = lstIm;
-        
         initComponents();
+        initCbBSubtipos();
+        initFields();
         setSize(800, 600);
         setResizable(false);
         setLocationRelativeTo(null);
         ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/favicon.png"));
         setIconImage(ic.getImage());
-        setTitle("Mudar imóvel");
-        
-        initCbBSubtipos();
-        
-        initFields();
+        setTitle("Mudar imóvel");        
     }
     public MudarImovel() {
         this.idImovel = 1;
@@ -49,10 +47,9 @@ public class MudarImovel extends javax.swing.JFrame {
         setIconImage(ic.getImage());
         setTitle("Mudar imóvel");
         initComponents();
-        
         initCbBSubtipos();
-        
         initFields();
+        
     }
     
     private void initCbBSubtipos() {
@@ -75,7 +72,7 @@ public class MudarImovel extends javax.swing.JFrame {
     private void initFields() {
         try {
             ResultSet rsImovel = new ImovelController().consultarImovelById(idImovel), rsSubtipo = null;
-            
+
             if (rsImovel.next()) {
                 rsSubtipo = new SubtiposController().selecionarSubtipoById(rsImovel.getInt("id_subtipo"));
             } else {
@@ -83,18 +80,17 @@ public class MudarImovel extends javax.swing.JFrame {
                 lstIm.setVisible(true);
                 this.dispose();
             }
-            
-            
-            if (rsSubtipo.next()) {            
+
+
+            if (rsSubtipo.next()) { 
                 tfCep.setText(rsImovel.getString("cep"));
                 tfBairro.setText(rsImovel.getString("bairro"));
                 tfCidade.setText(rsImovel.getString("cidade"));
-                tfRua.setText(rsImovel.getString("endereco").split("-")[2]);
-                tfNumero.setText(rsImovel.getString("endereco").split("-")[3]);
+                tfRua.setText(rsImovel.getString("endereco").split("_")[2]);
+                tfNumero.setText(rsImovel.getString("endereco").split("_")[3]);
                 spTamImovel.setValue(rsImovel.getInt("tamanho"));
                 CbBTipoImovel.setSelectedItem(rsImovel.getString("tipo"));
                 CbBSubTipoImovel.setSelectedItem(rsSubtipo.getObject("nome"));
-                System.out.println(rsSubtipo.getString("nome"));
                 spNumeroQuartos.setValue(rsImovel.getInt("quartos"));
                 spNumeroSuites.setValue(rsImovel.getInt("suites"));
                 spNumeroBanheiros.setValue(rsImovel.getInt("banheiros"));
@@ -103,14 +99,14 @@ public class MudarImovel extends javax.swing.JFrame {
                 tfTxCondominio.setText(rsImovel.getString("taxa_condominio"));
                 tfIptu.setText(rsImovel.getString("iptu"));
                 cbBTipoNegocio.setSelectedItem(rsImovel.getString("tipo_negocio"));
-                cbBStatusImovel.setSelectedItem(getStatusImovel(rsImovel.getString("status_imovel")));
+                cbBStatusImovel.setSelectedItem(getStatusImovelEnPt(rsImovel.getString("status_imovel")));
                 taDescricao.setText(rsImovel.getString("descricao"));            
             } else {
                 JOptionPane.showMessageDialog(null, "Não foi possível acessar os dados, tente mais tarde...");
                 lstIm.setVisible(true);
+                lstIm.
                 dispose();
             }
-            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro, contacte os desenvolvedores e passe o erro: "+ex);
             lstIm.setVisible(true);
@@ -118,7 +114,7 @@ public class MudarImovel extends javax.swing.JFrame {
         }
     }
     
-    private String getStatusImovel(String status) {
+    private String getStatusImovelEnPt(String status) {
         switch (status) {
             case "Available" -> {
                 return "Disponível";
@@ -131,9 +127,29 @@ public class MudarImovel extends javax.swing.JFrame {
             }
             case "Rented" -> {
                 return "Alugado";
+            } default -> {
+                return null;
             }
         }
-        return null;
+    }
+    
+    private String getStatusImovelPtEn(String status) {
+        switch (status) {
+            case "Disponível" -> {
+                return "Available";
+            }
+            case "Indisponível" -> {
+                return "Unavailable";
+            }
+            case "Vendido" -> {
+                return "Sold";
+            }
+            case "Alugado" -> {
+                return "Rented";
+            } default -> {
+                return null;
+            }
+        }
     }
 
     /**
@@ -667,9 +683,9 @@ public class MudarImovel extends javax.swing.JFrame {
         String txCondominio = tfTxCondominio.getText();
         String valorIptu = tfIptu.getText();
         String tipoNegocio = (String) cbBTipoNegocio.getSelectedItem();
-        String statusImovel = (String) cbBStatusImovel.getSelectedItem();
+        String statusImovel = getStatusImovelPtEn((String) cbBStatusImovel.getSelectedItem());
         String descricao = taDescricao.getText();
-        String endereco = cidade + "-" + bairro + "-" + rua + "-" + numero;
+        String endereco = cidade + "_" + bairro + "_" + rua + "_" + numero;
         
         String subtipoImovel = (String) CbBSubTipoImovel.getSelectedItem();
         System.out.println(subtipoImovel);
@@ -678,20 +694,26 @@ public class MudarImovel extends javax.swing.JFrame {
             ResultSet rs = new SubtiposController().selecionarSubtiposByNomeController(subtipoImovel);
             if (rs.next()) {
                 idSubtipo = rs.getInt("id");
-                System.out.println(rs.getString("id"));
-                System.out.println(rs.getString("nome"));
+                System.out.println(idSubtipo);
+            } else {
+                System.out.println("Nao achou subtipos");
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERRO! Contate os desenvolvedores e passe o erro: "+e);
         }
         
-        if (valorImovel.matches("\\d+[.,]?\\d*") && txCondominio.matches("\\d+[.,]?\\d*") && valorIptu.matches("\\d+[.,]?\\d*")) {
-            Float valor = Float.valueOf(valorImovel.replace(".", "").replace(",", "."));
-            Float condominio = Float.valueOf(txCondominio.replace(".", "").replace(",", "."));
-            Float iptu = Float.valueOf(valorIptu.replace(".", "").replace(",", "."));
+        if (valorImovel.matches("^(\\d{1,9}(?:[,]\\d{0,2})?)?$") && txCondominio.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$ ") && valorIptu.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$ ")) {
+            DecimalFormat df = new DecimalFormat("#,##0.00");
+            
+            Float valor = Float.valueOf(df.format(valorImovel.replace(".", "").replace(",", ".")));
+            Float condominio = Float.valueOf(df.format(txCondominio.replace(".", "").replace(",", ".")));
+            Float iptu = Float.valueOf(df.format(valorIptu.replace(".", "").replace(",", ".")));
+            
+            System.out.println(valor);
+            System.out.println(iptu);
+            System.out.println(txCondominio);
 
-            System.out.println(idSubtipo);
-            boolean mudImovel = new ImovelController().mudarImovel(idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
+            boolean mudImovel = new ImovelController().mudarImovel(idImovel, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
 
             if (mudImovel) {
                 JOptionPane.showMessageDialog(null, "Imóvel mudado com sucesso!!!");
@@ -701,6 +723,9 @@ public class MudarImovel extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Não foi possível mudar Imóvel, preencha todos os campos!!!.");
             }
         } else {
+            System.out.println(valorImovel);
+            System.out.println(txCondominio);
+            System.out.println(valorIptu);
             tfValorImovel.requestFocus();
             JOptionPane.showMessageDialog(null, "Não foi possível mudar Imóvel, digite uma quantia válida.");
         }

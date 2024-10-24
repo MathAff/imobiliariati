@@ -42,6 +42,7 @@ public class ListaImoveis extends javax.swing.JFrame {
     }
     
     public ListaImoveis () {
+        initComponents();
         ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/favicon.png"));
         setIconImage(ic.getImage());
         
@@ -63,7 +64,12 @@ public class ListaImoveis extends javax.swing.JFrame {
     }
     
     public final DefaultTableModel createTabelModel() {
-        DefaultTableModel model = new DefaultTableModel();
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         
         try {
             ResultSet rs = new ImovelController().consultarImovelByImobiliaria(idImobiliaria);
@@ -251,6 +257,11 @@ public class ListaImoveis extends javax.swing.JFrame {
             }
             
             tbImoveis.setModel(createTabelModel());
+            
+            TableColumnModel columnModel = tbImoveis.getColumnModel();
+            columnModel.getColumn(0).setPreferredWidth(50);
+            columnModel.getColumn(0).setMaxWidth(50);
+            columnModel.getColumn(0).setMinWidth(50);
         } else {
             JOptionPane.showMessageDialog(null, "Selecione um item");
         }

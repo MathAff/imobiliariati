@@ -43,6 +43,7 @@ public class ImobiliariaDAO {
     
     public ResultSet selectImobiliariaById(Imobiliaria imobiliaria) {
         Connection conn = connDB.conectar();
+        System.out.println(imobiliaria.getId());
         try {
             String sql = "SELECT * FROM imobiliarias WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_SCROLL_SENSITIVE);

@@ -217,4 +217,9 @@ public class Imovel {
     public ResultSet consultarImovelById(Imovel im) {
         return new ImovelDAO().selectById(im);
     }
+
+    @Override
+    public String toString() {
+        return "Imovel{" + "id=" + id + ", idImobiliaria=" + idImobiliaria + ", idSubtipo=" + idSubtipo + ", quartos=" + quartos + ", suites=" + suites + ", vagas=" + vagas + ", banheiros=" + banheiros + ", tipo=" + tipo + ", tipoNegocio=" + tipoNegocio + ", bairro=" + bairro + ", cidade=" + cidade + ", endereco=" + endereco + ", cep=" + cep + ", descricao=" + descricao + ", statusImovel=" + statusImovel + ", tamanho=" + tamanho + ", valor=" + valor + ", taxaCondominio=" + taxaCondominio + ", iptu=" + iptu + '}';
+    }
 }

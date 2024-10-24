@@ -49,6 +49,8 @@ public class ImovelDAO {
             stmt.setString(17, imovel.getDescricao());
             stmt.setString(18, imovel.getStatusImovel());
             
+            System.out.println("Encontrou o imovel");
+            
             return stmt.executeQuery();
         } catch (SQLException e) {
             System.out.println("nao foi possivel encontrar imovel: "+e.getMessage());
@@ -141,10 +143,11 @@ public class ImovelDAO {
             stmt.setString(15, imovel.getCep());
             stmt.setString(16, imovel.getDescricao());
             stmt.setString(17, imovel.getStatusImovel());
+            stmt.setString(18, imovel.getId().toString());
             
             return stmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erro ao inserir imovel: " + e);
+            System.out.println("Erro ao mudar imovel: " + e);
             return 0;
         } finally {
             connDB.desconectar();

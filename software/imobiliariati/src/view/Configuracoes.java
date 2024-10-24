@@ -38,21 +38,23 @@ public class Configuracoes extends javax.swing.JFrame {
     }
     
     public Configuracoes (Integer idImobiliaria, String email, Welcome wlcm) {
+        this.idImobiliaria = idImobiliaria;
+        this.email = email;
+        this.wlcm = wlcm;
+        
+        System.out.println(idImobiliaria);
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         setSize(700, 450);
-        ImageIcon ic = new ImageIcon("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\favicon.png");
+        ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/favicon.png"));
         setIconImage(ic.getImage());
         setTitle("Configurações");
         initFields();
-        
-        this.idImobiliaria = idImobiliaria;
-        this.email = email;
-        this.wlcm = wlcm;
     }
     
     public final void initFields() {
+        System.out.println(idImobiliaria);
         ResultSet rs = new ImobiliariaController().consultarImobiliariaById(this.idImobiliaria);
         try {
             rs.next();
@@ -298,8 +300,8 @@ public class Configuracoes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExitActionPerformed
-        Login login = new Login();
-        login.setVisible(true);
+        new Login().setVisible(true);
+        wlcm.dispose();
         this.dispose();
     }//GEN-LAST:event_btExitActionPerformed
 
@@ -336,7 +338,7 @@ public class Configuracoes extends javax.swing.JFrame {
                     Integer mudou = ic.mudarImobiliariaController(idImobiliaria, nome, telefone, newEmail, psw);
                     if (mudou != null) {
                         JOptionPane.showMessageDialog(null, "Imobiliaria mudada com sucesso!!!");
-                        new Login().setVisible(true);
+                        wlcm.setVisible(true);
                         dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, "Não foi possível mudar as credenciais!");

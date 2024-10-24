@@ -13,6 +13,7 @@ import utils.ViaCepService;
 import controller.SubtiposController;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
+import model.Imovel;
 
 /**
  *
@@ -70,27 +71,6 @@ public class InserirImovel extends javax.swing.JFrame {
         }
         
         this.idImobiliaria = 1;
-    }
-    
-    private void limpaCampos () {
-        tfCep.setText("");
-        tfBairro.setText("");
-        tfCidade.setText("");
-        tfRua.setText("");
-        tfNumero.setText("");
-        spTamImovel.setValue(0);
-        CbBTipoImovel.setSelectedIndex(0);
-        spNumeroQuartos.setValue(0);
-        spNumeroSuites.setValue(0);
-        spNumeroBanheiros.setValue(0);
-        spNumeroVagas.setValue(0);
-        tfValorImovel.setText("");
-        tfTxCondominio.setText("");
-        tfIptu.setText("");
-        cbBTipoNegocio.setSelectedIndex(0);
-        cbBStatusImovel.setSelectedIndex(0);
-        taDescricao.setText("");
-        tfCep.requestFocus();
     }
 
     /**
@@ -647,24 +627,11 @@ public class InserirImovel extends javax.swing.JFrame {
             Float condominio = Float.valueOf(txCondominio.replace(".", "").replace(",", "."));
             Float iptu = Float.valueOf(valorIptu.replace(".", "").replace(",", "."));
 
-            boolean cadImovel = new ImovelController().cadastrarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
-
-            if (cadImovel) {
-                JOptionPane.showMessageDialog(null, "Imóvel cadastrado com sucesso!!!");
-                ResultSet rs = new ImovelController().consultarImovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
-                
-                Integer idImovel;
-                try {
-                    rs.next();
-                    idImovel = rs.getInt("id");
-                    CadastrarImagem ci = new CadastrarImagem(idImovel);
-                    ci.setVisible(true);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Erro! Contate os desenvolvedores e mande o código: "+ex);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, preencha todos os campos!!!.");
-            }
+            Imovel im = new Imovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
+            
+            new CadastrarImagem(im, wlcm).setVisible(true);
+            dispose();
+            
         } else {
             tfValorImovel.requestFocus();
             JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, digite uma quantia válida.");

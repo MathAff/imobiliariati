@@ -30,16 +30,22 @@ public class ImovelController {
                 case "Alugado" -> "Rented";
                 default -> "Avaiable";
             };
-            new Imovel().cadastrarImovel(new Imovel(idImobiliaria, idSubtipo, quartos, suites, vagas, banheiros, statusImovel, tipo, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamanho, valor, taxaCondominio, iptu));
+            
+            Imovel im = new Imovel(idImobiliaria, idSubtipo, quartos, suites, vagas, banheiros, statusImovel, tipo, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamanho, valor, taxaCondominio, iptu);
+            System.out.println(im.toString());
+            im.cadastrarImovel(im);
             
             return true;
         }
     }
     
-    public boolean mudarImovel (Integer idSubtipo, Integer quartos, Integer suites, Integer vagas, Integer banheiros, String statusImovel, String tipo, String tipoNegocio, String bairro, String cidade, String endereco, String cep, String descricao, float tamanho, float valor, float taxaCondominio, float iptu) {
-        if (idSubtipo.toString().isEmpty() || tipo.isEmpty() || String.valueOf(tamanho).isEmpty() || quartos.toString().isEmpty() || suites.toString().isEmpty() || vagas.toString().isEmpty() || banheiros.toString().isEmpty() || String.valueOf(valor).isEmpty() || String.valueOf(taxaCondominio).isEmpty() || String.valueOf(iptu).isEmpty() || tipoNegocio.isEmpty() || bairro.isEmpty() || cidade.isEmpty() || endereco.isEmpty() || cep.isEmpty() || descricao.isEmpty() || statusImovel.isEmpty()) {
+    public boolean mudarImovel (Integer id, Integer idSubtipo, Integer quartos, Integer suites, Integer vagas, Integer banheiros, String statusImovel, String tipo, String tipoNegocio, String bairro, String cidade, String endereco, String cep, String descricao, float tamanho, float valor, float taxaCondominio, float iptu) {
+        if (tipo.isEmpty() && !String.valueOf(tamanho).isEmpty() && !quartos.toString().isEmpty() && !suites.toString().isEmpty() && !vagas.toString().isEmpty() && !banheiros.toString().isEmpty() && !String.valueOf(valor).isEmpty() && !String.valueOf(taxaCondominio).isEmpty() && !String.valueOf(iptu).isEmpty() && !tipoNegocio.isEmpty() && !bairro.isEmpty() && !cidade.isEmpty() && !endereco.isEmpty() && !cep.isEmpty() && !descricao.isEmpty() && !statusImovel.isEmpty()) {
+            return false;
+        } else {
             Imovel imovel = new Imovel();
             
+            imovel.setId(id);
             imovel.setIdSubtipo(idSubtipo);
             imovel.setQuartos(quartos);
             imovel.setSuites(suites);
@@ -61,8 +67,6 @@ public class ImovelController {
             imovel.mudarImovel(imovel);
             
             return true;
-        } else {
-            return false;
         }
     }
     
@@ -77,6 +81,18 @@ public class ImovelController {
         
         Imovel imovel = new Imovel(idImobiliaria, idSubtipo, quartos, suites, vagas, banheiros, statusImovel, tipo, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamanho, valor, taxaCondominio, iptu);
         return imovel.consultarImovel(imovel);
+    }
+    
+    public ResultSet consultarImovel(Imovel im){
+        im.setStatusImovel(switch (im.getStatusImovel()) {
+            case "Disponível" -> "Available";
+            case "Indisponível" -> "Unavailable";
+            case "Vendido" -> "Sold";
+            case "Alugado" -> "Rented";
+            default -> "Avaiable";
+        });
+        
+        return im.consultarImovel(im);
     }
     
     public ResultSet consultarImovelByImobiliaria (Integer idImobiliaria) {
