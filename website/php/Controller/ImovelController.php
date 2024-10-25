@@ -1,5 +1,4 @@
 <?php
-class ImovelController {
-    
-}
+namespace imobiliariati\Controller;
+use imobiliariati\DAO;
 ?>

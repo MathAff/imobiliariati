@@ -1,9 +1,16 @@
 <?php
-include_once('../php/Controller/ImovelController.php');
+require_once 'autoload.php';
+
+use PDOException;
+use imobiliariati\utils\ConnectionDB;
+use imobiliariati\utils\ConnectionFTP;
 
 if (!isset($_GET['search'])) {
     header('Location: index.html');
 }
+
+$conn = ConnectionDB::connect();
+$ftp = ConnectionFTP::connect();
 
 $search = $_GET['search'];
 
@@ -24,7 +31,7 @@ $search = $_GET['search'];
 <body>
     <header>
         <div clas="header-div-logo">
-            <img class="header-logo" src="../assets/images/favicon.png" alt="Logo da Imobiliaria TI">
+            <img class="header-logo" src="../assets/images/logo.png" alt="Logo da Imobiliaria TI">
         </div>
         <div class="search-bar">
             <form action="search_results.php" method="GET">
@@ -40,16 +47,64 @@ $search = $_GET['search'];
         </div>
     </header>
     <div class="search-container">
-        <div class="card">
-            <img src="" alt="">
-            <div class="card-content">
+        <?php
+            $remoteDir = "/imagens-imoveis";
+            $localDir = "assets/images/";
+
+            $files = ftp_nlist($ftp, $remoteDir);
+
+            if ($files === false) {
+                die ("<div class='error'>Não foi possível listar os arquivos</div>");
+            }
+
+            foreach ($files as $file) {
+                $fileName = basename($file);
+                $localPath = $localDir . $fileName;
+
+                if (!ftp_get($ftp, $localPath, $file, FTP_BINARY)){
+                    echo "Falha ao baixar o arquivo $fileName";
+                }
+            }
+
+            ConnectionFTP::disconnect();
+
+            $rs = null;
+
+            try {
+                $stmt = $conn->prepare("SELECT * FROM imoveis im LEFT JOIN imagens img ON im.id = img.id_imovel WHERE im.enderco LIKE %?%");
+                $stmt->bindParam(1, $search);
+                $rs = $stmt->fetchAll();
+            } catch (PDOException $e) {
+                echo "Erro ao procurar imoveis: $e";
+            }
+
+            if ($rs != null) {
+                foreach ($rs as $row) {
+                    $imagePath = $localDir . $row["nome_arquivo"];
+
+                    if (file_exists($imagePath)) {
+                        echo "<div class='card'>
+                                <img src='$imamgePath' alt='Imagem do Imovel' class='card-img'>
+                                    <div class='card-content'>
+                                        <h3>". $rs['Endereco']."</h3>
+                                        <p>". $rs['descricao']."</p>
+                                        <a href='#' class='button'>Mais</a>
+                                    </div>
+                                </div>";
+                    }
+                }
+            }
+        ?>
+        <div class='card'>
+            <img src='../assets/images/no-image.png' alt='Imagem do Imovel' class='card-img'>
+            <div class='card-content'>
                 <h3>Card 1</h3>
                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni, deserunt accusamus. Vel nihil expedita atque eius alias dolor, facilis officia adipisci, aliquid commodi culpa odio? Ad saepe earum fuga velit?</p>
-                <a href="#" class="button">Mais</a>
+                <a href='#' class='button'>Mais</a>
             </div>
         </div>
         <div class="card">
-            <img src="" alt="">
+            <img src="../assets/images/no-image.png" alt="Imagem do Imovel" class="card-img">
             <div class="card-content">
                 <h3>Card 2</h3>
                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni, deserunt accusamus. Vel nihil expedita atque eius alias dolor, facilis officia adipisci, aliquid commodi culpa odio? Ad saepe earum fuga velit?</p>
@@ -57,7 +112,7 @@ $search = $_GET['search'];
             </div>
         </div>
         <div class="card">
-            <img src="" class="card-img">
+            <img src="../assets/images/no-image.png" alt="Imagem do Imovel" class="card-img">
             <div class="card-content">
                 <h3>Card 3</h3>
                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni, deserunt accusamus. Vel nihil expedita atque eius alias dolor, facilis officia adipisci, aliquid commodi culpa odio? Ad saepe earum fuga velit?</p>

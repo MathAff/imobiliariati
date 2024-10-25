@@ -1,8 +1,13 @@
 <?php
-class Connection {
+namespace imobiliariati\utils;
+
+use PDO;
+use PDOException;
+
+class ConnectionDB {
     public $conn = null;
     
-    public function connect () {
+    public static function connect () {
         $db = "imobiliariati";
         $user = "imobiliariati";
         $psw = "1f7.2;C1Kj7;";
@@ -10,8 +15,9 @@ class Connection {
 
         try {
 
-            $this->conn = new PDO ('mysql:host='.$server.';dbname='.$db, $user, $psw);
-            return $this->conn;
+            self::$conn = new PDO ('mysql:host='.$server.';dbname='.$db, $user, $psw);
+            self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return self::$conn;
 
         } catch (PDOException $e) {
 
