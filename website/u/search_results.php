@@ -1,7 +1,6 @@
 <?php
-require_once 'autoload.php';
+require_once '../../autoload.php';
 
-use PDOException;
 use imobiliariati\utils\ConnectionDB;
 use imobiliariati\utils\ConnectionFTP;
 
@@ -48,58 +47,52 @@ $search = $_GET['search'];
     </header>
     <div class="search-container">
         <?php
-            $remoteDir = "/imagens-imoveis";
-            $localDir = "assets/images/";
-
-            $files = ftp_nlist($ftp, $remoteDir);
-
-            if ($files === false) {
-                die ("<div class='error'>Não foi possível listar os arquivos</div>");
-            }
-
-            foreach ($files as $file) {
-                $fileName = basename($file);
-                $localPath = $localDir . $fileName;
-
-                if (!ftp_get($ftp, $localPath, $file, FTP_BINARY)){
-                    echo "Falha ao baixar o arquivo $fileName";
-                }
-            }
-
-            ConnectionFTP::disconnect();
-
             $rs = null;
 
             try {
-                $stmt = $conn->prepare("SELECT * FROM imoveis im LEFT JOIN imagens img ON im.id = img.id_imovel WHERE im.enderco LIKE %?%");
-                $stmt->bindParam(1, $search);
+                $stmt = $conn->prepare("SELECT im.*, MIN(img.nome_arquivo) AS imagem FROM imoveis im LEFT JOIN imagens img  ON im.id_imovel = img.id_imovel WHERE im.endereco LIKE ? GROUP BY im.id_imovel");
+                $stmt->bindValue(1, "%".$search."%");
+                $stmt->execute();
                 $rs = $stmt->fetchAll();
             } catch (PDOException $e) {
                 echo "Erro ao procurar imoveis: $e";
             }
-
-            if ($rs != null) {
+            if (!empty($rs)) {
+                $remoteDir = null;
+                ftp_pasv($ftp, true);
+    
                 foreach ($rs as $row) {
-                    $imagePath = $localDir . $row["nome_arquivo"];
-
-                    if (file_exists($imagePath)) {
-                        echo "<div class='card'>
-                                <img src='$imamgePath' alt='Imagem do Imovel' class='card-img'>
-                                    <div class='card-content'>
-                                        <h3>". $rs['Endereco']."</h3>
-                                        <p>". $rs['descricao']."</p>
-                                        <a href='#' class='button'>Mais</a>
-                                    </div>
-                                </div>";
+                    $remoteDir = "/".$row["id_imovel"].'/';
+                    $imagePath = null;
+                    if ($row['imagem'] == null) {
+                        $imagePath = "../assets/images/no-image.png";
+                    } else {
+                        echo "esse tem imagem";
                     }
+                    echo "<div class='card'>
+                            <img src='$imagePath' alt='Imagem do Imovel' class='card-img'>
+                                <div class='card-content'>
+                                    <h3>". $row['cidade']." - ".$row['bairro'] . $row['endereco'] ."</h3>
+                                    <p>". $row['descricao']."</p>
+                                    <a href='#' class='button'>Mais</a>
+                                </div>
+                            </div>";
+                }
+    
+    
+                ConnectionFTP::disconnect();
+    
+    
+                if ($rs != null) {
                 }
             }
+
         ?>
         <div class='card'>
             <img src='../assets/images/no-image.png' alt='Imagem do Imovel' class='card-img'>
             <div class='card-content'>
                 <h3>Card 1</h3>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni, deserunt accusamus. Vel nihil expedita atque eius alias dolor, facilis officia adipisci, aliquid commodi culpa odio? Ad saepe earum fuga velit?</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ultrices neque vitae quam euismod faucibus. Suspendisse nisi magna, efficitur eget velit eu, interdum pharetra neque. Etiam scelerisque consequat congue. Pellentesque elementum augue sit amet rhoncus pretium. Suspendisse elementum orci id congue feugiat. Maecenas felis felis, varius at metus non, convallis vestibulum neque. Curabitur venenatis non nisi ac fermentum. Duis facilisis ac nibh quis convallis. Integer venenatis enim quis eros blandit tincidunt. Sed venenatis lorem tristique libero bibendum, eget aliquet enim pulvinar. Maecenas in pulvinar nibh, eu pharetra quam. Quisque ullamcorper arcu in quam sollicitudin bibendum.</p>
                 <a href='#' class='button'>Mais</a>
             </div>
         </div>

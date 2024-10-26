@@ -5,7 +5,7 @@ use PDO;
 use PDOException;
 
 class ConnectionDB {
-    public $conn = null;
+    public static $conn = null;
     
     public static function connect () {
         $db = "imobiliariati";

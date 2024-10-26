@@ -2,17 +2,21 @@
 namespace imobiliariati\utils;
 
 class ConnectionFTP {
-    private $conn = null;
+    private static $conn = null;
 
     public static function connect () {
         $ftpHost = "localhost";
         $ftpUser = "usuario";
         $ftpPsw = "123";
-        self::$conn = ftp_connect($ftpHost) or die ("Nao foi possivevl conectar ao FTP");
+        if (!self::$conn = ftp_connect($ftpHost)){
+            echo "Erro ao conectar ao FTP";
+            die();
+        }
 
         if (ftp_login(self::$conn, $ftpUser, $ftpPsw)) {
             return self::$conn;
         } else {
+            echo "Falha ao autenticar servidor FTP";
             die("Falha ao autenticar no servidor FTP");
             return false;
         }
