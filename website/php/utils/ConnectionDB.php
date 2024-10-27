@@ -27,12 +27,11 @@ class ConnectionDB {
         }
     }
 
-    public function disconnect () {
+    public static function disconnect () {
         try {
-            $this->conn->close();
-            $this->conn = null;
+            self::$conn->conn = null;
         } catch (PDOException $e) {
-            echo ('não foi possível desconectar: '.$e);
+            echo ('não foi possível desconectar: '.$e->getMessage());
         }
     }
 }

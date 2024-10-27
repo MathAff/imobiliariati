@@ -35,7 +35,7 @@ $search = $_GET['search'];
         <div class="search-bar">
             <form action="search_results.php" method="GET">
                 <div id="search-form" class="div-search">
-                    <input id='filter' class='input-search' type="text" value=<?php echo "'$search'" ?> placeholder="Pesquisar Imóveis" name="search" autofocus>
+                    <input id='filter' class='input-search' type="text" value=<?php echo "'$search'" ?> placeholder="Pesquisar Imóveis" name="search">
                     <button type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
@@ -58,37 +58,38 @@ $search = $_GET['search'];
                 echo "Erro ao procurar imoveis: $e";
             }
             if (!empty($rs)) {
-                $remoteDir = null;
                 ftp_pasv($ftp, true);
     
                 foreach ($rs as $row) {
                     $remoteDir = "/".$row["id_imovel"].'/';
+                    $fileName = $row["imagem"];
                     $imagePath = null;
-                    if ($row['imagem'] == null) {
+
+                    if ($row['imagem'] == null || is_object($row['imagem'])) {
                         $imagePath = "../assets/images/no-image.png";
                     } else {
-                        echo "esse tem imagem";
+                        $imagePath = "ftp://usuario:senha@localhost:21/$remoteDir/$fileName";
                     }
+
+                    $number = preg_split('/[-_]/', $row['endereco'])[3];
                     echo "<div class='card'>
                             <img src='$imagePath' alt='Imagem do Imovel' class='card-img'>
                                 <div class='card-content'>
-                                    <h3>". $row['cidade']." - ".$row['bairro'] . $row['endereco'] ."</h3>
+                                    <h3>". $row['cidade']." - ".$row['bairro'] . " - " . $number ."</h3>
                                     <p>". $row['descricao']."</p>
-                                    <a href='#' class='button'>Mais</a>
+                                    <form action='imovel.php' method='get'>
+                                        <input class='button' type='submit' name='id_imovel' value='Ler mais'>
+                                        <input type='hidden' name='idImovel'>
+                                    </form>
                                 </div>
                             </div>";
                 }
-    
-    
                 ConnectionFTP::disconnect();
-    
-    
-                if ($rs != null) {
-                }
+                ConnectionDB::disconnect();
             }
 
         ?>
-        <div class='card'>
+        <!--<div class='card'>
             <img src='../assets/images/no-image.png' alt='Imagem do Imovel' class='card-img'>
             <div class='card-content'>
                 <h3>Card 1</h3>
@@ -111,11 +112,7 @@ $search = $_GET['search'];
                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni, deserunt accusamus. Vel nihil expedita atque eius alias dolor, facilis officia adipisci, aliquid commodi culpa odio? Ad saepe earum fuga velit?</p>
                 <a href="#" class="button">Mais</a>
             </div>
-        </div>
-
-        <?php
-        
-        ?>
+        </div>-->
     </div>
     
 </body>
