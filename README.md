@@ -20,7 +20,6 @@ This project uses:
 As it was said earlier, the Java app can upload properties of some Real State Agency to a database. Once uploaded, the user could register an image in your computer to a FTP Server. Initially we were triygn to use a free online FTP Server, but we were getting trouble making uploads there, so finally, we just let this job for XAMPP. For this reason, if you try to run this app on your own, you can only test it if you're using some kind of Local Web Server with Apache, MySQL and FileZilla, remember to install the FileZilla client too. Finally, here are some screenshots of the app:
 ## Overview:
 ![image](https://github.com/user-attachments/assets/3953bfd2-bf43-46a0-854e-73d3dd59b153)
-Login screen
 
 
 # PHP Application
