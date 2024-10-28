@@ -61,17 +61,18 @@ $search = $_GET['search'];
                 ftp_pasv($ftp, true);
     
                 foreach ($rs as $row) {
-                    $remoteDir = "/".$row["id_imovel"].'/';
-                    $fileName = $row["imagem"];
-                    $imagePath = null;
+                    $remoteDir = "/".$row["id_imovel"].'/'.$row['imagem'];
+                    $imagePath = "../assets/images/no-image.png";
 
-                    if ($row['imagem'] == null || is_object($row['imagem'])) {
-                        $imagePath = "../assets/images/no-image.png";
-                    } else {
-                        $imagePath = "ftp://usuario:senha@localhost:21/$remoteDir/$fileName";
+                    if ($row['imagem'] != null && is_string($row['imagem'])) {
+                        $tempFile = "../assets/images/".$row['imagem'];
+
+                        if (ftp_get($ftp, $tempFile, $remoteDir, FTP_BINARY)) {
+                            $imagePath = $tempFile;
+                        }
                     }
 
-                    $number = preg_split('/[-_]/', $row['endereco'])[3];
+                    $number = preg_split('/[-_]/', $row['endereco'])[3] ?? 'N/A';
                     echo "<div class='card'>
                             <img src='$imagePath' alt='Imagem do Imovel' class='card-img'>
                                 <div class='card-content'>
