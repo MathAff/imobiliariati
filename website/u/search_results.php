@@ -64,12 +64,8 @@ $search = $_GET['search'];
                     $remoteDir = "/".$row["id_imovel"].'/'.$row['imagem'];
                     $imagePath = "../assets/images/no-image.png";
 
-                    if ($row['imagem'] != null && is_string($row['imagem'])) {
-                        $tempFile = "../assets/images/".$row['imagem'];
-
-                        if (ftp_get($ftp, $tempFile, $remoteDir, FTP_BINARY)) {
-                            $imagePath = $tempFile;
-                        }
+                    if ($row['imagem'] != null) {
+                        $imagePath = "../imagens-imoveis/".$row['id_imovel']."/".$row['imagem'];
                     }
 
                     $number = preg_split('/[-_]/', $row['endereco'])[3] ?? 'N/A';
@@ -78,42 +74,20 @@ $search = $_GET['search'];
                                 <div class='card-content'>
                                     <h3>". $row['cidade']." - ".$row['bairro'] . " - " . $number ."</h3>
                                     <p>". $row['descricao']."</p>
-                                    <form action='imovel.php' method='get'>
-                                        <input class='button' type='submit' name='id_imovel' value='Ler mais'>
-                                        <input type='hidden' name='idImovel'>
+                                    <form action='imovel.php' method='GET'>
+                                        <input class='button' type='submit' value='Ler mais'>
+                                        <input type='hidden' name='idImovel' value='".$row['id_imovel']."'>
                                     </form>
                                 </div>
                             </div>";
                 }
                 ConnectionFTP::disconnect();
                 ConnectionDB::disconnect();
+            } else {
+                echo "<div class='warning'>Não foi possível encontrar nenhum resultado para: <p class='search-warning'>$search.</p> Pesquise novamente.</div>";
             }
 
         ?>
-        <!--<div class='card'>
-            <img src='../assets/images/no-image.png' alt='Imagem do Imovel' class='card-img'>
-            <div class='card-content'>
-                <h3>Card 1</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ultrices neque vitae quam euismod faucibus. Suspendisse nisi magna, efficitur eget velit eu, interdum pharetra neque. Etiam scelerisque consequat congue. Pellentesque elementum augue sit amet rhoncus pretium. Suspendisse elementum orci id congue feugiat. Maecenas felis felis, varius at metus non, convallis vestibulum neque. Curabitur venenatis non nisi ac fermentum. Duis facilisis ac nibh quis convallis. Integer venenatis enim quis eros blandit tincidunt. Sed venenatis lorem tristique libero bibendum, eget aliquet enim pulvinar. Maecenas in pulvinar nibh, eu pharetra quam. Quisque ullamcorper arcu in quam sollicitudin bibendum.</p>
-                <a href='#' class='button'>Mais</a>
-            </div>
-        </div>
-        <div class="card">
-            <img src="../assets/images/no-image.png" alt="Imagem do Imovel" class="card-img">
-            <div class="card-content">
-                <h3>Card 2</h3>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni, deserunt accusamus. Vel nihil expedita atque eius alias dolor, facilis officia adipisci, aliquid commodi culpa odio? Ad saepe earum fuga velit?</p>
-                <a href="#" class="button">Mais</a>
-            </div>
-        </div>
-        <div class="card">
-            <img src="../assets/images/no-image.png" alt="Imagem do Imovel" class="card-img">
-            <div class="card-content">
-                <h3>Card 3</h3>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni, deserunt accusamus. Vel nihil expedita atque eius alias dolor, facilis officia adipisci, aliquid commodi culpa odio? Ad saepe earum fuga velit?</p>
-                <a href="#" class="button">Mais</a>
-            </div>
-        </div>-->
     </div>
     
 </body>

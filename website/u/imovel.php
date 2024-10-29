@@ -4,8 +4,9 @@ require_once '../../autoload.php';
 use imobiliariati\utils\ConnectionDB;
 use imobiliariati\utils\ConnectionFTP;
 
-if (!isset($_GET['id_imovel'])) {
-    header('Location: index.html');
+if (!isset($_GET['idImovel'])) {
+    var_dump($_GET['id_imovel']);
+    /*header('Location: index.html');*/
 }
 
 $conn = ConnectionDB::connect();
@@ -43,6 +44,7 @@ $ftp = ConnectionFTP::connect();
             </form>
         </div>
     </header>
+    <main>
 </body>
 </body>
 </html>
