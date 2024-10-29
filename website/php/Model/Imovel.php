@@ -1,6 +1,6 @@
 <?php
 namespace imobiliariati\Model;
-use imobiliariati\Controller\ImovelDAO;
+use imobiliariati\DAO\ImovelDAO;
 
 require_once "autoload.php";
 
@@ -25,7 +25,7 @@ class Imovel {
     }
 
     public function consultarImoveis ($imovel) {
-        $imovelDAO = new ImovelDAO();
+        return new ImovelDAO();
         
     }
 }

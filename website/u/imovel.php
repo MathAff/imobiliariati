@@ -1,8 +1,8 @@
 <?php
 require_once '../../autoload.php';
 
-use imobiliariati\utils\ConnectionDB;
-use imobiliariati\utils\ConnectionFTP;
+use imobiliariati\php\utils\ConnectionDB;
+use imobiliariati\php\utils\ConnectionFTP;
 
 if (!isset($_GET['idImovel'])) {
     var_dump($_GET['id_imovel']);

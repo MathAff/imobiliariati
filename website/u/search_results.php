@@ -47,16 +47,7 @@ $search = $_GET['search'];
     </header>
     <div class="search-container">
         <?php
-            $rs = null;
-
-            try {
-                $stmt = $conn->prepare("SELECT im.*, MIN(img.nome_arquivo) AS imagem FROM imoveis im LEFT JOIN imagens img  ON im.id_imovel = img.id_imovel WHERE im.endereco LIKE ? GROUP BY im.id_imovel");
-                $stmt->bindValue(1, "%".$search."%");
-                $stmt->execute();
-                $rs = $stmt->fetchAll();
-            } catch (PDOException $e) {
-                echo "Erro ao procurar imoveis: $e";
-            }
+            $rs = new ImovelController;
             if (!empty($rs)) {
                 ftp_pasv($ftp, true);
     

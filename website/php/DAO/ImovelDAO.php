@@ -1,19 +1,20 @@
 <?php
 namespace imobiliariati\DAO;
 
-use imobiliariati\utils\ConnectionDB;
+use imobiliariati\php\utils\ConnectionDB;
 use PDOException;
 
 class ImovelDAO {
     public function selectImoveis ($endereco) {
         $conn = ConnectionDB::connect();
         try {
-            $sql = "SELECT * FROM imoveis im LEFT JOIN imagens img ON im.id = img.id_imovel WHERE im.id = ?";
+            $sql = "SELECT im.*, MIN(img.nome_arquivo) AS imagem FROM imoveis im LEFT JOIN imagens img  ON im.id_imovel = img.id_imovel WHERE im.endereco LIKE ? GROUP BY im.id_imovel";
             $stmt = $conn->prepare($sql);
-            $stmt->bindParam(1, $endereco);
-            return $stmt->execute();
+            $stmt->bindParam(1, "%".$endereco."%");
+            $stmt->execute();
+            return $stmt->fetchAll();
         } catch (PDOException $e) {
-            echo "Erro ao selecionar imoveis: $e";
+            echo "Erro ao selecionar imoveis: ".$e->getMessage();
         }
     }
 }
