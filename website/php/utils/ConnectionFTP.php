@@ -1,5 +1,5 @@
 <?php
-namespace imobiliariati\php\utils;
+namespace utils;
 
 class ConnectionFTP {
     private static $conn = null;

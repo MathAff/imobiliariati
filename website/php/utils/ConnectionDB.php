@@ -1,11 +1,11 @@
 <?php
-namespace imobiliariati\php\utils;
+namespace utils;
 
 require_once '../../autoload.php';
 
 use PDO;
 use PDOException;
-use imobiliariati\utils\ConnectionCredencials;
+use utils\ConnectionCredencials;
 
 class ConnectionDB {
 
@@ -35,7 +35,7 @@ class ConnectionDB {
 
     public static function disconnect () {
         try {
-            self::$conn->conn = null;
+            self::$conn = null;
         } catch (PDOException $e) {
             echo ('não foi possível desconectar: '.$e->getMessage());
         }

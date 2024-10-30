@@ -1,8 +1,8 @@
 <?php
-namespace imobiliariati\php\utils;
+namespace utils;
 
-use imobiliariati\php\utils\ConnectionDB;
-use imobiliariati\php\utils\ConnectionFTP;
+use utils\ConnectionDB;
+use utils\ConnectionFTP;
 
 class Functions {
     public static function loadSearch ($rs, $search) {

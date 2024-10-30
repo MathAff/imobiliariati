@@ -1,8 +1,8 @@
 <?php
-namespace imobiliariati\Model;
-use imobiliariati\DAO\ImovelDAO;
+namespace Model;
+use DAO\ImovelDAO;
 
-require_once "autoload.php";
+require_once "../../autoload.php";
 
 class Imovel {
     private $id;
@@ -25,8 +25,8 @@ class Imovel {
     }
 
     public function consultarImoveis ($imovel) {
-        return new ImovelDAO();
-        
+        $imDAO = new ImovelDAO();
+        return $imDAO->selectImoveis($imovel);
     }
 }
 ?>
