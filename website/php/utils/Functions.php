@@ -23,7 +23,7 @@ class Functions {
                             <div class='card-content'>
                                 <h3>". $row['cidade']." - ".$row['bairro'] . " - " . $number ."</h3>
                                 <p>". $row['descricao']."</p>
-                                <form action='imovel.php' method='GET'>
+                                <form action='show_imovel.php' method='GET'>
                                     <input class='button' type='submit' value='Ler mais'>
                                     <input type='hidden' name='idImovel' value='".$row['id_imovel']."'>
                                 </form>

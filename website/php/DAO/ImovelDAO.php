@@ -10,7 +10,7 @@ class ImovelDAO {
         try {
             $sql = "SELECT im.*, MIN(img.nome_arquivo) AS imagem FROM imoveis im LEFT JOIN imagens img  ON im.id_imovel = img.id_imovel WHERE im.endereco LIKE ? GROUP BY im.id_imovel";
             $stmt = $conn->prepare($sql);
-            $stmt->bindValue(1, '%'.$imovel->getEndereco().'%');
+            $stmt->bindValue(1, '%'. $imovel->getEndereco().'%');
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (PDOException $e) {

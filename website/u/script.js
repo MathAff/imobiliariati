@@ -25,4 +25,4 @@ form.addEventListener('submit', (e) => {
         form.appendChild(errMsg);
         e.preventDefault();
     }
-})
+});
