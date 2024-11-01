@@ -17,10 +17,11 @@ public class ConnectionDB {
     private Connection conn = null;
     
     public Connection conectar (){
-        String server = "db4free.net/";
-        String dbName = "imobiliariati";
-        String dbUser = "imobiliariati";
-        String dbPsw = "1f7.2;C1Kj7;";
+        ConnectionCredentials cc = new ConnectionCredentials();
+        String server = cc.getServer();
+        String dbName = cc.getDbName();
+        String dbUser = cc.getDbUser();
+        String dbPsw = cc.getDbPsw();
         
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

@@ -17,9 +17,11 @@ public class FTPConnector {
     
     public FTPClient conectar () {
         try {
+            ConnectionCredentials cc = new ConnectionCredentials();
+            
             ftp = new FTPClient();
-            ftp.connect("localhost");
-            ftp.login("usuario", "123");
+            ftp.connect(cc.getFtpServer());
+            ftp.login(cc.getFtpUser(), cc.getFtpPsw());
             System.out.println("Conectado ao FTP");
             return ftp;
         } catch (IOException e) {
