@@ -49,8 +49,6 @@ public class ImovelDAO {
             stmt.setString(17, imovel.getDescricao());
             stmt.setString(18, imovel.getStatusImovel());
             
-            System.out.println("Encontrou o imovel");
-            
             return stmt.executeQuery();
         } catch (SQLException e) {
             System.out.println("nao foi possivel encontrar imovel: "+e.getMessage());
@@ -88,8 +86,6 @@ public class ImovelDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao inserir imovel: "+e);
             return 0;
-        } finally {
-            connDB.desconectar();
         }
     }
     
@@ -108,7 +104,7 @@ public class ImovelDAO {
     public ResultSet selectById (Imovel imovel) {
         Connection conn = connDB.conectar();
             try {
-                String sql = "SELECT * FROM imoveis WHERE id = ?";
+                String sql = "SELECT * FROM imoveis WHERE id_imovel = ?";
                 PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_SCROLL_SENSITIVE);
                 
                 stmt.setString(1, imovel.getId().toString());
@@ -120,10 +116,10 @@ public class ImovelDAO {
             }
     }
     
-    public Integer updateImovel (Imovel imovel) {
+    public boolean updateImovel (Imovel imovel) {
         Connection conn = connDB.conectar();
         try {
-            String sql = "UPDATE imoveis SET id_subtipo = ?, tipo = ?, tamanho = ?, quartos = ?, suites = ?, vagas = ?, banheiros = ?, valor = ?, taxa_condominio = ?, iptu = ?, tipo_negocio = ?, bairro = ?, cidade = ?, endereco = ?, cep = ?, descricao = ?, status_imovel = ? WHERE id = ?";
+            String sql = "UPDATE imoveis SET id_subtipo = ?, tipo = ?, tamanho = ?, quartos = ?, suites = ?, vagas = ?, banheiros = ?, valor = ?, taxa_condominio = ?, iptu = ?, tipo_negocio = ?, bairro = ?, cidade = ?, endereco = ?, cep = ?, descricao = ?, status_imovel = ? WHERE id_imovel = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             
             stmt.setString(1, imovel.getIdSubtipo().toString());
@@ -145,10 +141,10 @@ public class ImovelDAO {
             stmt.setString(17, imovel.getStatusImovel());
             stmt.setString(18, imovel.getId().toString());
             
-            return stmt.executeUpdate();
+            return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Erro ao mudar imovel: " + e);
-            return 0;
+            return false;
         } finally {
             connDB.desconectar();
         }
@@ -157,7 +153,7 @@ public class ImovelDAO {
     public Integer deleteImovel (Imovel imovel) {
         Connection conn = connDB.conectar();
         try {
-            String sql = "DELETE FROM imoveis WHERE id = ?";
+            String sql = "DELETE FROM imoveis WHERE id_imovel = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             
             stmt.setString(1, imovel.getId().toString());

@@ -4,9 +4,15 @@
  */
 package utils;
 
+import model.Imovel;
+import controller.ImagemController;
+import controller.ImovelController;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import org.apache.commons.net.ftp.FTPClient;
 
 /**
@@ -44,9 +50,6 @@ public class FTPFileSender {
             
             for (int i = 0; i < filePathList.size(); i++) {
                 try (FileInputStream sendFile = new FileInputStream(filePathList.get(i))) {
-                    
-                    System.out.println(id+"_"+fileList.get(i));
-                    System.out.println(sendFile.toString());
                     if (ftpConn.storeFile(id+"_"+fileList.get(i), sendFile)) {
                         System.out.println("Arquivo enviado com sucesso!!!");
                     } else {
@@ -82,5 +85,46 @@ public class FTPFileSender {
         }
         
         return dirExists;
+    }
+    
+    public boolean uploadFile (Imovel imovel, Integer idImovel, ArrayList<String> fileList, ArrayList<String> filePathList) {
+        boolean flag = true;
+        boolean cadImovel = new ImovelController().cadastrarImovel(imovel.getIdImobiliaria(), imovel.getIdSubtipo(), imovel.getQuartos(), imovel.getSuites(), imovel.getVagas(), imovel.getBanheiros(), imovel.getStatusImovel(), imovel.getTipo(), imovel.getTipoNegocio(), imovel.getBairro(), imovel.getCidade(), imovel.getEndereco(), imovel.getCep(), imovel.getDescricao(), imovel.getTamanho(), imovel.getValor(), imovel.getTaxaCondominio(), imovel.getIptu());
+        
+        ResultSet rs;
+        
+        try {
+            rs = new ImovelController().consultarImovel(imovel);
+            rs.next();
+            idImovel = rs.getInt("id_imovel");
+        } catch (SQLException e) {
+            System.out.println("Não foi possível consultar imovel: "+e);
+        }
+
+        if (cadImovel) {
+            if (new FTPFileSender().sendFile(idImovel, fileList, filePathList)) {
+                for (String fileName : fileList) {
+                    try {
+                        ResultSet rsImage = new ImagemController().consultarImagemByName(idImovel, fileName);
+                        if (rsImage.next()) {
+                            JOptionPane.showMessageDialog(null, "Imagem: "+fileName+" já cadastrada");
+                        } else {
+                            new ImagemController().inserirImagem(idImovel, fileName);
+                            flag = false;
+                            JOptionPane.showMessageDialog(null, "Imagem: "+fileName+" já cadastrada.");
+                        }
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "ERRO! Passe o código para os desenvolvedores: "+ex.getMessage());
+                        System.out.println("Não foi possível encontrar imagem: "+ex.getMessage());
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Não foi possível enviar as imagens.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, preencha todos os campos!!!.");
+        }
+        
+        return flag;
     }
 }

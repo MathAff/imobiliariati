@@ -6,8 +6,6 @@ package view;
 
 import controller.ImobiliariaController;
 import javax.swing.JOptionPane;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.ImageIcon;
 
 /**
@@ -220,6 +218,9 @@ public class ForgotPsw extends javax.swing.JFrame {
                 new Login().setVisible(true);
                 dispose();
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Senhas não coincidem, tente novamente!");
+            tfSenha.requestFocus();
         }
         
     }//GEN-LAST:event_btMudarSenhaActionPerformed

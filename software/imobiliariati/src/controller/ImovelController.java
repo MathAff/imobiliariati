@@ -32,7 +32,6 @@ public class ImovelController {
             };
             
             Imovel im = new Imovel(idImobiliaria, idSubtipo, quartos, suites, vagas, banheiros, statusImovel, tipo, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamanho, valor, taxaCondominio, iptu);
-            System.out.println(im.toString());
             im.cadastrarImovel(im);
             
             return true;
@@ -64,9 +63,7 @@ public class ImovelController {
             imovel.setTaxaCondominio(taxaCondominio);
             imovel.setIptu(iptu);
             
-            imovel.mudarImovel(imovel);
-            
-            return true;
+            return imovel.mudarImovel(imovel);
         }
     }
     

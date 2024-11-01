@@ -15,9 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import controller.ImagemController;
 import controller.ImovelController;
-import java.sql.SQLException;
 import model.Imovel;
 import utils.FTPFileSender;
 
@@ -428,44 +426,20 @@ public class CadastrarImagem extends javax.swing.JFrame {
         if (confirm == JOptionPane.YES_OPTION) {           
             enableFields(false);
             
-            boolean cadImovel = new ImovelController().cadastrarImovel(imovel.getIdImobiliaria(), imovel.getIdSubtipo(), imovel.getQuartos(), imovel.getSuites(), imovel.getVagas(), imovel.getBanheiros(), imovel.getStatusImovel(), imovel.getTipo(), imovel.getTipoNegocio(), imovel.getBairro(), imovel.getCidade(), imovel.getEndereco(), imovel.getCep(), imovel.getDescricao(), imovel.getTamanho(), imovel.getValor(), imovel.getTaxaCondominio(), imovel.getIptu());
-            
-            try {
-                rs = new ImovelController().consultarImovel(imovel);
-                rs.next();
-                idImovel = rs.getInt("id");
-            } catch (SQLException e) {
-                System.out.println("Não foi possível consultar imovel: "+e);
-            }
-            
-            if (cadImovel) {
-                if (new FTPFileSender().sendFile(idImovel, fileList, filePathList)) {
-                    
-                    
-                    for (String fileName : fileList) {
-                        Integer insert = new ImagemController().inserirImagem(idImovel, fileName);
-                        if (insert == null) {
-                            JOptionPane.showMessageDialog(null, "Arquivo já cadastrado");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Imagen(s) enviada(s) com sucesso!!!");
-                            wlcm.setVisible(true);
-                            dispose();
-                        }
-                    }
-
-                    model.clear();
-                    lsFilePath.setModel(model);
-
-                    filePathList.clear();
-                    fileList.clear();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Não foi possível enviar as imagens.");
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, preencha todos os campos!!!.");
+            boolean flag = new FTPFileSender().uploadFile(imovel, idImovel, fileList, filePathList);
+            if (flag){
+                JOptionPane.showMessageDialog(null, "Imagen(s) enviada(s) com sucesso!!!");
+                wlcm.setVisible(true);
+                dispose();
             }
             
             enableFields(true);
+
+            model.clear();
+            lsFilePath.setModel(model);
+
+            filePathList.clear();
+            fileList.clear();
         }
     }//GEN-LAST:event_btFinishActionPerformed
 

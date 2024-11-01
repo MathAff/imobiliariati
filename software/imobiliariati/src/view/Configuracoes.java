@@ -30,7 +30,7 @@ public class Configuracoes extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
-        setSize(700, 450);
+        setSize(700, 425);
         ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/favicon.png"));
         setIconImage(ic.getImage());
         setTitle("Configurações");
@@ -347,7 +347,7 @@ public class Configuracoes extends javax.swing.JFrame {
 
                 }
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Erro ao cadastrar Imobiliaria!!!");
+                JOptionPane.showMessageDialog(null, "Erro ao cadastrar Imobiliaria, contate os desenvovedores: "+e.getMessage());
             }
         } else {
             JOptionPane.showMessageDialog(null, "As senhas não coincidem.");

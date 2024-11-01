@@ -86,8 +86,8 @@ public class MudarImovel extends javax.swing.JFrame {
                 tfCep.setText(rsImovel.getString("cep"));
                 tfBairro.setText(rsImovel.getString("bairro"));
                 tfCidade.setText(rsImovel.getString("cidade"));
-                tfRua.setText(rsImovel.getString("endereco").split("_")[2]);
-                tfNumero.setText(rsImovel.getString("endereco").split("_")[3]);
+                tfRua.setText(rsImovel.getString("endereco").split("[_-]")[2]);
+                tfNumero.setText(rsImovel.getString("endereco").split("[_-]")[3]);
                 spTamImovel.setValue(rsImovel.getInt("tamanho"));
                 CbBTipoImovel.setSelectedItem(rsImovel.getString("tipo"));
                 CbBSubTipoImovel.setSelectedItem(rsSubtipo.getObject("nome"));
@@ -693,7 +693,7 @@ public class MudarImovel extends javax.swing.JFrame {
         try {
             ResultSet rs = new SubtiposController().selecionarSubtiposByNomeController(subtipoImovel);
             if (rs.next()) {
-                idSubtipo = rs.getInt("id");
+                idSubtipo = rs.getInt("id_subtipo");
                 System.out.println(idSubtipo);
             } else {
                 System.out.println("Nao achou subtipos");
@@ -702,12 +702,12 @@ public class MudarImovel extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "ERRO! Contate os desenvolvedores e passe o erro: "+e);
         }
         
-        if (valorImovel.matches("^(\\d{1,9}(?:[,]\\d{0,2})?)?$") && txCondominio.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$ ") && valorIptu.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$ ")) {
-            DecimalFormat df = new DecimalFormat("#,##0.00");
+        if (valorImovel.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$") && txCondominio.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$") && valorIptu.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$")) {
+            Float valor = Float.valueOf(valorImovel.replace(",", "."));
             
-            Float valor = Float.valueOf(df.format(valorImovel.replace(".", "").replace(",", ".")));
-            Float condominio = Float.valueOf(df.format(txCondominio.replace(".", "").replace(",", ".")));
-            Float iptu = Float.valueOf(df.format(valorIptu.replace(".", "").replace(",", ".")));
+            Float condominio = Float.valueOf(txCondominio.replace(",", "."));
+            
+            Float iptu = Float.valueOf(valorIptu.replace(",", "."));
             
             System.out.println(valor);
             System.out.println(iptu);

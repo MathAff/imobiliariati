@@ -41,6 +41,27 @@ public class ListaImoveis extends javax.swing.JFrame {
         columnModel.getColumn(0).setMinWidth(50);
     }
     
+    public void enableFields(boolean enable) {
+        String e = String.valueOf(enable);
+        switch (e) {
+            case "true" -> {
+                btChange.setEnabled(true);
+                btDeletar.setEnabled(true);
+                btVoltar.setEnabled(true);
+            }
+            case "false" -> {
+                btChange.setEnabled(false);
+                btDeletar.setEnabled(false);
+                btVoltar.setEnabled(false);
+            }
+            default -> {              
+                btChange.setEnabled(true);
+                btDeletar.setEnabled(true);
+                btVoltar.setEnabled(true);
+            }
+        }
+    }
+    
     public ListaImoveis () {
         initComponents();
         ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/favicon.png"));
@@ -80,7 +101,7 @@ public class ListaImoveis extends javax.swing.JFrame {
             while (rs.next()) {
                 Object [] row = new Object[2];
                 
-                row[0] = rs.getInt("id");
+                row[0] = rs.getInt("id_imovel");
                 row[1] = rs.getString("endereco");
                 
                 model.addRow(row);
@@ -253,7 +274,7 @@ public class ListaImoveis extends javax.swing.JFrame {
             if (imc.deletarImovel(idImovel) != 0) {
                 JOptionPane.showMessageDialog(null, "Imovel deletado com sucesso!!!");
             } else {
-                JOptionPane.showMessageDialog(null, "Não foi possível deletar o imóvel");
+                JOptionPane.showMessageDialog(null, "Selecione um imóvel");
             }
             
             tbImoveis.setModel(createTabelModel());
@@ -269,9 +290,22 @@ public class ListaImoveis extends javax.swing.JFrame {
     }//GEN-LAST:event_btDeletarActionPerformed
 
     private void btChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btChangeActionPerformed
-        System.out.println(idImovel.toString());
+        enableFields(false);
         new MudarImovel(this.idImovel, this).setVisible(true);
         setVisible(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                tbImoveis.setModel(createTabelModel());
+                idImovel = 0;
+            
+                TableColumnModel columnModel = tbImoveis.getColumnModel();
+                columnModel.getColumn(0).setPreferredWidth(50);
+                columnModel.getColumn(0).setMaxWidth(50);
+                columnModel.getColumn(0).setMinWidth(50);
+                enableFields(true);
+            }
+        });
     }//GEN-LAST:event_btChangeActionPerformed
 
     /**

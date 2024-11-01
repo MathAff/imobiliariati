@@ -27,7 +27,7 @@ public class SubtiposDAO {
     public ResultSet selectSubtipoById(Subtipos sub) {
         Connection conn = connDB.conectar();
         try {
-            String sql = "SELECT * FROM subtipos WHERE id = ?";
+            String sql = "SELECT * FROM subtipos WHERE id_subtipo = ?";
             PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_SCROLL_SENSITIVE);
             
             stmt.setString(1, sub.getId().toString());

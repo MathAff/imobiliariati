@@ -12,6 +12,7 @@ import utils.Endereco;
 import utils.ViaCepService;
 import controller.SubtiposController;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 import model.Imovel;
 
@@ -616,25 +617,35 @@ public class InserirImovel extends javax.swing.JFrame {
         try {
             ResultSet rs = new SubtiposController().selecionarSubtiposByNomeController(subtipoImovel);
             if (rs != null && rs.next()) {
-                idSubtipo = rs.getInt("id");
+                idSubtipo = rs.getInt("id_subtipo");
+            }
+
+            if (valorImovel.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$") && txCondominio.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$") && valorIptu.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$")) {
+                DecimalFormat df = new DecimalFormat("#,##0.00");
+            
+                Float valorReplaced = Float.valueOf(valorImovel.replace(".", "").replace(",", "."));
+                String valorFormated = df.format(valorReplaced);
+                Float valor = Float.valueOf(valorFormated);
+
+                Float condominioReplaced = Float.valueOf(txCondominio.replace(".", "").replace(",", "."));
+                String condominioFormated = df.format(condominioReplaced);
+                Float condominio = Float.valueOf(condominioFormated);
+
+                Float iptuReplaced = Float.valueOf(valorIptu.replace(".", "").replace(",", "."));
+                String iptuFormated = df.format(iptuReplaced);
+                Float iptu = Float.valueOf(iptuFormated);
+
+                Imovel im = new Imovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
+
+                new CadastrarImagem(im, wlcm).setVisible(true);
+                dispose();
+
+            } else {
+                tfValorImovel.requestFocus();
+                JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, digite uma quantia válida.");
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERRO! Contate os desenvolvedores e passe o erro: "+e);
-        }
-        
-        if (valorImovel.matches("\\d+[.,]?\\d*") && txCondominio.matches("\\d+[.,]?\\d*") && valorIptu.matches("\\d+[.,]?\\d*")) {
-            Float valor = Float.valueOf(valorImovel.replace(".", "").replace(",", "."));
-            Float condominio = Float.valueOf(txCondominio.replace(".", "").replace(",", "."));
-            Float iptu = Float.valueOf(valorIptu.replace(".", "").replace(",", "."));
-
-            Imovel im = new Imovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
-            
-            new CadastrarImagem(im, wlcm).setVisible(true);
-            dispose();
-            
-        } else {
-            tfValorImovel.requestFocus();
-            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, digite uma quantia válida.");
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed

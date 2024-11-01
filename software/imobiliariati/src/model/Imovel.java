@@ -198,7 +198,7 @@ public class Imovel {
         return new ImovelDAO().insertImovel(imovel);
     }
     
-    public Integer mudarImovel (Imovel imovel) {
+    public boolean mudarImovel (Imovel imovel) {
         return new ImovelDAO().updateImovel(imovel);
     }
 

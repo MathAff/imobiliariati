@@ -228,7 +228,7 @@ public class Login extends javax.swing.JFrame {
         ResultSet rs = new ImobiliariaController().consultarImobiliariaByEmailAndSenha(email, psw);
         try {
             if (rs != null && rs.next()){
-                Integer idImobiliaria = rs.getInt("id");
+                Integer idImobiliaria = rs.getInt("id_imobiliaria");
                 new Welcome(idImobiliaria, email).setVisible(true);
                 this.dispose();
             } else {

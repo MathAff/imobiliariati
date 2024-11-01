@@ -45,7 +45,7 @@ public class ImobiliariaDAO {
         Connection conn = connDB.conectar();
         System.out.println(imobiliaria.getId());
         try {
-            String sql = "SELECT * FROM imobiliarias WHERE id = ?";
+            String sql = "SELECT * FROM imobiliarias WHERE id_imobiliaria = ?";
             PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_SCROLL_SENSITIVE);
             
             stmt.setString(1, imobiliaria.getId().toString());
@@ -81,7 +81,7 @@ public class ImobiliariaDAO {
     public Integer updateImobiliaria (Imobiliaria imobiliaria) {
         Connection conn = connDB.conectar();
         try {
-            String sql = "UPDATE imobiliarias SET nome = ?, email = ?, telefone = ? WHERE id = ?";
+            String sql = "UPDATE imobiliarias SET nome = ?, email = ?, telefone = ? WHERE id_imobiliaria = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             
             stmt.setString(1, imobiliaria.getNome());
