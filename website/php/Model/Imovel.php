@@ -28,5 +28,10 @@ class Imovel {
         $imDAO = new ImovelDAO();
         return $imDAO->selectImoveis($imovel);
     }
+
+    public function consultarTodasImagens ($imovel) {
+        $imDAO = new ImovelDAO();
+        return $imDAO->selectAllImagens($imovel);
+    }
 }
 ?>

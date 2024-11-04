@@ -15,8 +15,5 @@
                 </button>
             </div>
         </form>
-        <div width='100px' height='100px'>
-
-        </div>
     </div>
 </header>

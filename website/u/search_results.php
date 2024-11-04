@@ -1,7 +1,6 @@
 <?php
 require_once '../../autoload.php';
 
-use Controller\ImovelController;
 use utils\Functions;
 
 if (!isset($_GET['search'])) {
@@ -31,10 +30,8 @@ $search = $_GET['search'];
     <main>
         <div class="search-container">
             <?php
-                //creating an Array with the results from the database
-                $rs = ImovelController::consultarImoveisEImagens($search);
                 //loading the screen with the search results
-                Functions::loadSearch($rs, $search);
+                Functions::loadSearch($search);
             ?>
         </div>
     </main>
