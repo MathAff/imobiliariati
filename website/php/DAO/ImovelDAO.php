@@ -9,7 +9,7 @@ class ImovelDAO {
     public function selectImoveis ($imovel) {
         $conn = ConnectionDB::connect();
         try {
-            $sql = "SELECT im.*, MIN(img.nome_arquivo) AS imagem, st.nome FROM imoveis im LEFT JOIN imagens img  ON im.id_imovel = img.id_imovel LEFT JOIN subtipos st ON im.id_subtipo = st.id_subtipo WHERE im.endereco LIKE ? GROUP BY im.id_imovel";
+            $sql = "SELECT im.*, MIN(img.nome_arquivo) AS imagem, st.nome, imo.nome FROM imoveis im LEFT JOIN imagens img  ON im.id_imovel = img.id_imovel LEFT JOIN subtipos st ON im.id_subtipo = st.id_subtipo LEFT JOIN imobiliarias imo ON im.id_imobiliaria = imo.id_imobiliaria WHERE im.endereco LIKE ? GROUP BY im.id_imovel";
             $stmt = $conn->prepare($sql);
             $stmt->bindValue(1, '%'. $imovel->getEndereco().'%');
             $stmt->execute();
@@ -22,7 +22,7 @@ class ImovelDAO {
     public function selectAllImagens ($imovel) {
         $conn = ConnectionDB::connect();
         try {
-            $sql = "SELECT * FROM imoveis im INNER JOIN imagens img ON im.id_imovel = img.id_imovel WHERE im.id_imovel = ?";
+            $sql = "SELECT im.*, imo.nome, img.nome_arquivo FROM imoveis im INNER JOIN imagens img ON im.id_imovel = img.id_imovel LEFT JOIN imobiliarias imo ON im.id_imobiliaria = imo.id_imobiliaria WHERE im.id_imovel = ?";
             $stmt = $conn->prepare($sql);
             
             $stmt->bindValue (1, $imovel->getId());

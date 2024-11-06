@@ -20,7 +20,7 @@ class Functions {
                     $imagePath = "../imagens-imoveis/".$row['id_imovel']."/".$row['imagem'];
                 }
 
-                $subtipo = $row['nome'];
+                $subtipo = $row[20];
                 $subtipoReplaced = str_replace("_", " ", $subtipo);
 
                 $number = preg_split('/[-_]/', $row['endereco'])[3] ?? 'N/A';
@@ -56,6 +56,7 @@ class Functions {
                             <label for='icon-bathtub'>".$row['banheiros']."</label>
                         </div>
                     </div>
+                    <h4>Imobiliaria: ".$row['nome']."</h4>
                     <form action='show_imovel.php' method='GET'>
                         <input class='button' type='submit' value='Ler mais'>
                         <input type='hidden' name='idImovel' value='".$row['id_imovel']."'>
@@ -134,14 +135,15 @@ class Functions {
             <div class='desc-container'>
                 <div class='description'>
                     <h1>". $rs[0]['cidade']." - ".$rs[0]['bairro'] . " - " . $number ."</h1>
-                    <h3>".$rs[0]['tipo_negocio'].": R$".$rs[0]['valor']."</h3>";
+                    <h2>".$rs[0]['tipo_negocio'].": R$".$rs[0]['valor']."</h2>";
                 if ($rs[0]['taxa_condominio'] != null) {
-                    echo "<h4>Condomínio: R$".$rs[0]['taxa_condominio']."</h4>";
+                    echo "<h3>Condomínio: R$".$rs[0]['taxa_condominio']."</h3>";
                 }
                 if ($rs[0]['iptu'] != null) {
-                    echo "<h4>Iptu: R$".$rs[0]['iptu']."</h4>";
+                    echo "<h3>Iptu: R$".$rs[0]['iptu']."</h3>";
                 }
-                echo"<p style='margin: 30px 0; max-width: 700px;'>".$rs[0]['descricao']."</p>
+                echo"<h4>Imobiliaria: ".$rs[0]['nome']."</h4>
+                <p style='margin: 30px 0; max-width: 700px;'>".$rs[0]['descricao']."</p>
                 </div>
                 <div class='table' id='table-show'>
                     <div class='table-icon'>
