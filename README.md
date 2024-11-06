@@ -31,9 +31,6 @@ As it was said earlier, the Java app can upload properties of some Real State Ag
 ![image](https://github.com/user-attachments/assets/ac3f8814-7755-4b01-969c-a68865c07614)
 
 
-![image](https://github.com/user-attachments/assets/e0d00a3a-4211-41f0-959e-39a1d7907947)
-
-
 ![image](https://github.com/user-attachments/assets/1fe49b87-5e7c-4684-afe9-5b96cf9d6141)
 
 
