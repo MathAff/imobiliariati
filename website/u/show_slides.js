@@ -1,5 +1,7 @@
 const radio1 = document.getElementById("radio1");
 const selected = document.querySelectorAll('[id^="radio"]:checked');
+const radios = document.querySelectorAll('[id^="radio"]');
+const carouselImages = document.querySelectorAll('.slide');
 const image = document.querySelector('.first');
 const nextImage = document.getElementById("next-image");
 const previousImage = document.getElementById("previous-image");
@@ -18,15 +20,22 @@ previousImage.addEventListener("click", () => {
     loadPreviousImage();
 });
 
+radios.forEach((element) => {
+    element.addEventListener('click', (event) => {
+        let radioId = parseInt(event.target.id.match(/\d+/)[0]);
+        count = radioId;
+        loadImagePosition(count);
+    })
+});
+
 function loadNextImage () {
     count++;
     
     if (count > qntBtns) {
         count = 1;
     }
-    loadImage(count);
-    let radio = document.getElementById("radio"+count);
-    radio.checked = true;
+    loadImagePosition(count);
+    document.getElementById("radio"+count).checked = true;
 }
 
 function loadPreviousImage () {
@@ -34,15 +43,22 @@ function loadPreviousImage () {
     if (count < 1) {
         count = qntBtns;
     }
+    loadImagePosition(count);
     document.getElementById('radio'+count).checked = true;
-    loadImage(count);
 }
 
-function loadImage(count) {
-    let percentage = btnDividedBy100 * (count-1 ) * -1;
-    alert (percentage);
-
-    if (selected) {
-        image.style.marginLeft = percentage.toString() + "%";
-    }
+function loadImagePosition(count) {
+    /*
+    let currentImage = carouselImages[count-1];
+    
+    let imageWidth = currentImage.clientWidth;
+    */
+    let offset = (count - 1) * -800;
+    
+    image.style.marginLeft = offset+"px";
+    
+    console.log("o count é: "+count);
+    console.log(carouselImages[count-1]);
+    //console.log(imageWidth);
+    console.log(`Deslocamento calculado: ${offset}px`);
 }

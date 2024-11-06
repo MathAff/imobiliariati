@@ -108,7 +108,13 @@ header a {
 }
 
 .slide img {
+    min-width: 800px;
+    min-height: 400px;
+    max-width: 800px;
+    max-height: 400px;
     width: 800px;
+    height: 400px;
+    object-fit: contain;
 }
 
 .manual-nav {
@@ -134,7 +140,7 @@ header a {
 .manual-btn:hover {
     background-color: var(--white);
 }
-
+/*
 #radio1:checked ~ .first {
     margin-left: 0;
 }
@@ -172,7 +178,7 @@ header a {
 
 #radio10:checked ~ .first {
     margin-left: -100%;
-}
+}*/
 
 .nav-auto div {
     border: 2px solid var(--dark-golden);
@@ -207,6 +213,29 @@ header a {
 }
 
 #radio4:checked ~ .nav-auto .auto-btn4 {
+    background-color: var(--white);
+}
+#radio5:checked ~ .nav-auto .auto-btn5 {
+    background-color: var(--white);
+}
+
+#radio6:checked ~ .nav-auto .auto-btn6 {
+    background-color: var(--white);
+}
+
+#radio7:checked ~ .nav-auto .auto-btn7 {
+    background-color: var(--white);
+}
+
+#radio8:checked ~ .nav-auto .auto-btn8 {
+    background-color: var(--white);
+}
+
+#radio9:checked ~ .nav-auto .auto-btn9 {
+    background-color: var(--white);
+}
+
+#radio10:checked ~ .nav-auto .auto-btn10 {
     background-color: var(--white);
 }
 

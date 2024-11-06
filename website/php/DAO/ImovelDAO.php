@@ -22,7 +22,7 @@ class ImovelDAO {
     public function selectAllImagens ($imovel) {
         $conn = ConnectionDB::connect();
         try {
-            $sql = "SELECT im.*, imo.nome, img.nome_arquivo FROM imoveis im INNER JOIN imagens img ON im.id_imovel = img.id_imovel LEFT JOIN imobiliarias imo ON im.id_imobiliaria = imo.id_imobiliaria WHERE im.id_imovel = ?";
+            $sql = "SELECT im.*, imo.nome, img.nome_arquivo FROM imoveis im LEFT JOIN imagens img ON im.id_imovel = img.id_imovel LEFT JOIN imobiliarias imo ON im.id_imobiliaria = imo.id_imobiliaria WHERE im.id_imovel = ?";
             $stmt = $conn->prepare($sql);
             
             $stmt->bindValue (1, $imovel->getId());

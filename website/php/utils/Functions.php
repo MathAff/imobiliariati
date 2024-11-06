@@ -71,8 +71,7 @@ class Functions {
         }
     }
 
-    public static function loadImovelDescription ($idImovel) {
-        $rs = ImovelController::consultarTodasImagens($idImovel);
+    public static function loadImovelDescription ($rs) {
 
         if ($rs != null) {
             echo "<div class='container' id='container-show'>
@@ -175,6 +174,10 @@ class Functions {
             </div>";
 
         }
+    }
+
+    public static function getResultSetImovel ($idImovel) {
+        return ImovelController::consultarTodasImagens($idImovel);
     }
 }
 ?>
