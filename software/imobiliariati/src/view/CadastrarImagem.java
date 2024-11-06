@@ -400,7 +400,7 @@ public class CadastrarImagem extends javax.swing.JFrame {
 
                     image = null;
                     
-                    ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/select-image.png"));
+                    ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/select-image.jpg"));
                     labelImage.setIcon(ic);
 
                 } else {
@@ -428,16 +428,11 @@ public class CadastrarImagem extends javax.swing.JFrame {
             boolean flag = new FTPFileSender().uploadFile(imovel, fileList, filePathList);
             if (flag){
                 JOptionPane.showMessageDialog(null, "Imagen(s) enviada(s) com sucesso!!!");
-                new Welcome(idImobiliaria, this.email).setVisible(true);
+                new Welcome(this.idImobiliaria, this.email).setVisible(true);
                 this.dispose();
             } else {
+                JOptionPane.showMessageDialog(null, "Não foi possível enviar imagens");
                 enableFields(true);
-
-                model.clear();
-                lsFilePath.setModel(model);
-
-                filePathList.clear();
-                fileList.clear();
             }
         }
     }//GEN-LAST:event_btFinishActionPerformed

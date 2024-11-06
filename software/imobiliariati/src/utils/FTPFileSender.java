@@ -107,15 +107,16 @@ public class FTPFileSender {
                 for (String fileName : fileList) {
                     try {
                         ResultSet rsImage = new ImagemController().consultarImagemByName(idImovel, fileName);
-                        if (rsImage.next()) {
-                            JOptionPane.showMessageDialog(null, "Imagem: "+fileName+" já cadastrada");
-                        } else {
+                        if (!rsImage.next()) {
                             new ImagemController().inserirImagem(idImovel, fileName);
-                            flag = false;
+                            flag = true;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Imagem: "+fileName+" já cadastrada");
                         }
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "ERRO! Passe o código para os desenvolvedores: "+ex.getMessage());
                         System.out.println("Não foi possível encontrar imagem: "+ex.getMessage());
+                        return false;
                     }
                 }
             } else {
