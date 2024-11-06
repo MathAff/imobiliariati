@@ -39,3 +39,7 @@ As it was said earlier, the Java app can upload properties of some Real State Ag
 As we were learning Hypertext Processor (PHP) language, the homework was to make an Web app that could show the results of any search for an address to the database, and displaying the images uploaded in the FTP Server, so the user didn't need to login for any reason, the same way a site for a Real State Agency works. Anyways, here it goes some screeshots to the website:
 
 ![image](https://github.com/user-attachments/assets/34e036dd-79b2-41ad-97a4-633bc409c764)
+
+![image](https://github.com/user-attachments/assets/40991f78-3eac-4bfc-98e6-867860c3fa4c)
+
+![image](https://github.com/user-attachments/assets/cce8849d-9d0e-4d37-8f33-4a85447901ee)
