@@ -39,7 +39,7 @@ function loadPreviousImage () {
 }
 
 function loadImage(count) {
-    let percentage = btnDividedBy100 * count * -1;
+    let percentage = btnDividedBy100 * (count-1 ) * -1;
     alert (percentage);
 
     if (selected) {

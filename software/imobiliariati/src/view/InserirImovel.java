@@ -621,23 +621,22 @@ public class InserirImovel extends javax.swing.JFrame {
             }
 
             if (valorImovel.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$") && txCondominio.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$") && valorIptu.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$")) {
-                DecimalFormat df = new DecimalFormat("#,##0.00");
-            
-                Float valorReplaced = Float.valueOf(valorImovel.replace(".", "").replace(",", "."));
-                String valorFormated = df.format(valorReplaced);
-                Float valor = Float.valueOf(valorFormated);
-
-                Float condominioReplaced = Float.valueOf(txCondominio.replace(".", "").replace(",", "."));
-                String condominioFormated = df.format(condominioReplaced);
-                Float condominio = Float.valueOf(condominioFormated);
-
-                Float iptuReplaced = Float.valueOf(valorIptu.replace(".", "").replace(",", "."));
-                String iptuFormated = df.format(iptuReplaced);
-                Float iptu = Float.valueOf(iptuFormated);
-
+            Float valor = 0.0f;
+            Float condominio = 0.0f;
+            Float iptu = 0.0f;
+            if (!valorImovel.isEmpty()) {
+                valor = Float.valueOf(valorImovel.replace(".", "").replace(",", "."));
+            } 
+            if (!txCondominio.isEmpty()) {
+                condominio = Float.valueOf(txCondominio.replace(".", "").replace(",", "."));
+            } 
+            if (!valorIptu.isEmpty()) {
+                iptu = Float.valueOf(valorIptu.replace(".", "").replace(",", "."));
+            }
+                
                 Imovel im = new Imovel(idImobiliaria, idSubtipo, nQuartos, nSuites, nVagas, nBanheiros, statusImovel, tipoImovel, tipoNegocio, bairro, cidade, endereco, cep, descricao, tamImovel, valor, condominio, iptu);
 
-                new CadastrarImagem(im, wlcm).setVisible(true);
+                new CadastrarImagem(im, this.idImobiliaria, this.email).setVisible(true);
                 dispose();
 
             } else {

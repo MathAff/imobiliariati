@@ -4,7 +4,6 @@
  */
 package view;
 
-import java.sql.ResultSet;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +29,8 @@ public class CadastrarImagem extends javax.swing.JFrame {
     private final ArrayList<String> fileList = new ArrayList<>();
     private final ArrayList<String> filePathList = new ArrayList<>();
     private Imovel imovel;
-    private Welcome wlcm;
+    private Integer idImobiliaria;
+    private String email;
     
     public CadastrarImagem () {
         initComponents();
@@ -43,7 +43,7 @@ public class CadastrarImagem extends javax.swing.JFrame {
         btSearchFile.requestFocus();        
     }
     
-    public CadastrarImagem(Imovel imovel, Welcome wlcm) {
+    public CadastrarImagem(Imovel imovel, Integer idImobiliaria, String email) {
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
@@ -53,7 +53,8 @@ public class CadastrarImagem extends javax.swing.JFrame {
         setTitle("Selecionar uma Imagem");
         btSearchFile.requestFocus();
         this.imovel = imovel;
-        this.wlcm = wlcm;
+        this.idImobiliaria = idImobiliaria;
+        this.email = email;
     }
     
     public void enableFields(boolean enable) {
@@ -63,16 +64,19 @@ public class CadastrarImagem extends javax.swing.JFrame {
                 btAddImage.setEnabled(true);
                 btSearchFile.setEnabled(true);
                 btFinish.setEnabled(true);
+                jButton1.setEnabled(true);
             }
             case "false" -> {
                 btAddImage.setEnabled(false);
                 btSearchFile.setEnabled(false);
                 btFinish.setEnabled(false);
+                jButton1.setEnabled(false);
             }
             default -> {              
                 btAddImage.setEnabled(true);
                 btSearchFile.setEnabled(true);
                 btFinish.setEnabled(true);
+                jButton1.setEnabled(true);
             }
         }
     }
@@ -378,68 +382,63 @@ public class CadastrarImagem extends javax.swing.JFrame {
     }//GEN-LAST:event_tfFilePathActionPerformed
 
     private void btAddImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddImageActionPerformed
-        String filePath = image.toString();
-        String fileName = image.getName();
-        
-        if (image != null && image.exists() && image.isFile()) { //if image exists and is actually a file
-            
-            if (!filePathList.contains(filePath)) { // if the image is already stored
-                model.addElement(filePath);
-                lsFilePath.setModel(model);
-                
-                fileList.add(fileName);
-                filePathList.add(filePath);
-                
-                tfFilePath.setText("");
-                lbFileName.setText("[...]");
-                
-                image = null;
-                
-                try {
-                    File selectImageFile = new File("C:\\xampp\\htdocs\\imobiliariati\\software\\imobiliariati\\src\\view\\UI\\select-image.jpg");                
-                    BufferedImage bfImage;
-                    bfImage = ImageIO.read(selectImageFile);
-                    ImageIcon icon = new ImageIcon(bfImage.getScaledInstance(300, 200, java.awt.Image.SCALE_DEFAULT));
-                    labelImage.setIcon(icon);
-                } catch (IOException ex) {
-                    System.out.println("Nao foi possivel mudar imagem: "+ex.getMessage());
+        if (fileList.size() != 10){
+            String filePath = image.toString();
+            String fileName = image.getName();
+
+            if (image != null && image.exists() && image.isFile()) { //if image exists and is actually a file
+
+                if (!filePathList.contains(filePath)) { // if the image is already stored
+                    model.addElement(filePath);
+                    lsFilePath.setModel(model);
+
+                    fileList.add(fileName);
+                    filePathList.add(filePath);
+
+                    tfFilePath.setText("");
+                    lbFileName.setText("[...]");
+
+                    image = null;
+                    
+                    ImageIcon ic = new ImageIcon(getClass().getResource("/view/UI/select-image.png"));
+                    labelImage.setIcon(ic);
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "As imagens não devem ser repetidas!!!");
+
                 }
-                
             } else {
-                
-                JOptionPane.showMessageDialog(null, "As imagens não devem ser repetidas!!!");
-            
+
+                JOptionPane.showMessageDialog(null, "Confira a imagem, ela devem ser um arquivo válido");
+
             }
-        } else {
-            
-            JOptionPane.showMessageDialog(null, "Confira a imagem, ela devem ser um arquivo válido");
-            
+        }else {
+            JOptionPane.showMessageDialog(null, "São permitidas 10 imagens apenas.");
         }
     }//GEN-LAST:event_btAddImageActionPerformed
 
     private void btFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinishActionPerformed
         Integer confirm = JOptionPane.showConfirmDialog(null, "Deseja enviar estas imagens?", "Confirmação", JOptionPane.YES_NO_OPTION);
         
-        ResultSet rs;
-        Integer idImovel = null;
         
         if (confirm == JOptionPane.YES_OPTION) {           
             enableFields(false);
             
-            boolean flag = new FTPFileSender().uploadFile(imovel, idImovel, fileList, filePathList);
+            boolean flag = new FTPFileSender().uploadFile(imovel, fileList, filePathList);
             if (flag){
                 JOptionPane.showMessageDialog(null, "Imagen(s) enviada(s) com sucesso!!!");
-                wlcm.setVisible(true);
-                dispose();
+                new Welcome(idImobiliaria, this.email).setVisible(true);
+                this.dispose();
+            } else {
+                enableFields(true);
+
+                model.clear();
+                lsFilePath.setModel(model);
+
+                filePathList.clear();
+                fileList.clear();
             }
-            
-            enableFields(true);
-
-            model.clear();
-            lsFilePath.setModel(model);
-
-            filePathList.clear();
-            fileList.clear();
         }
     }//GEN-LAST:event_btFinishActionPerformed
 
@@ -448,6 +447,8 @@ public class CadastrarImagem extends javax.swing.JFrame {
         
         if (cadImovel) {
                 JOptionPane.showMessageDialog(null, "Imóvel cadastrado com sucesso!!!");
+                new Welcome(this.idImobiliaria, this.email).setVisible(true);
+                dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Não foi possível cadastrar Imóvel, preencha todos os campos!!!.");
         }

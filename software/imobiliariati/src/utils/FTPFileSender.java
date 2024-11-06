@@ -87,9 +87,10 @@ public class FTPFileSender {
         return dirExists;
     }
     
-    public boolean uploadFile (Imovel imovel, Integer idImovel, ArrayList<String> fileList, ArrayList<String> filePathList) {
+    public boolean uploadFile (Imovel imovel, ArrayList<String> fileList, ArrayList<String> filePathList) {
         boolean flag = true;
         boolean cadImovel = new ImovelController().cadastrarImovel(imovel.getIdImobiliaria(), imovel.getIdSubtipo(), imovel.getQuartos(), imovel.getSuites(), imovel.getVagas(), imovel.getBanheiros(), imovel.getStatusImovel(), imovel.getTipo(), imovel.getTipoNegocio(), imovel.getBairro(), imovel.getCidade(), imovel.getEndereco(), imovel.getCep(), imovel.getDescricao(), imovel.getTamanho(), imovel.getValor(), imovel.getTaxaCondominio(), imovel.getIptu());
+        Integer idImovel = null;
         
         ResultSet rs;
         
@@ -111,7 +112,6 @@ public class FTPFileSender {
                         } else {
                             new ImagemController().inserirImagem(idImovel, fileName);
                             flag = false;
-                            JOptionPane.showMessageDialog(null, "Imagem: "+fileName+" já cadastrada.");
                         }
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "ERRO! Passe o código para os desenvolvedores: "+ex.getMessage());

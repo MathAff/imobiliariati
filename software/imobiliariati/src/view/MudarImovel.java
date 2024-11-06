@@ -703,11 +703,18 @@ public class MudarImovel extends javax.swing.JFrame {
         }
         
         if (valorImovel.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$") && txCondominio.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$") && valorIptu.matches("^(\\d{1,9}(?:[.,]\\d{0,2})?)?$")) {
-            Float valor = Float.valueOf(valorImovel.replace(",", "."));
-            
-            Float condominio = Float.valueOf(txCondominio.replace(",", "."));
-            
-            Float iptu = Float.valueOf(valorIptu.replace(",", "."));
+            Float valor = null;
+            Float condominio = null;
+            Float iptu = null;
+            if (!valorImovel.isEmpty()) {
+                valor = Float.valueOf(valorImovel.replace(".", "").replace(",", "."));
+            } 
+            if (!txCondominio.isEmpty()) {
+                condominio = Float.valueOf(txCondominio.replace(".", "").replace(",", "."));
+            } 
+            if (!valorIptu.isEmpty()) {
+                iptu = Float.valueOf(valorIptu.replace(".", "").replace(",", "."));
+            }
             
             System.out.println(valor);
             System.out.println(iptu);

@@ -135,7 +135,7 @@ header a {
     background-color: var(--white);
 }
 
-/*#radio1:checked ~ .first {
+#radio1:checked ~ .first {
     margin-left: 0;
 }
 
@@ -172,7 +172,7 @@ header a {
 
 #radio10:checked ~ .first {
     margin-left: -100%;
-}*/
+}
 
 .nav-auto div {
     border: 2px solid var(--dark-golden);
